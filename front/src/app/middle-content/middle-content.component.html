@@ -1,0 +1,37 @@
+
+<!-- the main table with the list of all werbungs -->
+<table class="table table-hover">
+    <tbody>
+      <tr class="row blog-table text-left">
+        <td class="col-md-2">
+          <img
+            class="img"
+            src="https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg"
+            alt="anzeige foto">
+        </td>
+        <td class="col-md-8">
+          <h3 class="align-top" class="truncateTitle"><a [routerLink]="['blog', blog.blogId]" title="Read this blog"><strong>blog.title</strong></a></h3>
+          <p>
+            <span class="truncate align-middle">
+              blog.text
+            </span>&nbsp; <a [routerLink]="['blog', blog.blogId]" title="Read this blog">Read more</a>
+          </p>
+          <a [routerLink]="['author', blog.userDetails.usersUsername]" title="Read all from this blogger" class="align-bottom">
+            <i class="fas fa-user-tie"></i> firstName lastName
+          </a>
+          &nbsp;&nbsp;
+          <span><i class="far fa-eye"></i> views: 21 </span>
+          &nbsp;&nbsp;
+          <span class="tagStyle"><a id="keywordId">#hashtag</a></span> 
+          &nbsp;&nbsp;
+        </td>
+        <td class="col-md-2 text-center">
+          <br>
+          <p>domain.name</p>
+          <hr>
+          <p> date </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

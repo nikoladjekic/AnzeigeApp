@@ -1,0 +1,9 @@
+.left-banner-img {
+    height: 100%;
+    float: left;
+    left: 0;
+    position: fixed;
+    width: auto;
+    margin-right: 5px;
+  }
+  
