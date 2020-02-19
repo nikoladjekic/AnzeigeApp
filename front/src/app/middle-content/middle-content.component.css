@@ -36,29 +36,10 @@ a {
   text-overflow: ellipsis;
 }
 
-.truncate+a {
-  display: inline-block;
-  vertical-align: bottom;
-  font-size: 0.9em;
-}
-
 .align-top {
   margin-top: 5px;
 }
 
-#keywordId {
-  font-weight: 50;
-}
-
-.tagStyle {
-  margin-left: 0.6em;
-  font-weight: 60;
-}
-
-.truncateTitle {
-  display: inline-block;
-  width: 700px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.cursor-pointer {
+  cursor: pointer;
 }
