@@ -11,6 +11,7 @@ const database = require('./database/db');
 const app = express();
 const PORT = 3030;
 
+
 app.use(cors());
 app.use(bodyParser.json());
 
