@@ -17,12 +17,10 @@ const registerNewUser = (req, res) => {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) console.log(err)
                     else {
-
                         let user = new User({
                             email: req.body.email,
                             password: hash
                         });
-
                         user.save((error, registeredSuccessfully) => {
                             if (error) console.log(error)
                             else {

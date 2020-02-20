@@ -1,0 +1,28 @@
+h1 {
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 3em;
+  color: rgb(63, 56, 44);
+}
+
+a:hover {
+  color: rgba(126, 110, 84, 0.849);
+  transition-duration: .2s;
+}
+
+.logoutButton {
+  font-size: 1em;
+  color: white;
+}
+
+.row {
+  clear: both;
+}
+
+.fl2 {
+  float: right;
+  margin: 0 15px 15px 0;
+}

@@ -1,0 +1,9 @@
+form {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 5em;
+}
+
+.error {
+  color: #f00;
+}
