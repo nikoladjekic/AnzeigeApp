@@ -9,6 +9,7 @@ import { RightBannerComponent } from './right-banner/right-banner.component';
 import { MiddleContentComponent } from './middle-content/middle-content.component';
 import { WerbungPageComponent } from './werbung-page/werbung-page.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
     RightBannerComponent,
     MiddleContentComponent,
     WerbungPageComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
