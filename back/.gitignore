@@ -3,3 +3,6 @@
 
 # dependencies
 /node_modules
+
+# secret keys not to be shared
+/config/keys.js
