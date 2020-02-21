@@ -16,6 +16,8 @@ import { MiddleContentComponent } from "./middle-content/middle-content.componen
 import { WerbungPageComponent } from "./werbung-page/werbung-page.component";
 import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
+import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
+import { AnzeigenComponent } from './admin-page/anzeigen/anzeigen.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { LoginPageComponent } from "./login-page/login-page.component";
     MiddleContentComponent,
     WerbungPageComponent,
     AdminPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    BenutzerComponent,
+    AnzeigenComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
