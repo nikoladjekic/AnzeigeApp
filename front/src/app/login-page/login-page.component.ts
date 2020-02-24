@@ -22,7 +22,7 @@ export class LoginPageComponent implements OnInit {
     this._auth.loginUser(this.loginUserData).subscribe(
       res => {
         localStorage.setItem("token", res.token);
-        this._router.navigate(["/special"]);
+        this._router.navigate(["/admin"]);
       },
       err => {
         if (err instanceof HttpErrorResponse) {

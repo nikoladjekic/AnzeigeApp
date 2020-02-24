@@ -14,11 +14,11 @@
       </div>
 
       <div class="card-body">
-        <form class="form" #loginForm="ngForm">
+        <form class="form" #registerForm="ngForm">
 
           <div class="form-group">
             <label for="">Email</label>
-            <input [(ngModel)]="loginUserData.email" name="email" #email="ngModel" type="email"
+            <input [(ngModel)]="registerUserData.email" name="email" #email="ngModel" type="email"
               pattern="^[\w.-]{2,}@\w{2,}\..{2,3}(.{2,3})?$" class="form-control rounded-5"
               [class.is-invalid]="email.invalid && email.touched" placeholder="example@abc.com" required>
             <div *ngIf="email.errors && (email.invalid && email.touched)">
@@ -29,7 +29,7 @@
 
           <div class="form-group">
             <label for="">Passwort</label>
-            <input [(ngModel)]="loginUserData.password" name="password" #pass="ngModel" type="password"
+            <input [(ngModel)]="registerUserData.password" name="password" #pass="ngModel" type="password"
               pattern="^\w{5,}$" class="form-control rounded-5" [class.is-invalid]="pass.invalid && pass.touched"
               required>
             <div *ngIf="pass.errors && (pass.invalid && pass.touched)">
@@ -39,10 +39,10 @@
             </div>
           </div>
 
-          <button [disabled]="loginForm.form.invalid" (click)="loginUser()" class="btn btn-outline-info float-right"
-            type="submit">Hinzufügen</button>
-          <small *ngIf="wrongEmail" class="text-danger">Email not found</small>
-          <small *ngIf="!wrongEmail && wrongPass" class="text-danger">Wrong password</small>
+          <button [disabled]="registerForm.form.invalid" (click)="registerUser()"
+            class="btn btn-outline-info float-right" type="submit">Hinzufügen</button>
+          <small *ngIf="userExists" class="text-danger">This user already exists</small>
+          <small *ngIf="registeredSuccessfully" class="text-success">Benutzer erfolgreich registriert</small>
 
         </form>
       </div>
@@ -63,24 +63,8 @@
       <div class="card-body">
         <table class="table table-striped">
           <tbody>
-            <tr class="row">
-              <td class="col-sm-10"> email of the user </td>
-              <td class="col-sm-2"><input type="submit" class="btn btn-danger" value="Löschen"></td>
-            </tr>
-            <tr class="row">
-              <td class="col-sm-10"> email of the user </td>
-              <td class="col-sm-2"><input type="submit" class="btn btn-danger" value="Löschen"></td>
-            </tr>
-            <tr class="row">
-              <td class="col-sm-10"> email of the user </td>
-              <td class="col-sm-2"><input type="submit" class="btn btn-danger" value="Löschen"></td>
-            </tr>
-            <tr class="row">
-              <td class="col-sm-10"> email of the user </td>
-              <td class="col-sm-2"><input type="submit" class="btn btn-danger" value="Löschen"></td>
-            </tr>
-            <tr class="row">
-              <td class="col-sm-10"> email of the user </td>
+            <tr class="row" *ngFor="let user of listOfUsers">
+              <td class="col-sm-10"> {{ user.email }} </td>
               <td class="col-sm-2"><input type="submit" class="btn btn-danger" value="Löschen"></td>
             </tr>
           </tbody>

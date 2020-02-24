@@ -73,9 +73,15 @@ const loginUser = (req, res) => {
         })
 }
 
+const getAllUsers = (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users);
+    })
+}
 
 
 module.exports = {
     registerNewUser,
-    loginUser
+    loginUser,
+    getAllUsers
 }
