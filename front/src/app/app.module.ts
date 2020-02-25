@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "src/services/auth.service";
 import { AuthGuard } from "src/guards/auth.guard";
 import { TokenInterceptorService } from "src/services/token-interceptor.service";
+import { AnzeigeService } from "src/services/anzeige.service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -17,9 +18,9 @@ import { WerbungPageComponent } from "./werbung-page/werbung-page.component";
 import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
-import { AnzeigenComponent } from './admin-page/anzeigen/anzeigen.component';
-import { AnzeigenDetailsComponent } from './admin-page/anzeigen-details/anzeigen-details.component';
-import { AnzeigenInaktivComponent } from './admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component';
+import { AnzeigenComponent } from "./admin-page/anzeigen/anzeigen.component";
+import { AnzeigenDetailsComponent } from "./admin-page/anzeigen-details/anzeigen-details.component";
+import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AnzeigenInaktivComponent } from './admin-page/anzeigen-inaktiv/anzeigen
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
     AuthService,
+    AnzeigeService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
