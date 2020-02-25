@@ -8,6 +8,7 @@ import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
 import { AnzeigenComponent } from "./admin-page/anzeigen/anzeigen.component";
+import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component";
 
 const routes: Routes = [
   { path: "", component: WerbungPageComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: "benutzer", component: BenutzerComponent },
-      { path: "anzeigen", component: AnzeigenComponent }
+      { path: "anzeigen", component: AnzeigenComponent },
+      { path: "inaktive-anzeigen", component: AnzeigenInaktivComponent }
     ]
   },
   // wild card route, goes at the end of all routes

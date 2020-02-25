@@ -18,6 +18,8 @@ import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
 import { AnzeigenComponent } from './admin-page/anzeigen/anzeigen.component';
+import { AnzeigenDetailsComponent } from './admin-page/anzeigen-details/anzeigen-details.component';
+import { AnzeigenInaktivComponent } from './admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { AnzeigenComponent } from './admin-page/anzeigen/anzeigen.component';
     AdminPageComponent,
     LoginPageComponent,
     BenutzerComponent,
-    AnzeigenComponent
+    AnzeigenComponent,
+    AnzeigenDetailsComponent,
+    AnzeigenInaktivComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
