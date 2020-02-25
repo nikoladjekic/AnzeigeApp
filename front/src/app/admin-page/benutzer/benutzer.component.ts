@@ -20,7 +20,6 @@ export class BenutzerComponent implements OnInit {
   ngOnInit() {
     this._auth.getAllUsers().subscribe(res => {
       this.listOfUsers = res;
-      console.log(this.listOfUsers);
     });
   }
 

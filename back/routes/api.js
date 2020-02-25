@@ -21,11 +21,11 @@ router.get('/', (req, res) => {
 
 
 // custom routes for the services
-router.get('/get-users', getAllUsers);
-router.get('/new-anzeige', getAllAnzeigen);
+router.get('/users', getAllUsers);
+router.get('/anzeigen', getAllAnzeigen);
 router.post('/register', registerNewUser);
 router.post('/login', loginUser);
-router.post('/add-anzeige', addNewAnzeige);
+router.post('/anzeige/add', addNewAnzeige);
 
 
 // export our router for all the routes
