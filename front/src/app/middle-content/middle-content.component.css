@@ -36,10 +36,6 @@ a {
   text-overflow: ellipsis;
 }
 
-.align-top {
-  margin-top: 5px;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
