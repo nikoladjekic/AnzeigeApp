@@ -9,6 +9,7 @@ import { LoginPageComponent } from "./login-page/login-page.component";
 import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
 import { AnzeigenComponent } from "./admin-page/anzeigen/anzeigen.component";
 import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component";
+import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-add-new.component';
 
 const routes: Routes = [
   { path: "", component: WerbungPageComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
     children: [
       { path: "benutzer", component: BenutzerComponent },
       { path: "anzeigen", component: AnzeigenComponent },
-      { path: "inaktive-anzeigen", component: AnzeigenInaktivComponent }
+      { path: "anzeigen/inaktiv", component: AnzeigenInaktivComponent },
+      { path: "anzeigen/neue", component: AnzeigenAddNewComponent },
     ]
   },
   // wild card route, goes at the end of all routes
