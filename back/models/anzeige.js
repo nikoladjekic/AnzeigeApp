@@ -10,11 +10,10 @@ const AnzeigeSchema = new Schema({
     services: String,
     email: String,
     website: String,
-    phone: Number,
+    phone: String,
     photoUrl: String,
     startDate: Date,
     endDate: Date,
-    active: Boolean
 });
 
 const Anzeige = mongoose.model('anzeige', AnzeigeSchema);
