@@ -23,10 +23,9 @@ const addNewAnzeige = (req, res) => {
         photoUrl: req.body.photoUrl,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        active: req.body.active
     });
     ad.save((err, adSaved) => {
-        if (err) console.log(err);
+        if (err) console.error(err);
         else res.send(`${adSaved.firma} Anzeige added to db`);
     })
 }
@@ -37,18 +36,3 @@ module.exports = {
     getAllAnzeigen,
     addNewAnzeige
 }
-
-
-// {
-//     "firma": "req.body.firma",
-//     "address": "address",
-//     "bundesland": "address",
-//     "services": "address",
-//     "email": "address",
-//     "website": "address",
-//     "phone": 254669842,
-//     "photoUrl": "address",
-//     "startDate": "address",
-//     "endDate": "address",
-//     "active": "true"
-// }

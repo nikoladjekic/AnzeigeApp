@@ -6,11 +6,11 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class AuthService {
-  defaultUrl: string = "http://localhost:3030/api/";
+  defUrl: string = "http://localhost:3030/api/";
 
-  private _getAllUsers = `${this.defaultUrl}users`;
-  private _registerUser = `${this.defaultUrl}register`;
-  private _loginUser = `${this.defaultUrl}login`;
+  private _getAllUsers = `${this.defUrl}users`;
+  private _registerUser = `${this.defUrl}register`;
+  private _loginUser = `${this.defUrl}login`;
 
   constructor(private http: HttpClient, private _router: Router) {}
 
