@@ -1,1 +1,75 @@
-<p>anzeigen-add-new works!</p>
+<div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto">
+  <div class="card rounded-5">
+
+    <div class="card-header">
+      <h4 class="mb-0 text-center"><i class="fas fa-mail-bulk"></i> Neue Anzeige:</h4>
+    </div>
+
+    <div class="card-body bg-light">
+      <form (ngSubmit)="onSubmit()" #anzeigeForm="ngForm">
+
+        <div class="form-group">
+          <label for="firma">Firmen Name:</label>
+          <input type="text" class="form-control" id="firma" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Adresse:</label>
+          <input type="text" class="form-control" id="address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="bundesland">Bundesland:</label>
+          <select type="text" class="form-control" id="bundesland">
+            <option value="none" selected disabled hidden>Bundesland auswählen</option>
+            <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="services">Firmen services:</label>
+          <input type="text" class="form-control" id="services"
+            placeholder="z.B. Dachdecker, Spenglerei, Fassadenverkleidungen usw." required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="text" class="form-control" id="email" placeholder="beispiel@email.com">
+        </div>
+
+        <div class="form-group">
+          <label for="website">Webseite:</label>
+          <input type="text" class="form-control" id="website" placeholder="z.B. www.google.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefonnummer:</label>
+          <input type="text" class="form-control" id="phone" placeholder="z.B. +43 3844 3652">
+        </div>
+
+        <div class="form-group">
+          <label for="photoUrl">URL-Adresse des Firmenlogos:</label>
+          <input type="text" class="form-control" id="photoUrl">
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Startdatum der Anzeige:</label>
+          <input type="date" class="form-control" id="startDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">Enddatum der Anzeige:</label>
+          <input type="date" class="form-control" id="endDate" required>
+        </div>
+
+        <br>
+
+        <button type="submit" class="btn btn-info" [disabled]="!anzeigeForm.form.valid">Veröffentlichen</button>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<br>

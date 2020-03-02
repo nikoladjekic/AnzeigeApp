@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnzeigenAddNewComponent implements OnInit {
 
+  bundesland: string[] = [
+    "Vorarlberg", "Tirol", "Salzburg", "Kärnten", "Oberösterreich", "Niederösterreich", "Steiermark", "Wien", "Burgenland"
+  ]
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSubmit(){
+    console.log("on submit iufah");
   }
 
 }
