@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from '@angular/router';
 
 import { AnzeigeService } from "src/services/anzeige.service";
 
@@ -10,11 +11,16 @@ import { AnzeigeService } from "src/services/anzeige.service";
 export class AnzeigenComponent implements OnInit {
   listOfAnzeigen = [];
 
-  constructor(private _ad: AnzeigeService) {}
+  constructor(private _ad: AnzeigeService, private _router: Router) {}
 
   ngOnInit() {
     this._ad.getAllAnzeigen().subscribe(res => {
       this.listOfAnzeigen = res;
+      console.log(res);
     });
+  }
+
+  seeDetails(val){
+    this._router.navigate(['/', { id: val }]);
   }
 }

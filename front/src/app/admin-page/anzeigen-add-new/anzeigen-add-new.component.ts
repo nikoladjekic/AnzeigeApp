@@ -32,7 +32,18 @@ export class AnzeigenAddNewComponent implements OnInit {
       val.startDate,
       val.endDate
     );
-    this._anzeigeService.postNewAnzeige(newAnzeige).subscribe();
+    this._anzeigeService.postNewAnzeige(newAnzeige).subscribe(
+      (response: any) => {
+        console.log(response)
+      }, 
+      (error: any) => {
+        console.log(error)
+      }
+    );
+  }
+
+  reload(){
+    location.reload()
   }
 
 }
