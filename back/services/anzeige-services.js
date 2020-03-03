@@ -25,7 +25,7 @@ const addNewAnzeige = (req, res) => {
         endDate: req.body.endDate,
     });
     ad.save((err, adSaved) => {
-        if (err) console.error(err);
+        if (err) console.log(err);
         else res.send(`${adSaved.firma} Anzeige added to db`);
     })
 }
