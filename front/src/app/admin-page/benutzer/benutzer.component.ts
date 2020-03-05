@@ -41,12 +41,8 @@ export class BenutzerComponent implements OnInit {
     );
   }
 
-  checkDelete() {
-    // implement sure to delete check card
-  }
-
   deleteUser() {
-    // implement delete logic on the check card
+    // implement delete logic on the modal check
     // set the user to inactive, do not actually delete
   }
 }
