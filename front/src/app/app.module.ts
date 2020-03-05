@@ -22,6 +22,8 @@ import { AnzeigenComponent } from "./admin-page/anzeigen/anzeigen.component";
 import { AnzeigenDetailsComponent } from "./admin-page/anzeigen-details/anzeigen-details.component";
 import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component";
 import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-add-new.component';
+import { WerbungBannerComponent } from './admin-page/werbung-banner/werbung-banner.component';
+import { LogCounterComponent } from './admin-page/log-counter/log-counter.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-
     AnzeigenComponent,
     AnzeigenDetailsComponent,
     AnzeigenInaktivComponent,
-    AnzeigenAddNewComponent
+    AnzeigenAddNewComponent,
+    WerbungBannerComponent,
+    LogCounterComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
