@@ -11,16 +11,13 @@ import { AnzeigeService } from "src/services/anzeige.service";
 export class AnzeigenComponent implements OnInit {
   listOfAnzeigen = [];
 
-  constructor(private _ad: AnzeigeService, private _router: Router) {}
+  constructor(private _ad: AnzeigeService, private _router: Router) { }
 
   ngOnInit() {
-    this._ad.getAllAnzeigen().subscribe(res => {
-      this.listOfAnzeigen = res;
-      console.log(res);
-    });
+    this._ad.getAllAnzeigen().subscribe(res => this.listOfAnzeigen = res);
   }
 
-  seeDetails(val){
+  seeDetails(val) {
     this._router.navigate(['/', { id: val }]);
   }
 }

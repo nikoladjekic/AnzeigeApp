@@ -15,18 +15,21 @@ export class AnzeigenDetailsComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private _anzeigeService: AnzeigeService) { }
 
   ngOnInit() {
-    this.getAdById();
+    this.getIdFromRoute();
   }
 
-  getAdById(){
-    let id: string;
-    this.activatedRoute.params.subscribe(params => {
-        id=params.id;
-        this._anzeigeService.getAnzeigeById(id).subscribe(res => {
-          console.log(res);
-        });
-        
+  getIdFromRoute(){
+    this.activatedRoute.params.subscribe(id => {
+      let pp = id.id;
+      console.log("id", id);
+      console.log("pp - ", pp);
+
+      // TODO: finf out why this is not working below
+      this._anzeigeService.getAnzeigeById(pp).subscribe(res => {
+        console.log("rress", res);
+      });
     });
+
   }
 
 }
