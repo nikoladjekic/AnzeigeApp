@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Anzeige } from 'src/models/anzeige.model';
+import { AnzeigeService } from 'src/services/anzeige.service';
+
 
 @Component({
   selector: 'app-anzeigen-details',
@@ -7,9 +12,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnzeigenDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute, private _anzeigeService: AnzeigeService) { }
 
   ngOnInit() {
+    this.getAdById();
+  }
+
+  getAdById(){
+    let id: string;
+    this.activatedRoute.params.subscribe(params => {
+        id=params.id;
+        this._anzeigeService.getAnzeigeById(id).subscribe(res => {
+          console.log(res);
+        });
+        
+    });
   }
 
 }

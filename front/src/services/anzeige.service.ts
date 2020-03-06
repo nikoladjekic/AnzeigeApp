@@ -11,6 +11,7 @@ export class AnzeigeService {
   defUrl: string = "http://localhost:3030/api/";
 
   private _getAllAnzeigen = `${this.defUrl}anzeigen`;
+  private _getAnzeigeById = `${this.defUrl}anzeigen/getbyid`;
   private _postNewAnzeige = `${this.defUrl}anzeige/add`;
 
   constructor(private http: HttpClient) {}
@@ -21,5 +22,9 @@ export class AnzeigeService {
 
   postNewAnzeige(anzeigeValue){
     return this.http.post<Anzeige>(this._postNewAnzeige, anzeigeValue);
+  }
+
+  getAnzeigeById(id){
+    return this.http.post<any>(this._getAnzeigeById, id);
   }
 }

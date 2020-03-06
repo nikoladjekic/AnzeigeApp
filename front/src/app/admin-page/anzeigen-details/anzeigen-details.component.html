@@ -1,2 +1,88 @@
-<p>anzeigen-details works!</p>
-<h1>details component</h1>
+<br><br>
+<div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto">
+    <div class="card rounded-5">
+  
+      <div class="card-header">
+        <h4 class="mb-0 text-center"><i class="fas fa-mail-bulk"></i> Neue Anzeige:</h4>
+      </div>
+  
+      <div class="card-body bg-light">
+        <form (ngSubmit)="onSubmit(anzeigeForm.value)" #anzeigeForm="ngForm" method="POST">
+  
+          <div class="form-group">
+            <label for="firma">Firmen Name:</label>
+            <input type="text" class="form-control" id="firma" name="firma" ngModel required>
+          </div>
+  
+          <div class="form-group">
+            <label for="address">Adresse:</label>
+            <input type="text" class="form-control" id="address" name="address" ngModel >
+          </div>
+  
+          <div class="form-group">
+            <label for="bundesland">Bundesland:</label>
+            <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel >
+              <option value="none" selected disabled hidden>Bundesland auswählen</option>
+              <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="services">Firmen Services:</label>
+            <input type="text" class="form-control" id="services" name="services" ngModel 
+              placeholder="z.B. Dachdecker, Spenglerei, Fassadenverkleidungen usw.">
+          </div>
+  
+          <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="text" class="form-control" id="email" placeholder="beispiel@email.com" name="email" ngModel>
+          </div>
+  
+          <div class="form-group">
+            <label for="website">Webseite:</label>
+            <input type="text" class="form-control" id="website" placeholder="z.B. www.google.com" name="website" ngModel>
+          </div>
+  
+          <div class="form-group">
+            <label for="phone">Telefonnummer:</label>
+            <input type="text" class="form-control" id="phone" placeholder="z.B. +43 3844 3652" name="phone" ngModel
+              >
+          </div>
+  
+          <div class="form-group">
+            <label for="photoUrl">URL-Adresse des Firmenlogos:</label>
+            <input type="text" class="form-control" id="photoUrl" name="photoUrl" ngModel>
+          </div>
+  
+          <div class="form-group">
+            <label for="startDate">Startdatum der Anzeige:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" ngModel >
+          </div>
+  
+          <div class="form-group">
+            <label for="endDate">Enddatum der Anzeige:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" ngModel >
+          </div>
+  
+          <br>
+  
+          <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Veröffentlichen</button>
+          &nbsp;
+          <button type="button" class="btn btn-outline-warning mb-2" (click)="anzeigeForm.form.reset()">Daten Löschen</button>
+          &nbsp;
+          <button type="button" class="btn btn-outline-danger mb-2" (click)="reload()">Formular neu laden</button>
+  
+          &nbsp;&nbsp;
+  
+          <small *ngIf="anzeigeForm.submitted" class="text-success">
+            Erfolgreich hochgeladen <i class="fas fa-check"></i>
+          </small>
+  
+        </form>
+      </div>
+  
+    </div>
+  </div>
+  
+  <br>
+  
