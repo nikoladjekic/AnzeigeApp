@@ -9,7 +9,8 @@ const {
 
 const {
   getAllAnzeigen,
-  addNewAnzeige
+  addNewAnzeige,
+  getAnzeigeDetails
 } = require('../services/anzeige-services');
 
 
@@ -26,6 +27,7 @@ router.get('/anzeigen', getAllAnzeigen);
 router.post('/register', registerNewUser);
 router.post('/login', loginUser);
 router.post('/anzeige/add', addNewAnzeige);
+router.get('/anzeige/details/:id', getAnzeigeDetails);
 
 
 // export our router for all the routes

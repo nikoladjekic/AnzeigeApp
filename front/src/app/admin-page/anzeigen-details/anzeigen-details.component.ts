@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Anzeige } from 'src/models/anzeige.model';
@@ -10,26 +10,24 @@ import { AnzeigeService } from 'src/services/anzeige.service';
   templateUrl: './anzeigen-details.component.html',
   styleUrls: ['./anzeigen-details.component.css']
 })
-export class AnzeigenDetailsComponent implements OnInit {
+export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
+
+  routeId: string;
+  anzeigeDetails: Anzeige;
 
   constructor(private activatedRoute: ActivatedRoute, private _anzeigeService: AnzeigeService) { }
 
   ngOnInit() {
     this.getIdFromRoute();
+    if (this.routeId) this._anzeigeService.getAnzeigeById(this.routeId).subscribe(res => this.anzeigeDetails = res);
   }
 
-  getIdFromRoute(){
-    this.activatedRoute.params.subscribe(id => {
-      let pp = id.id;
-      console.log("id", id);
-      console.log("pp - ", pp);
+  ngOnDestroy() {
+    this.routeId = "";
+  }
 
-      // TODO: finf out why this is not working below
-      this._anzeigeService.getAnzeigeById(pp).subscribe(res => {
-        console.log("rress", res);
-      });
-    });
-
+  getIdFromRoute() {
+    this.activatedRoute.params.subscribe(id => this.routeId = id.id);
   }
 
 }

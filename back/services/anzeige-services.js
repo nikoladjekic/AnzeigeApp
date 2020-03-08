@@ -6,7 +6,7 @@ const {
 // get the list of all ads
 const getAllAnzeigen = (req, res) => {
     Anzeige.find({}).then((ads) => {
-        res.send(ads);
+        res.status(200).send(ads);
     })
 }
 
@@ -25,8 +25,18 @@ const addNewAnzeige = (req, res) => {
         endDate: req.body.endDate,
     });
     ad.save((err, adSaved) => {
-        if (err) console.log(err);
-        else res.send(`${adSaved.firma} Anzeige added to db`);
+        if (err) res.status(500).send(err);
+        else res.status(200).send(`${adSaved.firma} Anzeige added to db`);
+    })
+}
+
+
+// get details of the anzeige by id 
+const getAnzeigeDetails = (req, res) => {
+    Anzeige.findById({
+        _id: req.params.id
+    }).then((details) => {
+        res.status(200).send(details);
     })
 }
 
@@ -34,5 +44,6 @@ const addNewAnzeige = (req, res) => {
 
 module.exports = {
     getAllAnzeigen,
-    addNewAnzeige
+    addNewAnzeige,
+    getAnzeigeDetails
 }
