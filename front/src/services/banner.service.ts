@@ -16,7 +16,7 @@ export class BannerService {
   constructor(private http: HttpClient) { }
 
   getAllBanner() {
-    return this.http.get<Banner>(this._getAllBanner);
+    return this.http.get<Banner[]>(this._getAllBanner);
   }
 
   postNewBanner(banner) {

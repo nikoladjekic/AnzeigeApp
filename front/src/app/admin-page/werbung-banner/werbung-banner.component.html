@@ -15,7 +15,10 @@
 
         <div class="form-group">
           <label for="bundesland">Bundesland:</label>
-          <input type="text" class="form-control" id="bundesland" name="bundesland" ngModel required>
+          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
+            <option value="none" selected disabled hidden>Bundesland auswählen</option>
+            <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -50,8 +53,8 @@
 
         <br>
 
-        <button type="submit" class="btn btn-outline-info mb-2"
-          [disabled]="!bannerForm.form.valid">Banner Veröffentlichen</button>
+        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!bannerForm.form.valid">Banner
+          Veröffentlichen</button>
         &nbsp;
         <button type="button" class="btn btn-outline-danger mb-2" (click)="bannerForm.form.reset()">Daten
           Löschen</button>

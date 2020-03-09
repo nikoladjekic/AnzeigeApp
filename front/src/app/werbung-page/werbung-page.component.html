@@ -6,16 +6,16 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-md-2 col-sm-1 col-xs-12">
-      <app-left-banner></app-left-banner>
+    <div class="col-md-2 col-sm-1 col-xs-12" *ngIf="banner">
+      <img class="left-banner-img" alt="left-banner" src="{{ banner.bannerLeft }}">
     </div>
 
     <div class="col-md-8 col-sm-10 col-xs-12">
       <router-outlet></router-outlet>
     </div>
 
-    <div class="col-md-2 col-sm-1 col-xs-12">
-      <app-right-banner></app-right-banner>
+    <div class="col-md-2 col-sm-1 col-xs-12" *ngIf="banner">
+      <img class="right-banner-img" alt="right-banner" src="{{ banner.bannerRight }}">
     </div>
 
   </div>

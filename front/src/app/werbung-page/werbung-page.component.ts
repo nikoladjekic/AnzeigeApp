@@ -10,13 +10,14 @@ import { Banner } from 'src/models/banner.model';
 })
 export class WerbungPageComponent implements OnInit {
 
-  bannerObject: Banner;
+  banner: Banner;
 
   constructor(private _bannerService: BannerService) { }
 
   ngOnInit() {
-    this._bannerService.getAllBanner().subscribe(res => this.bannerObject = res);
-    console.log(this.bannerObject);
+    // for now, we only get one banner from the list
+    // implement automatic banner based on bundesland
+    this._bannerService.getAllBanner().subscribe(res => this.banner = res[0]);
   }
 
 }

@@ -3,3 +3,19 @@
   padding: 0;
   background-color: whitesmoke;
 }
+
+.left-banner-img {
+  height: 100%;
+  float: left;
+  left: 0;
+  position: fixed;
+  width: 160px;
+}
+
+.right-banner-img {
+  height: 100%;
+  float: right;
+  right: 0;
+  position: fixed;
+  width: 160px;
+}
