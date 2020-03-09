@@ -24,6 +24,7 @@ import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen
 import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-add-new.component';
 import { WerbungBannerComponent } from './admin-page/werbung-banner/werbung-banner.component';
 import { LogCounterComponent } from './admin-page/log-counter/log-counter.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LogCounterComponent } from './admin-page/log-counter/log-counter.compon
     AnzeigenInaktivComponent,
     AnzeigenAddNewComponent,
     WerbungBannerComponent,
-    LogCounterComponent
+    LogCounterComponent,
+    FooterComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
