@@ -7,36 +7,12 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Tirol</a>
+      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" *ngFor="let land of bundesland">
+        <a routerLink="" routerLinkActive="active" class="nav-link"> {{ land }} </a>
       </li>
       <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Oberösterreich</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Niederösterreich</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Kärnten</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Burgenland</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Wien</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Vorarlberg</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Salzburg</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="" routerLinkActive="active" class="nav-link">Steiermark</a>
-      </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="admin" routerLinkActive="active" class="nav-link">admin</a>
-      </li>
+        <a routerLink="admin" routerLinkActive="active" class="nav-link text-warning"> admin </a>
+      </li>    
     </ul>
   </div>
 </nav>

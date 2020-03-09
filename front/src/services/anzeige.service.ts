@@ -25,6 +25,6 @@ export class AnzeigeService {
   }
 
   getAnzeigeById(id) {
-    return this.http.get<any>(this._getAnzeigeById + id);
+    return this.http.get<Anzeige>(this._getAnzeigeById + id);
   }
 }

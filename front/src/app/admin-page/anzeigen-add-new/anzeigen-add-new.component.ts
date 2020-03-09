@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Anzeige } from 'src/models/anzeige.model';
 import { AnzeigeService } from 'src/services/anzeige.service';
+import { Bundesland } from 'src/models/bundesland.enum';
+
 
 @Component({
   selector: 'app-anzeigen-add-new',
@@ -10,13 +12,22 @@ import { AnzeigeService } from 'src/services/anzeige.service';
 })
 export class AnzeigenAddNewComponent implements OnInit {
 
-  bundesland: string[] = [
-    "Vorarlberg", "Tirol", "Salzburg", "Kärnten", "Oberösterreich", "Niederösterreich", "Steiermark", "Wien", "Burgenland"
-  ]
+  bundesland: Bundesland[] = [
+    Bundesland.Vorarlberg,
+    Bundesland.Tirol,
+    Bundesland.Salzburg,
+    Bundesland.Oberösterreich,
+    Bundesland.Niederösterreich,
+    Bundesland.Wien,
+    Bundesland.Kärnten,
+    Bundesland.Burgenland,
+    Bundesland.Steiermark,
+  ];  
 
   constructor(private _anzeigeService: AnzeigeService) { }
 
   ngOnInit() {
+    console.log(this.bundesland);
   }
 
   onSubmit(val){
@@ -40,10 +51,6 @@ export class AnzeigenAddNewComponent implements OnInit {
         console.log(error)
       }
     );
-  }
-
-  reload(){
-    location.reload()
   }
 
 }

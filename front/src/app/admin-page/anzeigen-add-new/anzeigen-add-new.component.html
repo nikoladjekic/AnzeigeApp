@@ -67,10 +67,8 @@
 
         <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Veröffentlichen</button>
         &nbsp;
-        <button type="button" class="btn btn-outline-warning mb-2" (click)="anzeigeForm.form.reset()">Daten Löschen</button>
-        &nbsp;
-        <button type="button" class="btn btn-outline-danger mb-2" (click)="reload()">Formular neu laden</button>
-
+        <button type="button" class="btn btn-outline-danger mb-2" (click)="anzeigeForm.form.reset()">Daten Löschen</button>
+        
         &nbsp;&nbsp;
 
         <small *ngIf="anzeigeForm.submitted" class="text-success">
