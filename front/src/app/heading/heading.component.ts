@@ -10,15 +10,15 @@ import { Bundesland } from 'src/models/bundesland.enum';
 export class HeadingComponent implements OnInit {
 
   bundesland: Bundesland[] = [
-    Bundesland.Vorarlberg,
-    Bundesland.Tirol,
-    Bundesland.Salzburg,
-    Bundesland.Oberösterreich,
-    Bundesland.Niederösterreich,
-    Bundesland.Wien,
-    Bundesland.Kärnten,
-    Bundesland.Burgenland,
-    Bundesland.Steiermark,
+    Bundesland.V,
+    Bundesland.T,
+    Bundesland.S,
+    Bundesland.OÖ,
+    Bundesland.NÖ,
+    Bundesland.W,
+    Bundesland.K,
+    Bundesland.B,
+    Bundesland.ST
   ];
 
   constructor() { }
