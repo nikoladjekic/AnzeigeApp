@@ -26,4 +26,9 @@ export class HeadingComponent implements OnInit {
   ngOnInit() {
   }
 
+  setBundesland(val){
+    // todo: set as search value for specific bundesland
+    console.log(val)
+  }
+
 }

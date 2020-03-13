@@ -9,7 +9,7 @@
   float: left;
   left: 0;
   position: fixed;
-  width: 160px;
+  max-width: 100%;
 }
 
 .right-banner-img {
@@ -17,5 +17,5 @@
   float: right;
   right: 0;
   position: fixed;
-  width: 160px;
+  max-width: 100%;
 }

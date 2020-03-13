@@ -23,9 +23,12 @@ export class WerbungBannerComponent implements OnInit {
     Bundesland.ST
   ];
 
+  allBanners: Banner[] = [];
+
   constructor(private _bannerService: BannerService) { }
 
   ngOnInit() {
+    this._bannerService.getAllBanner().subscribe(res => this.allBanners = res);
   }
 
   onSubmit(val){

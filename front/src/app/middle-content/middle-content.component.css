@@ -36,10 +36,6 @@ a {
   text-overflow: ellipsis;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 #Testimonial {
   width: 100%;
   display: table;

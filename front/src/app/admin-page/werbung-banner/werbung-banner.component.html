@@ -1,74 +1,169 @@
-<div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto">
-  <div class="card rounded-5">
+<div class="row m-auto">
 
-    <div class="card-header">
-      <h4 class="mb-0 text-center"><i class="fas fa-award"></i> Neue Werbung Banner:</h4>
+  <!-- levi deo ekrana -->
+  <div class="col-md-8 col-xs-12 mb-3">
+    <div class="card rounded-5">
+
+      <div class="card-header">
+        <h4 class="mb-0 text-center"><i class="fas fa-award"></i> Neue Werbung Banner:</h4>
+      </div>
+
+      <div class="card-body bg-light">
+        <form (ngSubmit)="onSubmit(bannerForm.value)" #bannerForm="ngForm" method="POST">
+
+          <div class="form-group">
+            <label for="name">Firmen Name:</label>
+            <input type="text" class="form-control" id="name" name="name" ngModel required>
+          </div>
+
+          <div class="form-group">
+            <label for="bundesland">Bundesland:</label>
+            <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
+              <option value="none" selected disabled hidden>Bundesland auswählen</option>
+              <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bannerLeft">Banner URL - Links:</label>
+            <input type="text" class="form-control" id="bannerLeft" name="bannerLeft" ngModel required>
+          </div>
+
+          <div class="form-group">
+            <label for="bannerRight">Banner URL - Rechts:</label>
+            <input type="text" class="form-control" id="bannerRight" name="bannerRight" ngModel required>
+          </div>
+
+          <div class="form-group">
+            <label for="bannerHorizontal">Banner URL - Horizontal:</label>
+            <input type="text" class="form-control" id="bannerHorizontal" name="bannerHorizontal" ngModel>
+          </div>
+
+          <div class="form-group">
+            <label for="landingPageUrl">URL-Zielseite des clicks:</label>
+            <input type="text" class="form-control" id="landingPageUrl" name="landingPageUrl" ngModel>
+          </div>
+
+          <div class="form-group">
+            <label for="startDate">Startdatum der Banner-Werbung:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" ngModel>
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">Enddatum der Banner-Werbung:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" ngModel>
+          </div>
+
+          <br>
+
+          <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!bannerForm.form.valid">Banner
+            Veröffentlichen</button>
+          &nbsp;
+          <button type="button" class="btn btn-outline-danger mb-2" (click)="bannerForm.form.reset()">Daten
+            Löschen</button>
+
+          &nbsp;&nbsp;
+
+          <small *ngIf="bannerForm.submitted" class="text-success">
+            Neue Banner Erfolgreich hochgeladen <i class="fas fa-check"></i>
+          </small>
+
+        </form>
+      </div>
+
     </div>
-
-    <div class="card-body bg-light">
-      <form (ngSubmit)="onSubmit(bannerForm.value)" #bannerForm="ngForm" method="POST">
-
-        <div class="form-group">
-          <label for="name">Firmen Name:</label>
-          <input type="text" class="form-control" id="name" name="name" ngModel required>
-        </div>
-
-        <div class="form-group">
-          <label for="bundesland">Bundesland:</label>
-          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
-            <option value="none" selected disabled hidden>Bundesland auswählen</option>
-            <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="bannerLeft">Banner URL - Links:</label>
-          <input type="text" class="form-control" id="bannerLeft" name="bannerLeft" ngModel required>
-        </div>
-
-        <div class="form-group">
-          <label for="bannerRight">Banner URL - Rechts:</label>
-          <input type="text" class="form-control" id="bannerRight" name="bannerRight" ngModel required>
-        </div>
-
-        <div class="form-group">
-          <label for="bannerHorizontal">Banner URL - Horizontal:</label>
-          <input type="text" class="form-control" id="bannerHorizontal" name="bannerHorizontal" ngModel>
-        </div>
-
-        <div class="form-group">
-          <label for="landingPageUrl">URL-Zielseite des clicks:</label>
-          <input type="text" class="form-control" id="landingPageUrl" name="landingPageUrl" ngModel>
-        </div>
-
-        <div class="form-group">
-          <label for="startDate">Startdatum der Banner-Werbung:</label>
-          <input type="date" class="form-control" id="startDate" name="startDate" ngModel>
-        </div>
-
-        <div class="form-group">
-          <label for="endDate">Enddatum der Banner-Werbung:</label>
-          <input type="date" class="form-control" id="endDate" name="endDate" ngModel>
-        </div>
-
-        <br>
-
-        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!bannerForm.form.valid">Banner
-          Veröffentlichen</button>
-        &nbsp;
-        <button type="button" class="btn btn-outline-danger mb-2" (click)="bannerForm.form.reset()">Daten
-          Löschen</button>
-
-        &nbsp;&nbsp;
-
-        <small *ngIf="bannerForm.submitted" class="text-success">
-          Neue Banner Erfolgreich hochgeladen <i class="fas fa-check"></i>
-        </small>
-
-      </form>
-    </div>
-
   </div>
+  <!-- kraj levog dela ekrana -->
+
+
+  <!-- desni deo ekrana -->
+  <div class="col-md-4 col-xs-12">
+    <div class="card rounded-5">
+
+      <div class="card-header">
+        <h4 class="mb-0 text-center"><i class="fas fa-award"></i> Alle Banner:</h4>
+      </div>
+
+      <div class="card-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr class="row" *ngFor="let bnr of allBanners">
+              <td class="col-10">
+                <p>Name: {{ bnr.name }} </p>
+                <p>Bundesland: {{ bnr.bundesland }} </p>
+                <p>Startdatum: {{ bnr.startDate | date }} </p>
+                <p>Enddatum: {{ bnr.endDate | date }} </p>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#showMore">
+                  <i class="fas fa-trash-alt"></i> Löschen
+                </button>
+              </td>
+              <td class="col-2"> <img src="{{ bnr.bannerLeft }}" alt="banner-logo" width="100%"> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <!-- kraj desnog dela -->
+
+  <!-- 'sure to delete' modal box -->
+  <div class="modal fade" id="showMore" tabindex="-1" role="dialog" aria-labelledby="showMoreLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="showMoreLabel"> Sind Sie sicher? </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Deleting the user will permanently delete the user from the database.
+          Are you sure you wish to delete this user?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteUser()">Yes, Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- end of modal -->
+
+
+  <!-- 'banner details' modal box -->
+  <div class="modal fade" id="bannerDetails" tabindex="-1" role="dialog" aria-labelledby="bannerDetailsLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="bannerDetailsLabel"> Banner details </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <img src="{{ bnr.bannerLeft }}" alt="banner-small" width="50px">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteUser()">Yes, Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- end of modal -->
+
+
+
 </div>
 
 <br>
