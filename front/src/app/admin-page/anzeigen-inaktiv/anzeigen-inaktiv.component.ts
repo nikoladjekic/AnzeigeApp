@@ -13,8 +13,19 @@ export class AnzeigenInaktivComponent implements OnInit {
   constructor(private _ad: AnzeigeService) {}
 
   ngOnInit() {
+    this.getInactiveAds();
+  }
+
+  getInactiveAds(){
     this._ad.getAllAnzeigen().subscribe(res => {
-      this.inaktiveAnzeigen = res;
-    });
+      res.forEach(val => {
+        let today: Date = new Date();
+        let expDate: Date = new Date(val.endDate);        
+        if (expDate < today){
+          console.log(val);
+          this.inaktiveAnzeigen.push(val);
+        } 
+      })
+    })
   }
 }

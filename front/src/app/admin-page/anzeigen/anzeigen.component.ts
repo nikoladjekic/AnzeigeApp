@@ -9,12 +9,25 @@ import { AnzeigeService } from "src/services/anzeige.service";
   styleUrls: ["./anzeigen.component.css"]
 })
 export class AnzeigenComponent implements OnInit {
-  listOfAnzeigen = [];
+  aktiveAnzeigen = [];
 
   constructor(private _ad: AnzeigeService, private _router: Router) { }
 
   ngOnInit() {
-    this._ad.getAllAnzeigen().subscribe(res => this.listOfAnzeigen = res);
+    this.getActiveAds()
+  }
+
+  getActiveAds(){
+    this._ad.getAllAnzeigen().subscribe(res => {
+      res.forEach(val => {
+        let today: Date = new Date();
+        let expDate: Date = new Date(val.endDate);        
+        if (expDate > today){
+          console.log(val);
+          this.aktiveAnzeigen.push(val);
+        } 
+      })
+    })
   }
 
   seeDetails(val) {
