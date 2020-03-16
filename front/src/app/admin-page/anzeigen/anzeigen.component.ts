@@ -21,11 +21,17 @@ export class AnzeigenComponent implements OnInit {
     this._ad.getAllAnzeigen().subscribe(res => {
       res.forEach(val => {
         let today: Date = new Date();
-        let expDate: Date = new Date(val.endDate);        
+        let expDate: Date = new Date(val.endDate);
+        // 30*24*60*60*1000 = days*hour*min*sec*milisec
+        let threshold: Date = new Date(expDate.getTime()-(30*24*60*60*1000));
         if (expDate > today){
-          console.log(val);
           this.aktiveAnzeigen.push(val);
-        } 
+          // check if the ad is about to expire
+          if (today > threshold){
+            val.photoUrl = 'https://previews.123rf.com/images/mykub/mykub1902/mykub190200461/117044296-warning-attention-sign-danger-sign-design-caution-error-icon.jpg';
+            val.services = '';
+          }
+        }
       })
     })
   }
