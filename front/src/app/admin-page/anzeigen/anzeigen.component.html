@@ -2,13 +2,31 @@
   <div class="card rounded-5">
 
     <div class="card-header">
-      <h4 class="mb-0 text-center"><i class="fas fa-envelope-open-text"></i> Aktive Anzeigen:</h4>
+      <div class="row">
+
+        <div class="col">
+          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="sortByBundesland()">
+            <option [ngValue]="none" selected hidden disabled>Bundesland wählen</option>
+            <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+          </select>
+        </div>
+
+        <h3 class="col text-center">
+          <strong><i class="fas fa-envelope-open-text"></i> Aktive Anzeigen:</strong>
+        </h3>
+
+        <div class="col text-right">
+          <input type="text" placeholder="Suche nach Firmennamen" [(ngModel)]="searchTerm"
+            (ngModelChange)="searchByName()">
+        </div>
+
+      </div>
     </div>
+
 
     <div class="card-body">
       <table class="table table-striped cursor-pointer m-auto">
         <tbody>
-
           <tr class="row" *ngFor="let anzeige of aktiveAnzeigen">
 
             <td class="col-2 text-center">
@@ -21,17 +39,19 @@
                 <h6> <i class="fas fa-map-marker-alt"></i> {{ anzeige['bundesland'] }} </h6>
               </a>
             </td>
-            <td class="col-md-3 col-sm-2 text-center text-success">
-              <strong class="text-danger" *ngIf="!anzeige['services']">* bald ablaufend</strong>
-              <p><u>Bezahlt bis:</u></p>
+
+            <td class="col-md-3 col-sm-2 text-center" [class.text-success]="anzeige['services']">
+              <strong class="text-danger" *ngIf="!anzeige['services']">ACHTUNG!</strong>
+              <p *ngIf="!anzeige['services']"><u>Läuft ab am:</u></p>
+              <p *ngIf="anzeige['services']"><u>Bezahlt bis:</u></p>
               <h5> {{ anzeige['endDate'] | date }} </h5>
             </td>
 
           </tr>
-
         </tbody>
       </table>
     </div>
+
 
   </div>
 </div>
