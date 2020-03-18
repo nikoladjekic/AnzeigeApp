@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-success">
 
   <a routerLink="" class="navbar-brand">Alle Bundesländer</a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -11,9 +12,14 @@
       <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" *ngFor="let land of bundesland">
         <a routerLink="" routerLinkActive="active" class="nav-link" (click)="setBundesland(land)"> {{ land }} </a>
       </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <a routerLink="admin" routerLinkActive="active" class="nav-link text-warning"> admin </a>
-      </li>
+
+
+      <!-- temporary button for easy acces -->
+      <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" class="ml-5">
+        <a routerLink="admin" class="nav-link text-warning"> admin </a></li>
+      <!-- delete when finished developing the app -->
+
+
     </ul>
   </div>
 

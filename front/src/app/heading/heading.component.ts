@@ -9,6 +9,8 @@ import { Bundesland } from 'src/models/bundesland.enum';
 })
 export class HeadingComponent implements OnInit {
 
+  selectedBundesland: Bundesland;
+
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -26,9 +28,10 @@ export class HeadingComponent implements OnInit {
   ngOnInit() {
   }
 
-  setBundesland(val){
-    // todo: set as search value for specific bundesland
-    console.log(val)
+  setBundesland(val){    
+    this.selectedBundesland = val;
+    // todo: set the selected bundesland for data sharing service
+    console.log(this.selectedBundesland)
   }
 
 }
