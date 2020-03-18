@@ -1,18 +1,39 @@
 <div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto table-hover">
   <div class="card rounded-5">
+    
 
     <div class="card-header">
-      <h4 class="mb-0 text-center"><i class="fas fa-book-dead"></i> Inaktive Anzeigen:</h4>
+      <div class="row">
+
+        <div class="col">
+          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="sortByBundesland()">
+            <option [ngValue]="none" selected hidden disabled>Bundesland wählen</option>
+            <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
+          </select>
+        </div>
+
+        <h3 class="col text-center">
+          <strong><i class="fas fa-book-dead"></i> Inaktive Anzeigen:</strong>
+        </h3>
+
+        <div class="col text-right">
+          <input type="text" placeholder="Suche nach Firmennamen" [(ngModel)]="searchTerm"
+            (ngModelChange)="searchByName()">
+        </div>
+
+      </div>
     </div>
+
 
     <div class="card-body">
       <table class="table table-striped cursor-pointer m-auto">
         <tbody>
-
           <tr class="row" *ngFor="let anzeige of inaktiveAnzeigen">
+
             <td class="col-2 text-center">
               <img class="img" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
             </td>
+
             <td class="col-md-7 col-sm-8">
               <a routerLink="{{anzeige._id}}" routerLinkActive="router-link-active">
                 <h5> <strong> {{ anzeige['firma'] }} </strong> </h5>
@@ -20,15 +41,17 @@
                 <h6> <i class="fas fa-map-marker-alt"></i> {{ anzeige['bundesland'] }} </h6>
               </a>
             </td>
+
             <td class="col-md-3 col-sm-2 text-center text-danger">
               <p><u>Inaktiv seit:</u></p>
               <h5> {{ anzeige['endDate'] | date }} </h5>
             </td>
+            
           </tr>
-
         </tbody>
       </table>
     </div>
+
 
   </div>
 </div>
