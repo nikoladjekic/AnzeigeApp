@@ -13,7 +13,9 @@ import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-
 import { AnzeigenDetailsComponent } from './admin-page/anzeigen-details/anzeigen-details.component';
 import { MiddleContentComponent } from './middle-content/middle-content.component';
 import { WerbungBannerComponent } from './admin-page/werbung-banner/werbung-banner.component';
+import { WerbungBannerAddNewComponent } from './admin-page/werbung-banner-add-new/werbung-banner-add-new.component';
 import { LogCounterComponent } from './admin-page/log-counter/log-counter.component';
+
 
 const routes: Routes = [
   { path: "login", component: LoginPageComponent },
@@ -37,6 +39,7 @@ const routes: Routes = [
       { path: "anzeigen/:id", component: AnzeigenDetailsComponent},
       { path: "anzeigen/inaktiv/:id", component: AnzeigenDetailsComponent},
       { path: "banner", component: WerbungBannerComponent },
+      { path: "banner/neue", component: WerbungBannerAddNewComponent },
       { path: "logs", component: LogCounterComponent }
     ]
   },

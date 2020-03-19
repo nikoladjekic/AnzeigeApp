@@ -39,7 +39,6 @@ export class AnzeigenInaktivComponent implements OnInit {
         let today: Date = new Date();
         let expDate: Date = new Date(val.endDate);        
         if (expDate < today){
-          console.log(val);
           this.inaktiveAnzeigen.push(val);
         } 
       })

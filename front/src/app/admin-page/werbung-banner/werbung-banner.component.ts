@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Bundesland } from 'src/models/bundesland.enum';
 import { Banner } from 'src/models/banner.model';
 import { BannerService } from 'src/services/banner.service';
 
@@ -9,47 +8,45 @@ import { BannerService } from 'src/services/banner.service';
   templateUrl: './werbung-banner.component.html',
   styleUrls: ['./werbung-banner.component.css']
 })
-export class WerbungBannerComponent implements OnInit {
-
-  bundesland: Bundesland[] = [
-    Bundesland.V,
-    Bundesland.T,
-    Bundesland.S,
-    Bundesland.OÖ,
-    Bundesland.NÖ,
-    Bundesland.W,
-    Bundesland.K,
-    Bundesland.B,
-    Bundesland.ST
-  ];
+export class WerbungBannerComponent implements OnInit {  
 
   allBanners: Banner[] = [];
+  filterValues = this.allBanners;
+  searchBannerName: string;
 
   constructor(private _bannerService: BannerService) { }
 
   ngOnInit() {
-    this._bannerService.getAllBanner().subscribe(res => this.allBanners = res);
+    this.getAllActiveBanner();
   }
 
-  onSubmit(val){
-    let newBanner = new Banner(
-      val.name,
-      val.bundesland,
-      val.bannerLeft,
-      val.bannerRight,
-      val.bannerHorizontal,
-      val.landingPageUrl,
-      val.startDate,
-      val.endDate
-    );
-    this._bannerService.postNewBanner(newBanner).subscribe(
-      (response: any) => {
-        console.log(response)
-      }, 
-      (error: any) => {
-        console.log(error)
-      }
-    );
+  getAllActiveBanner(){
+    this._bannerService.getAllBanner().subscribe(res => {
+      res.forEach(banner => this.checkForDateExpiration(banner));
+    })
+  }
+
+  searchByName(): void {
+    console.log("filter", this.filterValues);
+      this.allBanners = this.filterValues.filter(el => {
+       console.log(el.name )
+      return el.name.toUpperCase().indexOf(this.searchBannerName.toUpperCase()) >= 0;
+    })  
+  }
+
+  checkForDateExpiration(val): void {
+    let today: Date = new Date();
+    let expDate: Date = new Date(val.endDate);
+
+    // check if banner is active
+    // if (expDate > today){
+    //   this.allBanners.push(val); 
+    // }
+
+    // for now just get all values, later uncomment above example
+    if (expDate){
+        this.allBanners.push(val); 
+    }
   }
 
 }

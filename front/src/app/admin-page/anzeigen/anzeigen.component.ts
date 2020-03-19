@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
 
 import { AnzeigeService } from "src/services/anzeige.service";
@@ -32,7 +32,6 @@ export class AnzeigenComponent implements OnInit {
 
   ngOnInit() {
     this.getActiveAds();
-    console.log(this.aktiveAnzeigen);
   }  
 
   getActiveAds(){
@@ -41,7 +40,7 @@ export class AnzeigenComponent implements OnInit {
     })
   }
 
-  sortByBundesland(){
+  sortByBundesland(): void {
     this.aktiveAnzeigen = this.filterValues.filter(el => {
       return el.bundesland.toUpperCase().indexOf(this.selectedBundesland.toUpperCase()) >= 0;
     })  

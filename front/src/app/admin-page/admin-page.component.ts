@@ -11,6 +11,7 @@ import { AuthService } from "src/services/auth.service";
 })
 export class AdminPageComponent implements OnInit {
   userThatLoggedIn: string;
+  
   constructor(
     private _dataShare: DataSharingService,
     private _auth: AuthService,
