@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Anzeige } from 'src/models/anzeige.model';
-import { AnzeigeService } from 'src/services/anzeige.service';
-import { Bundesland } from 'src/models/bundesland.enum';
-
+import { Anzeige } from "src/models/anzeige.model";
+import { AnzeigeService } from "src/services/anzeige.service";
+import { Bundesland } from "src/models/bundesland.enum";
 
 @Component({
-  selector: 'app-anzeigen-add-new',
-  templateUrl: './anzeigen-add-new.component.html',
-  styleUrls: ['./anzeigen-add-new.component.css']
+  selector: "app-anzeigen-add-new",
+  templateUrl: "./anzeigen-add-new.component.html",
+  styleUrls: ["./anzeigen-add-new.component.css"]
 })
 export class AnzeigenAddNewComponent implements OnInit {
-
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -22,15 +20,13 @@ export class AnzeigenAddNewComponent implements OnInit {
     Bundesland.K,
     Bundesland.B,
     Bundesland.ST
-  ];  
+  ];
 
-  constructor(private _anzeigeService: AnzeigeService) { }
+  constructor(private _anzeigeService: AnzeigeService) {}
 
-  ngOnInit() {
-    console.log(this.bundesland);
-  }
+  ngOnInit() {}
 
-  onSubmit(val){
+  onSubmit(val) {
     let newAnzeige = new Anzeige(
       val.firma,
       val.address,
@@ -45,12 +41,11 @@ export class AnzeigenAddNewComponent implements OnInit {
     );
     this._anzeigeService.postNewAnzeige(newAnzeige).subscribe(
       (response: any) => {
-        console.log(response)
-      }, 
+        console.info("New Anzeige submitted.", response);
+      },
       (error: any) => {
-        console.log(error)
+        console.error("An error occured during Anzeige submition", error);
       }
     );
   }
-
 }

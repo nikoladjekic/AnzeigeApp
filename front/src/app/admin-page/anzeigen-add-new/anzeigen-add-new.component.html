@@ -1,4 +1,4 @@
-<div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto">
+<div class="col-lg-8 col-md-9 col-sm-10 col-xs-11 m-auto">
   <div class="card rounded-5">
 
 
@@ -17,12 +17,12 @@
 
         <div class="form-group">
           <label for="address">Adresse:</label>
-          <input type="text" class="form-control" id="address" name="address" ngModel >
+          <input type="text" class="form-control" id="address" name="address" ngModel>
         </div>
 
         <div class="form-group">
           <label for="bundesland">Bundesland:</label>
-          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel >
+          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
             <option value="none" selected disabled hidden>Bundesland auswählen</option>
             <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
           </select>
@@ -30,7 +30,7 @@
 
         <div class="form-group">
           <label for="services">Firmen Services:</label>
-          <input type="text" class="form-control" id="services" name="services" ngModel 
+          <input type="text" class="form-control" id="services" name="services" ngModel
             placeholder="z.B. Dachdecker, Spenglerei, Fassadenverkleidungen usw.">
         </div>
 
@@ -46,8 +46,7 @@
 
         <div class="form-group">
           <label for="phone">Telefonnummer:</label>
-          <input type="text" class="form-control" id="phone" placeholder="z.B. +43 3844 3652" name="phone" ngModel
-            >
+          <input type="text" class="form-control" id="phone" placeholder="z.B. +43 3844 3652" name="phone" ngModel>
         </div>
 
         <div class="form-group">
@@ -57,20 +56,22 @@
 
         <div class="form-group">
           <label for="startDate">Startdatum der Anzeige:</label>
-          <input type="date" class="form-control" id="startDate" name="startDate" ngModel >
+          <input type="date" class="form-control" id="startDate" name="startDate" ngModel>
         </div>
 
         <div class="form-group">
           <label for="endDate">Enddatum der Anzeige:</label>
-          <input type="date" class="form-control" id="endDate" name="endDate" ngModel >
+          <input type="date" class="form-control" id="endDate" name="endDate" ngModel>
         </div>
 
         <br>
 
-        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Anzeige Veröffentlichen</button>
+        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Anzeige
+          Veröffentlichen</button>
         &nbsp;
-        <button type="button" class="btn btn-outline-danger mb-2" (click)="anzeigeForm.form.reset()">Daten Löschen</button>
-        
+        <button type="button" class="btn btn-outline-danger mb-2" (click)="anzeigeForm.form.reset()">Daten
+          Löschen</button>
+
         &nbsp;&nbsp;
 
         <small *ngIf="anzeigeForm.submitted" class="text-success">

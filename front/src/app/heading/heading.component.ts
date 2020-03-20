@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Bundesland } from 'src/models/bundesland.enum';
+import { Bundesland } from "src/models/bundesland.enum";
+import { DataSharingService } from "src/services/data-sharing.service";
 
 @Component({
-  selector: 'app-heading',
-  templateUrl: './heading.component.html',
-  styleUrls: ['./heading.component.css']
+  selector: "app-heading",
+  templateUrl: "./heading.component.html",
+  styleUrls: ["./heading.component.css"]
 })
 export class HeadingComponent implements OnInit {
-
   selectedBundesland: Bundesland;
 
   bundesland: Bundesland[] = [
@@ -23,15 +23,12 @@ export class HeadingComponent implements OnInit {
     Bundesland.ST
   ];
 
-  constructor() { }
+  constructor(private _dataShare: DataSharingService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  setBundesland(val){    
+  setBundesland(val) {
     this.selectedBundesland = val;
-    // todo: set the selected bundesland for data sharing service
-    console.log(this.selectedBundesland)
+    this._dataShare.setSelectedState(this.selectedBundesland);
   }
-
 }
