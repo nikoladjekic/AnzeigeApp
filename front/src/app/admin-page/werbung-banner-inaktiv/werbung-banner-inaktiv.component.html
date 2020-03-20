@@ -6,13 +6,11 @@
     <div class="row">
 
       <div class="col text-left">
-        <a routerLink="inaktiv" class="btn btn-outline-secondary mr-1"><i class="fas fa-skull-crossbones"></i> Inaktive
-          Banner</a>
-        <a routerLink="neue" class="btn btn-outline-success"><i class="far fa-calendar-plus"></i> Neue Banner</a>
+        <a routerLink=".." class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i> Zurück</a>
       </div>
 
       <h3 class="col mb-0 text-center">
-        <strong><i class="fas fa-award"></i> Aktive Banner:</strong>
+        <strong><i class="fas fa-skull-crossbones"></i> Inaktive Banner:</strong>
       </h3>
 
       <div class="col text-right">
@@ -25,22 +23,23 @@
   <div class="card-body">
     <div class="row">
 
-      <div class="borders col-md-4 col-xs-3" *ngFor="let bnr of allBanners">
+      <div class="borders col-md-4 col-xs-3 mb-2" *ngFor="let bnr of inactiveBanners">
         <div class="row">
-          <div class="col-2 p-3">
+          <div class="col-2 m-auto">
             <img src="{{ bnr.bannerLeft }}" alt="banner-logo" width="100%">
           </div>
           <div class="col-10 text-center m-auto">
             <p>Bundesland: <strong>{{ bnr.bundesland }}</strong></p>
             <p>Name: {{ bnr.name }} </p>
             <p>Startdatum: {{ bnr.startDate | date }} </p>
-            <p [class.text-success]="!bnr.bannerHorizontal">Enddatum: <strong>{{ bnr.endDate | date }}</strong> </p>
+            <p [class.text-danger]="!bnr.bannerHorizontal">Enddatum: <strong> {{ bnr.endDate | date }}</strong> </p>
           </div>
         </div>
       </div>
 
     </div>
   </div>
+
 
 
 </div>
