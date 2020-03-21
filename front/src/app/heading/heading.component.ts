@@ -10,6 +10,7 @@ import { DataSharingService } from "src/services/data-sharing.service";
 })
 export class HeadingComponent implements OnInit {
   selectedBundesland: Bundesland;
+  searchTerm: string;
 
   bundesland: Bundesland[] = [
     Bundesland.V,
@@ -30,5 +31,10 @@ export class HeadingComponent implements OnInit {
   setBundesland(val) {
     this.selectedBundesland = val;
     this._dataShare.setSelectedState(this.selectedBundesland);
+  }
+
+  searchByName(event) {
+    this.searchTerm = event;
+    this._dataShare.setNameSearchTerm(this.searchTerm);
   }
 }

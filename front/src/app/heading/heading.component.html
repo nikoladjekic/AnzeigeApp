@@ -19,6 +19,11 @@
         <a routerLink="admin" class="nav-link text-warning"> admin </a></li>
       <!-- delete when finished developing the app -->
 
+      <div class="nav-item text-right" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <input type="text" placeholder="Suche nach Firmennamen" [(ngModel)]="searchTerm"
+          (ngModelChange)="searchByName($event)">
+      </div>
+
 
     </ul>
   </div>

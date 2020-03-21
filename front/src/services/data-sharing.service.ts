@@ -7,9 +7,11 @@ import { BehaviorSubject } from "rxjs";
 export class DataSharingService {
   private loggedUser = new BehaviorSubject<string>("");
   private selectedState = new BehaviorSubject<string>("");
+  private nameSearchTerm = new BehaviorSubject<string>("");
 
   currentUser = this.loggedUser.asObservable();
   currentState = this.selectedState.asObservable();
+  currentNameTerm = this.nameSearchTerm.asObservable();
 
   constructor() {}
 
@@ -19,5 +21,9 @@ export class DataSharingService {
 
   setSelectedState(state: string) {
     this.selectedState.next(state);
+  }
+
+  setNameSearchTerm(name: string) {
+    this.nameSearchTerm.next(name);
   }
 }

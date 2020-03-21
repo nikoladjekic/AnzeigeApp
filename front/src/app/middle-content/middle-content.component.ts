@@ -10,9 +10,10 @@ import { DataSharingService } from "src/services/data-sharing.service";
   styleUrls: ["./middle-content.component.css"]
 })
 export class MiddleContentComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  subForBundeslandSearch: Subscription;
+  subForNameSearch: Subscription;
+  searchTerm: string = "";
   listOfAnzeigen = [];
-  currentBundesland = "";
 
   constructor(
     private _adService: AnzeigeService,
@@ -22,13 +23,18 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // get all active to popuate the middle content
     this.getAllActiveAnzeigen();
-    // subscribe to sharing service for constant listening for changes
+    // listening for changes if user clicks on bundesland in header
     this.listenForBundeslandChanges();
+    // listening for changes if user types in search input in header
+    this.searchByName();
   }
 
   ngOnDestroy() {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
+    if (this.subForBundeslandSearch != null) {
+      this.subForBundeslandSearch.unsubscribe();
+    }
+    if (this.subForNameSearch != null) {
+      this.subForNameSearch.unsubscribe();
     }
   }
 
@@ -38,29 +44,56 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     });
   }
 
-  // listen for changes from the click on the header
-  listenForBundeslandChanges() {
-    this.subscription = this._dataShare.currentState.subscribe(stateName => {
+  // search for match for every letter typed in header search input
+  searchByName(): void {
+    this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(name => {
       let tempArr = [];
-      this.currentBundesland = stateName;
-      if (this.currentBundesland) {
-        if (this.currentBundesland === "all") {
-          this.getAllActiveAnzeigen();
-        } else {
-          this._adService.getActiveAnzeigen().subscribe(res => {
-            this.listOfAnzeigen = res;
-            this.listOfAnzeigen.forEach(stateObj => {
-              if (
-                stateObj.bundesland.toLowerCase() ===
-                this.currentBundesland.toLowerCase()
-              ) {
-                tempArr.push(stateObj);
-              }
-            });
-            this.listOfAnzeigen = tempArr;
+      this.searchTerm = name;
+      if (this.searchTerm) {
+        this._adService.getActiveAnzeigen().subscribe(res => {
+          this.listOfAnzeigen = res;
+          this.listOfAnzeigen.forEach(match => {
+            if (
+              match.firma
+                .toLowerCase()
+                .indexOf(this.searchTerm.toLowerCase()) >= 0
+            ) {
+              tempArr.push(match);
+            }
           });
-        }
+          this.listOfAnzeigen = tempArr;
+        });
+      } else {
+        this.getAllActiveAnzeigen();
       }
     });
+  }
+
+  // search for bundesland if user click on the header
+  listenForBundeslandChanges() {
+    this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
+      name => {
+        let tempArr = [];
+        this.searchTerm = name;
+        if (this.searchTerm) {
+          if (this.searchTerm === "all") {
+            this.getAllActiveAnzeigen();
+          } else {
+            this._adService.getActiveAnzeigen().subscribe(res => {
+              this.listOfAnzeigen = res;
+              this.listOfAnzeigen.forEach(match => {
+                if (
+                  match.bundesland.toLowerCase() ===
+                  this.searchTerm.toLowerCase()
+                ) {
+                  tempArr.push(match);
+                }
+              });
+              this.listOfAnzeigen = tempArr;
+            });
+          }
+        }
+      }
+    );
   }
 }
