@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import { AnzeigeService } from "src/services/anzeige.service";
-import { Bundesland } from 'src/models/bundesland.enum';
+import { Bundesland } from "src/models/bundesland.enum";
 
 @Component({
   selector: "app-anzeigen-inaktiv",
@@ -9,11 +9,10 @@ import { Bundesland } from 'src/models/bundesland.enum';
   styleUrls: ["./anzeigen-inaktiv.component.css"]
 })
 export class AnzeigenInaktivComponent implements OnInit {
-
-  inaktiveAnzeigen = [];
-  filterValues = this.inaktiveAnzeigen;
   selectedBundesland: Bundesland;
   searchTerm: string;
+  inactiveAnzeigenList = [];
+  filterValues = this.inactiveAnzeigenList;
 
   bundesland: Bundesland[] = [
     Bundesland.V,
@@ -27,34 +26,31 @@ export class AnzeigenInaktivComponent implements OnInit {
     Bundesland.ST
   ];
 
-  constructor(private _ad: AnzeigeService) {}
+  constructor(private _adService: AnzeigeService) {}
 
   ngOnInit() {
     this.getInactiveAds();
   }
 
-  getInactiveAds(){
-    this._ad.getAllAnzeigen().subscribe(res => {
-      res.forEach(val => {
-        let today: Date = new Date();
-        let expDate: Date = new Date(val.endDate);        
-        if (expDate < today){
-          this.inaktiveAnzeigen.push(val);
-        } 
-      })
-    })
+  getInactiveAds() {
+    this._adService.getInactiveAnzeigen().subscribe(res => {
+      this.inactiveAnzeigenList = res;
+    });
   }
 
-  sortByBundesland(){
-    this.inaktiveAnzeigen = this.filterValues.filter(el => {
-      return el.bundesland.toUpperCase().indexOf(this.selectedBundesland.toUpperCase()) >= 0;
-    })  
+  sortByBundesland() {
+    this.inactiveAnzeigenList = this.filterValues.filter(el => {
+      return (
+        el.bundesland
+          .toUpperCase()
+          .indexOf(this.selectedBundesland.toUpperCase()) >= 0
+      );
+    });
   }
 
   searchByName(): void {
-    this.inaktiveAnzeigen = this.filterValues.filter(el => {
+    this.inactiveAnzeigenList = this.filterValues.filter(el => {
       return el.firma.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0;
-    })  
+    });
   }
-
 }

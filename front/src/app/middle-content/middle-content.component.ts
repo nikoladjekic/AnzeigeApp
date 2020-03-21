@@ -15,38 +15,15 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   currentBundesland = "";
 
   constructor(
-    private _ad: AnzeigeService,
+    private _adService: AnzeigeService,
     private _dataShare: DataSharingService
   ) {}
 
   ngOnInit() {
     // get all active to popuate the middle content
     this.getAllActiveAnzeigen();
-
-    // subscribe to sharing service to listen for changes for bundesland
-    let tempArr = [];
-    this.subscription = this._dataShare.currentState.subscribe(stateName => {
-      tempArr = [];
-      this.currentBundesland = stateName;
-
-      if (this.currentBundesland) {
-        if (this.currentBundesland === "all") {
-          this.getAllActiveAnzeigen();
-        }
-        this._ad.getAllAnzeigen().subscribe(res => {
-          this.listOfAnzeigen = res;
-          this.listOfAnzeigen.forEach(stateObj => {
-            if (
-              stateObj.bundesland.toLowerCase() ===
-              this.currentBundesland.toLowerCase()
-            ) {
-              tempArr.push(stateObj);
-            }
-          });
-          this.listOfAnzeigen = tempArr;
-        });
-      }
-    });
+    // subscribe to sharing service for constant listening for changes
+    this.listenForBundeslandChanges();
   }
 
   ngOnDestroy() {
@@ -56,8 +33,34 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   getAllActiveAnzeigen() {
-    this._ad.getAllAnzeigen().subscribe(res => {
+    this._adService.getActiveAnzeigen().subscribe(res => {
       this.listOfAnzeigen = res;
+    });
+  }
+
+  // listen for changes from the click on the header
+  listenForBundeslandChanges() {
+    this.subscription = this._dataShare.currentState.subscribe(stateName => {
+      let tempArr = [];
+      this.currentBundesland = stateName;
+      if (this.currentBundesland) {
+        if (this.currentBundesland === "all") {
+          this.getAllActiveAnzeigen();
+        } else {
+          this._adService.getActiveAnzeigen().subscribe(res => {
+            this.listOfAnzeigen = res;
+            this.listOfAnzeigen.forEach(stateObj => {
+              if (
+                stateObj.bundesland.toLowerCase() ===
+                this.currentBundesland.toLowerCase()
+              ) {
+                tempArr.push(stateObj);
+              }
+            });
+            this.listOfAnzeigen = tempArr;
+          });
+        }
+      }
     });
   }
 }

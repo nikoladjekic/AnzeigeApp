@@ -1,6 +1,6 @@
 <div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto table-hover">
   <div class="card rounded-5">
-    
+
 
     <div class="card-header">
       <div class="row">
@@ -28,7 +28,7 @@
     <div class="card-body">
       <table class="table table-striped cursor-pointer m-auto">
         <tbody>
-          <tr class="row" *ngFor="let anzeige of inaktiveAnzeigen">
+          <tr class="row" *ngFor="let anzeige of inactiveAnzeigenList">
 
             <td class="col-2 text-center">
               <img class="img" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
@@ -46,7 +46,7 @@
               <p><u>Inaktiv seit:</u></p>
               <h5> {{ anzeige['endDate'] | date }} </h5>
             </td>
-            
+
           </tr>
         </tbody>
       </table>

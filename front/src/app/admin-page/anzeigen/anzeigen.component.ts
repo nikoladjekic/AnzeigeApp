@@ -10,8 +10,8 @@ import { Bundesland } from "src/models/bundesland.enum";
   styleUrls: ["./anzeigen.component.css"]
 })
 export class AnzeigenComponent implements OnInit {
-  aktiveAnzeigen = [];
-  filterValues = this.aktiveAnzeigen;
+  activeAnzeigenList = [];
+  filterValues = this.activeAnzeigenList;
   selectedBundesland: Bundesland;
   searchTerm: string;
 
@@ -27,20 +27,23 @@ export class AnzeigenComponent implements OnInit {
     Bundesland.ST
   ];
 
-  constructor(private _ad: AnzeigeService, private _router: Router) {}
+  constructor(private _adService: AnzeigeService, private _router: Router) {}
 
   ngOnInit() {
-    this.getActiveAds();
+    this.getAllActiveAds();
   }
 
-  getActiveAds() {
-    this._ad.getAllAnzeigen().subscribe(res => {
-      res.forEach(anzeige => this.checkForDateExpiration(anzeige));
+  getAllActiveAds() {
+    this._adService.getActiveAnzeigen().subscribe(res => {
+      this.activeAnzeigenList = res;
+      this.activeAnzeigenList.forEach(anzeige =>
+        this.checkIfAboutToExpire(anzeige)
+      );
     });
   }
 
   sortByBundesland(): void {
-    this.aktiveAnzeigen = this.filterValues.filter(el => {
+    this.activeAnzeigenList = this.filterValues.filter(el => {
       return (
         el.bundesland
           .toUpperCase()
@@ -50,27 +53,23 @@ export class AnzeigenComponent implements OnInit {
   }
 
   searchByName(): void {
-    this.aktiveAnzeigen = this.filterValues.filter(el => {
+    this.activeAnzeigenList = this.filterValues.filter(el => {
       return el.firma.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0;
     });
   }
 
-  checkForDateExpiration(val) {
+  // check if the ad is about to expire in less than 30 days
+  checkIfAboutToExpire(val) {
     let today: Date = new Date();
     let expDate: Date = new Date(val.endDate);
     // set expiration threshold to 30 days :: days*hour*min*sec*milisec
     let threshold: Date = new Date(
       expDate.getTime() - 30 * 24 * 60 * 60 * 1000
     );
-    // check if ad is active
-    if (expDate > today) {
-      this.aktiveAnzeigen.push(val);
-      // check if the ad is about to expire
-      if (today > threshold) {
-        val.photoUrl =
-          "https://previews.123rf.com/images/mykub/mykub1902/mykub190200461/117044296-warning-attention-sign-danger-sign-design-caution-error-icon.jpg";
-        val.services = "";
-      }
+    if (today > threshold) {
+      val.photoUrl = `https://previews.123rf.com/images/mykub/mykub1902/mykub190200461/117044296-
+          warning-attention-sign-danger-sign-design-caution-error-icon.jpg`;
+      val.services = "";
     }
   }
 
