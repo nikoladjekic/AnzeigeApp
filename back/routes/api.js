@@ -9,6 +9,8 @@ const {
 
 const {
   getAllAnzeigen,
+  getActiveAnzeigen,
+  getInactiveAnzeigen,
   addNewAnzeige,
   getAnzeigeDetails
 } = require("../services/anzeige-services");
@@ -23,6 +25,8 @@ router.get("/", (req, res) => {
 // custom routes for the services
 router.get("/users", getAllUsers);
 router.get("/anzeigen", getAllAnzeigen);
+router.get("/anzeigen/active", getActiveAnzeigen);
+router.get("/anzeigen/inactive", getInactiveAnzeigen);
 router.get("/anzeige/details/:id", getAnzeigeDetails);
 router.get("/banner", getAllBanner);
 

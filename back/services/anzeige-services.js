@@ -7,6 +7,36 @@ const getAllAnzeigen = (req, res) => {
   });
 };
 
+// get active ads
+const getActiveAnzeigen = (req, res) => {
+  Anzeige.find({}).then(ads => {
+    let listOfActiveAds = [];
+    ads.forEach(ad => {
+      let today = new Date();
+      let expDate = new Date(ad.endDate);
+      if (expDate > today) {
+        listOfActiveAds.push(ad);
+      }
+    });
+    res.status(200).send(listOfActiveAds);
+  });
+};
+
+// get inactive ads (expired)
+const getInactiveAnzeigen = (req, res) => {
+  Anzeige.find({}).then(ads => {
+    let listOfActiveAds = [];
+    ads.forEach(ad => {
+      let today = new Date();
+      let expDate = new Date(ad.endDate);
+      if (expDate < today) {
+        listOfActiveAds.push(ad);
+      }
+    });
+    res.status(200).send(listOfActiveAds);
+  });
+};
+
 // add new anzeige to db
 const addNewAnzeige = (req, res) => {
   let ad = new Anzeige({
@@ -38,6 +68,8 @@ const getAnzeigeDetails = (req, res) => {
 
 module.exports = {
   getAllAnzeigen,
+  getActiveAnzeigen,
+  getInactiveAnzeigen,
   addNewAnzeige,
   getAnzeigeDetails
 };
