@@ -12,6 +12,7 @@ import { DataSharingService } from "src/services/data-sharing.service";
 export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
+  selectedBundesland: string = "Installateure in ihrer nähe";
   searchTerm: string = "";
   listOfAnzeigen = [];
 
@@ -78,7 +79,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
             this.getAllActiveAnzeigen();
+            this.selectedBundesland = "Installateure in ihrer nähe";
           } else {
+            this.selectedBundesland = name;
             this._adService.getActiveAnzeigen().subscribe(res => {
               this.listOfAnzeigen = res;
               this.listOfAnzeigen.forEach(match => {

@@ -16,6 +16,6 @@ export class WerbungPageComponent implements OnInit {
   ngOnInit() {
     // for now, we only get one banner from the list
     // implement automatic banner based on bundesland
-    this._bannerService.getAllBanner().subscribe(res => (this.banner = res[1]));
+    this._bannerService.getAllBanner().subscribe(res => (this.banner = res[5]));
   }
 }
