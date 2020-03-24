@@ -1,6 +1,10 @@
 .navbar {
-  height: inherit;
+  height: 8vh;
   opacity: 0.94;
+}
+
+img {
+  width: 6vw;
 }
 
 a {
@@ -13,4 +17,5 @@ a:focus {
 
 .alignInputGroup {
   height: 2%;
+  margin-bottom: -2vh;
 }
