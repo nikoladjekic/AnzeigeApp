@@ -11,7 +11,7 @@ import { Bundesland } from "src/models/bundesland.enum";
 })
 export class AnzeigenComponent implements OnInit {
   activeAnzeigenList = [];
-  filterValues = this.activeAnzeigenList;
+  filterValues = [];
   selectedBundesland: Bundesland;
   searchTerm: string;
 
@@ -39,6 +39,8 @@ export class AnzeigenComponent implements OnInit {
       this.activeAnzeigenList.forEach(anzeige =>
         this.checkIfAboutToExpire(anzeige)
       );
+      this.filterValues = this.activeAnzeigenList;
+      this.activeAnzeigenList.sort(this.sortByExp);
     });
   }
 
@@ -53,6 +55,8 @@ export class AnzeigenComponent implements OnInit {
   }
 
   searchByName(): void {
+    console.log("filter", this.activeAnzeigenList);
+
     this.activeAnzeigenList = this.filterValues.filter(el => {
       return el.firma.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0;
     });
@@ -73,6 +77,20 @@ export class AnzeigenComponent implements OnInit {
     }
   }
 
+  // sort Anzeigen by expiry date
+  sortByExp(a, b) {
+    let date1: Date = new Date(a.endDate);
+    let date2: Date = new Date(b.endDate);
+    let comparison = 0;
+    if (date1 > date2) {
+      comparison = 1;
+    } else if (date1 < date2) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  // when clicked on the anzeige show details page
   seeDetails(val) {
     this._router.navigate(["/", { id: val }]);
   }
