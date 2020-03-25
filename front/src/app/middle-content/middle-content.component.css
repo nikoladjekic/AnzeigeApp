@@ -1,7 +1,3 @@
-h1 {
-  margin: 15px;
-}
-
 .table td {
   border: none;
 }
@@ -40,7 +36,7 @@ a {
   width: 100%;
   display: table;
   background: url("https://www.malcolmplumbingandmech.com/wp-content/uploads/2018/11/bathroom-plumbing.jpg")
-    no-repeat 0 20% / cover;
+    no-repeat 0 / cover;
   background-attachment: fixed;
 }
 
@@ -48,7 +44,7 @@ a {
   display: table-cell;
   background-color: rgba(36, 36, 36, 0.6);
   color: #fff;
-  padding: 50px 0;
+  padding: 8vh 0;
 }
 
 #Testimonial .testimonial-slider {

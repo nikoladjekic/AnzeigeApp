@@ -5,10 +5,11 @@
       <div class="row">
 
         <div class="col">
-          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="sortByBundesland()">
+          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="sortByBundesland()" class="cursor-pointer">
             <option [ngValue]="none" selected hidden disabled>Bundesland wählen</option>
             <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
           </select>
+          <button class="btn" title="Neu Laden" (click)="getAllActiveAds()"><i class="fas fa-sync-alt"></i></button>
         </div>
 
         <h3 class="col text-center">

@@ -12,7 +12,7 @@ import { DataSharingService } from "src/services/data-sharing.service";
 export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
-  selectedBundesland: string = "Installateure in ihrer nähe";
+  selectedBundesland: string;
   searchTerm: string = "";
   listOfAnzeigen = [];
 
@@ -52,6 +52,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
       this.searchTerm = name;
       if (this.searchTerm) {
         this._adService.getActiveAnzeigen().subscribe(res => {
+          this.selectedBundesland = "Suche: " + name;
           this.listOfAnzeigen = res;
           this.listOfAnzeigen.forEach(match => {
             if (
@@ -66,6 +67,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         });
       } else {
         this.getAllActiveAnzeigen();
+        this.selectedBundesland = "Installateure Österreichweit";
       }
     });
   }
@@ -79,7 +81,8 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
             this.getAllActiveAnzeigen();
-            this.selectedBundesland = "Installateure in ihrer nähe";
+            this.selectedBundesland = "Installateure Österreichweit";
+            this.searchTerm = "";
           } else {
             this.selectedBundesland = name;
             this._adService.getActiveAnzeigen().subscribe(res => {

@@ -13,7 +13,10 @@
     <div class="container">
       <ul class="testimonial-slider" style="list-style-type:none;">
         <li>
-          <h1 class="text-center m-5"><i class="fas fa-map-marked-alt"></i> &nbsp; {{ selectedBundesland }} </h1>
+          <h2 class="text-center m-5">
+            <i *ngIf="!searchTerm" class="fas fa-map-marked-alt"></i>
+            <i *ngIf="searchTerm" class="fas fa-search"></i>
+            &nbsp;{{ selectedBundesland }} </h2>
         </li>
       </ul>
     </div>
