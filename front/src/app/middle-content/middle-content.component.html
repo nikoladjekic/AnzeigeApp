@@ -14,7 +14,7 @@
       <ul class="testimonial-slider" style="list-style-type:none;">
         <li>
           <h2 class="text-center m-5">
-            <i *ngIf="!searchTerm" class="fas fa-map-marked-alt"></i>
+            <i *ngIf="!searchTerm" class="fas fa-lg fa-map-marked-alt"></i>
             <i *ngIf="searchTerm" class="fas fa-search"></i>
             &nbsp;{{ selectedBundesland }} </h2>
         </li>
@@ -32,9 +32,11 @@
     <tbody>
       <tr class="row anzeige-block text-left">
 
+
         <td class="col-md-2 col-sm-1">
           <img class="img" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
         </td>
+
 
         <td class="col-md-7 col-sm-8">
           <h3 class="truncate cursor-pointer">
@@ -42,22 +44,25 @@
               <strong> {{ anzeige['firma'] }} </strong>
             </a>
           </h3>
-          <h6 class="truncate"><i class="fas fa-home"></i> {{ anzeige['address'] }} </h6>
-          <h6> <i class="fas fa-map-marker-alt"></i> <strong> {{ anzeige['bundesland'] }} </strong> </h6>
+          <h6 class="truncate"><i class="fas fa-home i-color"></i>&nbsp; {{ anzeige['address'] }} </h6>
+          <h6> <i class="fas fa-map-marker-alt i-color"></i> <strong>&nbsp; {{ anzeige['bundesland'] }} </strong> </h6>
           <p>
-            <span class="truncate mt-2"> <i class="text-secondary">Wir bieten:</i> {{ anzeige['services'] }} </span>
+            <!-- <span class="truncate mt-2"> <i class="i-color">Wir bieten:</i> {{ anzeige['services'] }} </span> -->
+            <span class="truncate mt-2"> <i class="fas fa-wrench i-color"></i>&nbsp; {{ anzeige['services'] }} </span>
           </p>
         </td>
 
-        <td class="col-md-3 col-sm-3 text-right">
-          <span><i class="fas fa-envelope"></i> {{ anzeige['email'] }} </span>
+
+        <td class="col-md-3 col-sm-3 text-center">
+          <span><i class="fas fa-envelope i-color"></i>&nbsp; {{ anzeige['email'] }} </span>
           <hr>
           <a href="http://{{ anzeige['website'] }}" title="Webseite besuchen" target="_blank">
-            <i class="fas fa-globe"></i> {{ anzeige['website'] }}
+            <i class="fas fa-globe i-color"></i>&nbsp; {{ anzeige['website'] }}
           </a>
           <hr>
-          <span><i class="fas fa-phone"></i> {{ anzeige['phone'] }} </span>
+          <span><i class="fas fa-phone i-color"></i>&nbsp; {{ anzeige['phone'] }} </span>
         </td>
+
 
       </tr>
     </tbody>
@@ -66,6 +71,9 @@
 </div>
 <!-- end of the anzeige -->
 
+<br>
 
 <!-- footer -->
 <app-footer></app-footer>
+
+<br>

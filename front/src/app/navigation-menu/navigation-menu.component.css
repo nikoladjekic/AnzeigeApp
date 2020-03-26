@@ -7,14 +7,10 @@
   border-bottom: 2px solid rgba(116, 116, 116, 0.705);
 }
 
-.navbar-expand-lg .navbar-collapse {
-  display: flex;
-  justify-content: space-around;
-}
-
 a {
   outline: none;
 }
+
 a:active,
 a:focus {
   text-decoration: underline;

@@ -6,3 +6,7 @@ html body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.i-color {
+  color: rgba(1, 161, 161, 0.7);
+}
