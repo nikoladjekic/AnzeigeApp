@@ -10,3 +10,42 @@ html body {
 .i-color {
   color: rgba(1, 161, 161, 0.7);
 }
+
+/**************************************************************************************************/
+/******************************** GLOBAL RESPONSIVE DESIGN STYLES *********************************/
+/**************************************************************************************************/
+
+/* Extra small devices (phones, 576px and down) */
+@media only screen and (max-width: 576px) {
+  .xs-hide {
+    display: none;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 576px and up) */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .sm-hide {
+    display: none;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .md-hide {
+    display: none;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .lg-hide {
+    display: none;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .xl-hide {
+    display: none;
+  }
+}

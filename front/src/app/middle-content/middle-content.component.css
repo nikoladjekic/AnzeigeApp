@@ -24,14 +24,6 @@ a {
   color: rgb(56, 56, 56);
 }
 
-.truncate {
-  display: inline-block;
-  width: 36vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 #Testimonial {
   width: 100%;
   display: table;

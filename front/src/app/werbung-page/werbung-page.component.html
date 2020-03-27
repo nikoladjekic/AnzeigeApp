@@ -6,17 +6,17 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-md-2 col-sm-1 col-xs-12" *ngIf="banner">
+    <div class="col-md-2 sm-hide xs-hide" *ngIf="banner">
       <a href="{{ banner.landingPageUrl }}" target="_blank">
         <img class="left-banner-img" alt="left-banner" src="{{ banner.bannerLeft }}">
       </a>
     </div>
 
-    <div class="col-md-8 col-sm-10 col-xs-12">
+    <div class="col-md-8 col-sm-10 col-xs-12 m-auto">
       <router-outlet></router-outlet>
     </div>
 
-    <div class="col-md-2 col-sm-1 col-xs-12" *ngIf="banner">
+    <div class="col-md-2 sm-hide xs-hide" *ngIf="banner">
       <a href="{{ banner.landingPageUrl }}" target="_blank">
         <img class="right-banner-img" alt="right-banner" src="{{ banner.bannerRight }}">
       </a>

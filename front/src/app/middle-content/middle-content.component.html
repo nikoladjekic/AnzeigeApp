@@ -33,27 +33,27 @@
       <tr class="row anzeige-block text-left">
 
 
-        <td class="col-md-2 col-sm-1">
+        <td class="col-lg-2 md-hide sm-hide xs-hide">
           <img class="img" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
         </td>
 
 
-        <td class="col-md-7 col-sm-8">
-          <h3 class="truncate cursor-pointer">
+        <td class="col-lg-7 col-sm-8 col-xs-12">
+          <h3 class="cursor-pointer">
             <a routerLink="details/{{anzeige['_id']}}" routerLinkActive="router-link-active" title="Mehr sehen">
               <strong> {{ anzeige['firma'] }} </strong>
             </a>
           </h3>
-          <h6 class="truncate"><i class="fas fa-home i-color"></i>&nbsp; {{ anzeige['address'] }} </h6>
-          <h6> <i class="fas fa-map-marker-alt i-color"></i> <strong>&nbsp; {{ anzeige['bundesland'] }} </strong> </h6>
+          <h6> <i class="fas fa-home i-color"></i>&nbsp; {{ anzeige['address'] }} </h6>
+          <h6> <i class="fas fa-map-marker-alt i-color"></i> <strong>&nbsp; {{ anzeige['bundesland'] }}
+            </strong> </h6>
           <p>
-            <!-- <span class="truncate mt-2"> <i class="i-color">Wir bieten:</i> {{ anzeige['services'] }} </span> -->
-            <span class="truncate mt-2"> <i class="fas fa-wrench i-color"></i>&nbsp; {{ anzeige['services'] }} </span>
+            <span class="mt-2"> <i class="fas fa-wrench i-color"></i>&nbsp; {{ anzeige['services'] }} </span>
           </p>
         </td>
 
 
-        <td class="col-md-3 col-sm-3 text-center">
+        <td class="col-lg-3 col-sm-4 col-xs-12 text-center">
           <span><i class="fas fa-envelope i-color"></i>&nbsp; {{ anzeige['email'] }} </span>
           <hr>
           <a href="http://{{ anzeige['website'] }}" title="Webseite besuchen" target="_blank">
