@@ -1,14 +1,15 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-xl navbar-light bg-light">
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
+    <span>&nbsp; Bundesland auswählen</span>
   </button>
 
 
   <div class="collapse navbar-collapse" id="navbarContent">
-    <ul class="navbar-nav text-center">
-      <li class="nav-item" data-toggle="collapse" data-target="navbarContent" *ngFor="let land of bundesland">
+    <ul class="navbar-nav" data-toggle="collapse" data-target="#navbarContent">
+      <li class="nav-item" *ngFor="let land of bundesland">
         <a routerLink="" class="nav-link" (click)="setBundesland(land)"> {{ land }} </a>
       </li>
     </ul>
