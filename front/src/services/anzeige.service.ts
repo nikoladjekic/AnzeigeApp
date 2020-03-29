@@ -36,4 +36,10 @@ export class AnzeigeService {
   getAnzeigeById(id) {
     return this.http.get<Anzeige>(this._getAnzeigeById + id);
   }
+
+  getBundeslandByLocation(lat, lon) {
+    return this.http.get<any>(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=de`
+    );
+  }
 }

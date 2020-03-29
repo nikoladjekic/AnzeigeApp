@@ -13,6 +13,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
   selectedBundesland: string;
+  usersLocation: string;
   searchTerm: string = "";
   listOfAnzeigen = [];
 
@@ -22,11 +23,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // get all active to popuate the middle content
-    this.getAllActiveAnzeigen();
     // listening for changes if user clicks on bundesland in header
     this.listenForBundeslandChanges();
     // listening for changes if user types in search input in header
+    // if nothing is typed, all active are fetched
     this.searchByName();
   }
 
@@ -49,12 +49,13 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   searchByName(): void {
     this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(name => {
       let tempArr = [];
+      let filter = [];
       this.searchTerm = name;
       if (this.searchTerm) {
         this._adService.getActiveAnzeigen().subscribe(res => {
           this.selectedBundesland = "Suche: " + name;
-          this.listOfAnzeigen = res;
-          this.listOfAnzeigen.forEach(match => {
+          filter = res;
+          filter.forEach(match => {
             if (
               match.firma
                 .toLowerCase()
@@ -66,17 +67,17 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           this.listOfAnzeigen = tempArr;
         });
       } else {
-        this.getAllActiveAnzeigen();
-        this.selectedBundesland = "Installateure Österreichweit";
+        this.getAdsByLocation();
       }
     });
   }
 
-  // search for bundesland if user click on the header
-  listenForBundeslandChanges() {
+  // search for bundesland if user clicks on the header
+  listenForBundeslandChanges(): void {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
       name => {
         let tempArr = [];
+        let filterArr = [];
         this.searchTerm = name;
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
@@ -86,8 +87,8 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           } else {
             this.selectedBundesland = name;
             this._adService.getActiveAnzeigen().subscribe(res => {
-              this.listOfAnzeigen = res;
-              this.listOfAnzeigen.forEach(match => {
+              filterArr = res;
+              filterArr.forEach(match => {
                 if (
                   match.bundesland.toLowerCase() ===
                   this.searchTerm.toLowerCase()
@@ -101,5 +102,44 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  // if we have user location show Anzeigen for that bundesland
+  getAdsByLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        this._adService.getBundeslandByLocation(lat, lon).subscribe(data => {
+          // this will be the users actual location by coordinates
+          //this.usersLocation = data.principalSubdivision;
+          // using mock data for now
+          this.usersLocation = "Burgenland";
+
+          // if we have geolocation inside of austria
+          if (this.usersLocation) {
+            let tempArr = [];
+            let filterList = [];
+            this._adService.getActiveAnzeigen().subscribe(res => {
+              this.selectedBundesland = "In Ihrem Bundesland";
+              filterList = res;
+              filterList.forEach(match => {
+                if (
+                  match.bundesland.toLowerCase() ===
+                  this.usersLocation.toLowerCase()
+                ) {
+                  tempArr.push(match);
+                }
+              });
+              this.listOfAnzeigen = tempArr;
+            });
+          }
+          // if we don't have location or visiting outside of austria
+          else {
+            this.getAllActiveAnzeigen();
+          }
+        });
+      });
+    }
   }
 }
