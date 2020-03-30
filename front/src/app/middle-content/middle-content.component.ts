@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
+import { Anzeige } from "src/models/anzeige.model";
 import { AnzeigeService } from "src/services/anzeige.service";
 import { DataSharingService } from "src/services/data-sharing.service";
+import { Bundesland } from "src/models/bundesland.enum";
 
 @Component({
   selector: "app-middle-content",
@@ -12,10 +14,26 @@ import { DataSharingService } from "src/services/data-sharing.service";
 export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
+
   selectedBundesland: string;
   usersLocation: string;
-  searchTerm: string = "";
-  listOfAnzeigen = [];
+  searchTerm: string;
+
+  insideAustria: boolean;
+  usersConsent: boolean;
+
+  listOfAnzeigen: Anzeige[] = [];
+  bundesland: Bundesland[] = [
+    Bundesland.V,
+    Bundesland.T,
+    Bundesland.S,
+    Bundesland.OÖ,
+    Bundesland.NÖ,
+    Bundesland.W,
+    Bundesland.K,
+    Bundesland.B,
+    Bundesland.ST
+  ];
 
   constructor(
     private _adService: AnzeigeService,
@@ -23,10 +41,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // listening for changes if user clicks on bundesland in header
     this.listenForBundeslandChanges();
-    // listening for changes if user types in search input in header
-    // if nothing is typed, all active are fetched
     this.searchByName();
   }
 
@@ -42,10 +57,12 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   getAllActiveAnzeigen() {
     this._adService.getActiveAnzeigen().subscribe(res => {
       this.listOfAnzeigen = res;
+      this.selectedBundesland = "Installateure Österreichweit";
     });
   }
 
   // search for match for every letter typed in header search input
+  // else block will fire on init and when user deletes input
   searchByName(): void {
     this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(name => {
       let tempArr = [];
@@ -82,18 +99,17 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
             this.getAllActiveAnzeigen();
-            this.selectedBundesland = "Installateure Österreichweit";
             this.searchTerm = "";
           } else {
             this.selectedBundesland = name;
             this._adService.getActiveAnzeigen().subscribe(res => {
               filterArr = res;
-              filterArr.forEach(match => {
+              filterArr.forEach(land => {
                 if (
-                  match.bundesland.toLowerCase() ===
+                  land.bundesland.toLowerCase() ===
                   this.searchTerm.toLowerCase()
                 ) {
-                  tempArr.push(match);
+                  tempArr.push(land);
                 }
               });
               this.listOfAnzeigen = tempArr;
@@ -104,42 +120,53 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     );
   }
 
-  // if we have user location show Anzeigen for that bundesland
+  // show anzeigen according to user location
   getAdsByLocation(): void {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        this._adService.getBundeslandByLocation(lat, lon).subscribe(data => {
-          // this will be the users actual location by coordinates
-          //this.usersLocation = data.principalSubdivision;
-          // using mock data for now
-          this.usersLocation = "Burgenland";
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          // user accepted to share location
+          this.usersConsent = true;
+          let lat = position.coords.latitude;
+          let lon = position.coords.longitude;
+          this._adService.getBundeslandByLocation(lat, lon).subscribe(data => {
+            // this will be the users actual location by coordinates
+            this.usersLocation = data.principalSubdivision;
+            // using mock data for now
+            //this.usersLocation = "Steiermark";
 
-          // if we have geolocation inside of austria
-          if (this.usersLocation) {
-            let tempArr = [];
-            let filterList = [];
             this._adService.getActiveAnzeigen().subscribe(res => {
-              this.selectedBundesland = "In Ihrem Bundesland";
-              filterList = res;
-              filterList.forEach(match => {
-                if (
-                  match.bundesland.toLowerCase() ===
-                  this.usersLocation.toLowerCase()
-                ) {
-                  tempArr.push(match);
-                }
+              let tempArr = [];
+              let filterList = res;
+
+              // check if the users location is inside of austria
+              this.bundesland.forEach(land => {
+                if (land === this.usersLocation) this.insideAustria = true;
               });
-              this.listOfAnzeigen = tempArr;
+
+              if (this.insideAustria) {
+                filterList.forEach(match => {
+                  if (match.bundesland === this.usersLocation) {
+                    tempArr.push(match);
+                  }
+                });
+                this.selectedBundesland = "In Ihrem Bundesland";
+                this.listOfAnzeigen = tempArr;
+              }
+              // if visiting outside of austria show all
+              else {
+                this.selectedBundesland = "Installateure Österreichweit";
+                this.listOfAnzeigen = res;
+              }
             });
-          }
-          // if we don't have location or visiting outside of austria
-          else {
-            this.getAllActiveAnzeigen();
-          }
-        });
-      });
+          });
+        },
+        () => {
+          // user declined to share location
+          this.usersConsent = false;
+          this.getAllActiveAnzeigen();
+        }
+      );
     }
   }
 }
