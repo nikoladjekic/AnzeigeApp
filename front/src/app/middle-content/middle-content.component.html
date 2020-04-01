@@ -25,6 +25,14 @@
 
 
 
+<!-- Horizontal banner for smaller screens -->
+<div class="xl-hide lg-hide md-hide m-3">
+  <img src="https://101trading.co.uk/wp-content/uploads/2015/04/horizon_00364590-1030x412.jpg" alt="horizontal banner"
+    class="img" title="Webseite besuchen">
+</div>
+
+
+
 
 <!-- the main table with the list of all anzeigen -->
 <div *ngFor="let anzeige of listOfAnzeigen">
@@ -40,6 +48,7 @@
 
         <td class="col-lg-7 col-sm-8 col-xs-12">
           <h3 class="cursor-pointer">
+            <img class="xl-hide lg-hide" width="35vw" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
             <a routerLink="details/{{anzeige['_id']}}" routerLinkActive="router-link-active" title="Mehr sehen">
               <strong> {{ anzeige['firma'] }} </strong>
             </a>
@@ -53,7 +62,7 @@
         </td>
 
 
-        <td class="col-lg-3 col-sm-4 col-xs-12 text-center">
+        <td class="col-lg-3 col-sm-4 col-xs-8 text-center">
           <span><i class="fas fa-envelope i-color"></i>&nbsp; {{ anzeige['email'] }} </span>
           <hr>
           <a href="http://{{ anzeige['website'] }}" title="Webseite besuchen" target="_blank">
@@ -71,9 +80,12 @@
 </div>
 <!-- end of the anzeige -->
 
+
 <br>
+
 
 <!-- footer -->
 <app-footer></app-footer>
+
 
 <br>

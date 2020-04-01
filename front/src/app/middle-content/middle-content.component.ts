@@ -15,7 +15,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
 
-  selectedBundesland: string;
+  selectedBundesland: string = "Standort Laden...";
   usersLocation: string;
   searchTerm: string;
 
@@ -65,9 +65,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   // else block will fire on init and when user deletes input
   searchByName(): void {
     this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(name => {
+      this.searchTerm = name;
       let tempArr = [];
       let filter = [];
-      this.searchTerm = name;
       if (this.searchTerm) {
         this._adService.getActiveAnzeigen().subscribe(res => {
           this.selectedBundesland = "Suche: " + name;
@@ -93,9 +93,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   listenForBundeslandChanges(): void {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
       name => {
+        this.searchTerm = name;
         let tempArr = [];
         let filterArr = [];
-        this.searchTerm = name;
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
             this.getAllActiveAnzeigen();
@@ -120,7 +120,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     );
   }
 
-  // show anzeigen according to user location
+  // show anzeigen according to user's location
   getAdsByLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -131,9 +131,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           let lon = position.coords.longitude;
           this._adService.getBundeslandByLocation(lat, lon).subscribe(data => {
             // this will be the users actual location by coordinates
-            this.usersLocation = data.principalSubdivision;
-            // using mock data for now
-            //this.usersLocation = "Steiermark";
+            //this.usersLocation = data.principalSubdivision;
+            // mock data for testing purposes
+            this.usersLocation = "Tirol";
 
             this._adService.getActiveAnzeigen().subscribe(res => {
               let tempArr = [];
@@ -167,6 +167,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           this.getAllActiveAnzeigen();
         }
       );
+    }
+    // if the user device doesn't support geolocation show all
+    else {
+      this.getAllActiveAnzeigen();
     }
   }
 }
