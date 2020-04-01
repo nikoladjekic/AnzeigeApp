@@ -43,4 +43,55 @@ a {
 
 #Testimonial .testimonial-slider {
   text-align: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/******************************** RESPONSIVE DESIGN STYLES *********************************/
+
+/* Extra small devices (phones, 576px and down) */
+@media only screen and (max-width: 576px) {
+  .table tr {
+    background-color: rgba(233, 233, 233, 0.7);
+  }
+  .testimonial-text {
+    font-size: 5vw;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 576px and up) */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .testimonial-text {
+    font-size: 4vw;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .testimonial-text {
+    font-size: 2.6vw;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .testimonial-text {
+    font-size: 2.2vw;
+  }
+  #Testimonial .testimonial-slider {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .testimonial-text {
+    font-size: 1.8vw;
+  }
+  #Testimonial .testimonial-slider {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+  }
 }
