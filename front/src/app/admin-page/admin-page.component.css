@@ -6,12 +6,7 @@ a {
 
 a:hover {
   color: rgba(126, 110, 84, 0.849);
-  transition-duration: .2s;
-}
-
-.logoutButton {
-  font-size: 1em;
-  color: white;
+  transition-duration: 0.2s;
 }
 
 .row {

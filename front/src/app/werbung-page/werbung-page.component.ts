@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 
-import { BannerService } from "src/services/banner.service";
 import { Banner } from "src/models/banner.model";
+import { BannerService } from "src/services/banner.service";
+import { DataSharingService } from "src/services/data-sharing.service";
 
 @Component({
   selector: "app-werbung-page",
@@ -9,13 +10,36 @@ import { Banner } from "src/models/banner.model";
   styleUrls: ["./werbung-page.component.css"]
 })
 export class WerbungPageComponent implements OnInit {
+  allActiveBanners: Banner[];
+  activeBanner: string;
   banner: Banner;
 
-  constructor(private _bannerService: BannerService) {}
+  constructor(
+    private _bannerService: BannerService,
+    private _dataShare: DataSharingService
+  ) {}
 
   ngOnInit() {
-    // for now, we only get one banner from the list
-    // implement automatic banner based on bundesland
-    this._bannerService.getAllBanner().subscribe(res => (this.banner = res[5]));
+    this.updateActiveBanner();
+  }
+
+  updateActiveBanner() {
+    this._dataShare.currentBanner.subscribe(ban => {
+      this.activeBanner = ban;
+      this._bannerService.getAllBanner().subscribe(res => {
+        this.allActiveBanners = res;
+
+        // change banner according to selected bundesland
+        if (this.activeBanner) {
+          this.allActiveBanners.forEach(ban => {
+            if (ban.bundesland === this.activeBanner) this.banner = ban;
+          });
+        }
+        // set default banner
+        else {
+          this.banner = this.allActiveBanners[9];
+        }
+      });
+    });
   }
 }

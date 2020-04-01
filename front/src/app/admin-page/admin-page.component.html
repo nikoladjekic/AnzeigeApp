@@ -1,11 +1,15 @@
 <div class="header">
   <h4 class="text-center mt-3">Eingelogged als: <strong> {{ userThatLoggedIn }} </strong></h4>
-  <button block="true" class=" btn btn-secondary logoutButton fl2" (click)="logout()">
+  <button block="true" class="btn btn-sm btn-warning fl2" (click)="logout()">
     <i class="fas fa-sign-out-alt"></i> Ausloggen
   </button>
 </div>
 
-<button block="true" class=" btn btn-warning" [routerLink]="['']" routerLinkActive="router-link-active">home </button>
+<button block="true" class="btn btn-sm btn-warning ml-3" [routerLink]="['']">
+  <i class="fas fa-arrow-left"></i> Home
+</button>
+
+
 
 <div class="row mb-5">
 

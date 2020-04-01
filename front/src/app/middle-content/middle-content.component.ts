@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Anzeige } from "src/models/anzeige.model";
 import { AnzeigeService } from "src/services/anzeige.service";
 import { DataSharingService } from "src/services/data-sharing.service";
+
 import { Bundesland } from "src/models/bundesland.enum";
+import { Anzeige } from "src/models/anzeige.model";
 
 @Component({
   selector: "app-middle-content",
@@ -18,6 +19,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   selectedBundesland: string = "Standort Laden...";
   usersLocation: string;
   searchTerm: string;
+  activeBanner: string;
 
   insideAustria: boolean;
   usersConsent: boolean;
@@ -43,6 +45,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listenForBundeslandChanges();
     this.searchByName();
+    this._dataShare.currentBanner.subscribe(ban => (this.activeBanner = ban));
   }
 
   ngOnDestroy() {
@@ -102,6 +105,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
             this.searchTerm = "";
           } else {
             this.selectedBundesland = name;
+            this._dataShare.setActiveBanner(this.selectedBundesland);
             this._adService.getActiveAnzeigen().subscribe(res => {
               filterArr = res;
               filterArr.forEach(land => {
@@ -141,7 +145,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
 
               // check if the users location is inside of austria
               this.bundesland.forEach(land => {
-                if (land === this.usersLocation) this.insideAustria = true;
+                if (land === this.usersLocation) {
+                  this.insideAustria = true;
+                  this._dataShare.setActiveBanner(this.usersLocation);
+                }
               });
 
               if (this.insideAustria) {
