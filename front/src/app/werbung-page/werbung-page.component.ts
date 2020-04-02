@@ -28,7 +28,6 @@ export class WerbungPageComponent implements OnInit {
       this.activeBanner = ban;
       this._bannerService.getAllBanner().subscribe(res => {
         this.allActiveBanners = res;
-
         // change banner according to selected bundesland
         if (this.activeBanner) {
           this.allActiveBanners.forEach(ban => {
@@ -40,7 +39,7 @@ export class WerbungPageComponent implements OnInit {
         }
         // set default banner
         else {
-          this.banner = this.allActiveBanners[9];
+          this.banner = this.allActiveBanners[7];
           this._dataShare.setHorizontalBanner(this.banner.bannerHorizontal);
         }
       });
