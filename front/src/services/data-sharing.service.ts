@@ -9,11 +9,13 @@ export class DataSharingService {
   private selectedState = new BehaviorSubject<string>("");
   private nameSearchTerm = new BehaviorSubject<string>("");
   private activeBanner = new BehaviorSubject<string>("");
+  private horizontalBan = new BehaviorSubject<string>("");
 
   currentUser = this.loggedUser.asObservable();
   currentState = this.selectedState.asObservable();
   currentNameTerm = this.nameSearchTerm.asObservable();
   currentBanner = this.activeBanner.asObservable();
+  currentHorizBan = this.horizontalBan.asObservable();
 
   constructor() {}
 
@@ -31,5 +33,9 @@ export class DataSharingService {
 
   setActiveBanner(banner: string) {
     this.activeBanner.next(banner);
+  }
+
+  setHorizontalBanner(ban: string) {
+    this.horizontalBan.next(ban);
   }
 }

@@ -20,6 +20,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   usersLocation: string;
   searchTerm: string;
   activeBanner: string;
+  horizBanner: string;
 
   insideAustria: boolean;
   usersConsent: boolean;
@@ -46,6 +47,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     this.listenForBundeslandChanges();
     this.searchByName();
     this._dataShare.currentBanner.subscribe(ban => (this.activeBanner = ban));
+    this._dataShare.currentHorizBan.subscribe(ban => (this.horizBanner = ban));
   }
 
   ngOnDestroy() {

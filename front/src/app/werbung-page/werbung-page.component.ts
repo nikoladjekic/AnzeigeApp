@@ -32,12 +32,16 @@ export class WerbungPageComponent implements OnInit {
         // change banner according to selected bundesland
         if (this.activeBanner) {
           this.allActiveBanners.forEach(ban => {
-            if (ban.bundesland === this.activeBanner) this.banner = ban;
+            if (ban.bundesland === this.activeBanner) {
+              this.banner = ban;
+              this._dataShare.setHorizontalBanner(this.banner.bannerHorizontal);
+            }
           });
         }
         // set default banner
         else {
           this.banner = this.allActiveBanners[9];
+          this._dataShare.setHorizontalBanner(this.banner.bannerHorizontal);
         }
       });
     });

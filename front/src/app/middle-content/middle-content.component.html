@@ -28,15 +28,16 @@
 
 <!-- Horizontal banner for smaller screens -->
 <div class="xl-hide lg-hide md-hide m-3">
-  <img src="https://101trading.co.uk/wp-content/uploads/2015/04/horizon_00364590-1030x412.jpg" alt="horizontal banner"
-    class="img" title="Webseite besuchen">
+  <a href="{{ horizBanner }}" target="_blank">
+    <img src="{{ horizBanner }}" alt="horizontal-banner" class="img" title="Webseite besuchen">
+  </a>
 </div>
 
 
 
 
 <!-- the main table with the list of all anzeigen -->
-<div *ngFor="let anzeige of listOfAnzeigen">
+<div *ngFor="let anzeige of listOfAnzeigen" class="animated fadeIn faster">
   <table class="table table-hover">
     <tbody>
       <tr class="row anzeige-block text-left">
