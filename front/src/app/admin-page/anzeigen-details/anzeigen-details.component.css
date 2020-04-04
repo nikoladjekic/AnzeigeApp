@@ -1,0 +1,38 @@
+a {
+  color: rgb(56, 56, 56);
+}
+
+a:hover {
+  color: rgb(122, 122, 122);
+}
+
+.set-padding {
+  padding-right: 0;
+}
+
+/**************************************************************************************************/
+/******************************** RESPONSIVE DESIGN STYLES *********************************/
+/**************************************************************************************************/
+
+/* Extra small devices (phones, 576px and down) */
+@media only screen and (max-width: 576px) {
+  .set-padding {
+    padding-right: 15px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 576px and up) */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

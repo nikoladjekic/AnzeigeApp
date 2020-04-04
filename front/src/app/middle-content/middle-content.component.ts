@@ -10,7 +10,7 @@ import { Anzeige } from "src/models/anzeige.model";
 @Component({
   selector: "app-middle-content",
   templateUrl: "./middle-content.component.html",
-  styleUrls: ["./middle-content.component.css"]
+  styleUrls: ["./middle-content.component.css"],
 })
 export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
@@ -25,8 +25,8 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   insideAustria: boolean;
   usersConsent: boolean;
 
-  listOfAnzeigen: Anzeige[] = [];
-  bundesland: Bundesland[] = [
+  listOfAnzeigen: Array<Anzeige> = [];
+  bundesland: Array<Bundesland> = [
     Bundesland.V,
     Bundesland.T,
     Bundesland.S,
@@ -35,7 +35,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
   constructor(
@@ -46,8 +46,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listenForBundeslandChanges();
     this.searchByName();
-    this._dataShare.currentBanner.subscribe(ban => (this.activeBanner = ban));
-    this._dataShare.currentHorizBan.subscribe(ban => (this.horizBanner = ban));
+    this._dataShare.currentBanner.subscribe((ban) => (this.activeBanner = ban));
+    this._dataShare.currentHorizBan.subscribe((ban) => {
+      this.horizBanner = ban;
+    });
   }
 
   ngOnDestroy() {
@@ -60,7 +62,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   getAllActiveAnzeigen() {
-    this._adService.getActiveAnzeigen().subscribe(res => {
+    this._adService.getActiveAnzeigen().subscribe((res) => {
       this.listOfAnzeigen = res;
       this.selectedBundesland = "Installateure Österreichweit";
     });
@@ -69,35 +71,37 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   // search for match for every letter typed in header search input
   // else block will fire on init and when user deletes input
   searchByName(): void {
-    this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(name => {
-      this.searchTerm = name;
-      let tempArr = [];
-      let filter = [];
-      if (this.searchTerm) {
-        this._adService.getActiveAnzeigen().subscribe(res => {
-          this.selectedBundesland = "Suche: " + name;
-          filter = res;
-          filter.forEach(match => {
-            if (
-              match.firma
-                .toLowerCase()
-                .indexOf(this.searchTerm.toLowerCase()) >= 0
-            ) {
-              tempArr.push(match);
-            }
+    this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(
+      (name) => {
+        this.searchTerm = name;
+        let tempArr = [];
+        let filter = [];
+        if (this.searchTerm) {
+          this._adService.getActiveAnzeigen().subscribe((res) => {
+            this.selectedBundesland = "Suche: " + name;
+            filter = res;
+            filter.forEach((match) => {
+              if (
+                match.firma
+                  .toLowerCase()
+                  .indexOf(this.searchTerm.toLowerCase()) >= 0
+              ) {
+                tempArr.push(match);
+              }
+            });
+            this.listOfAnzeigen = tempArr;
           });
-          this.listOfAnzeigen = tempArr;
-        });
-      } else {
-        this.getAdsByLocation();
+        } else {
+          this.getAdsByLocation();
+        }
       }
-    });
+    );
   }
 
   // search for bundesland if user clicks on the header
   listenForBundeslandChanges(): void {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
-      name => {
+      (name) => {
         this.searchTerm = name;
         let tempArr = [];
         let filterArr = [];
@@ -108,9 +112,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           } else {
             this.selectedBundesland = name;
             this._dataShare.setActiveBanner(this.selectedBundesland);
-            this._adService.getActiveAnzeigen().subscribe(res => {
+            this._adService.getActiveAnzeigen().subscribe((res) => {
               filterArr = res;
-              filterArr.forEach(land => {
+              filterArr.forEach((land) => {
                 if (
                   land.bundesland.toLowerCase() ===
                   this.searchTerm.toLowerCase()
@@ -130,45 +134,47 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   getAdsByLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           // user accepted to share location
           this.usersConsent = true;
           let lat = position.coords.latitude;
           let lon = position.coords.longitude;
-          this._adService.getBundeslandByLocation(lat, lon).subscribe(data => {
-            // this will be the users actual location by coordinates
-            this.usersLocation = data.principalSubdivision;
-            // mock data for testing purposes
-            //this.usersLocation = "Tirol";
+          this._adService
+            .getBundeslandByLocation(lat, lon)
+            .subscribe((data) => {
+              // this will be the users actual location by coordinates
+              this.usersLocation = data.principalSubdivision;
+              // mock data for testing purposes
+              //this.usersLocation = "Tirol";
 
-            this._adService.getActiveAnzeigen().subscribe(res => {
-              let tempArr = [];
-              let filterList = res;
+              this._adService.getActiveAnzeigen().subscribe((res) => {
+                let tempArr = [];
+                let filterList = res;
 
-              // check if the users location is inside of austria
-              this.bundesland.forEach(land => {
-                if (land === this.usersLocation) {
-                  this.insideAustria = true;
-                  this._dataShare.setActiveBanner(this.usersLocation);
-                }
-              });
-
-              if (this.insideAustria) {
-                filterList.forEach(match => {
-                  if (match.bundesland === this.usersLocation) {
-                    tempArr.push(match);
+                // check if the users location is inside of austria
+                this.bundesland.forEach((land) => {
+                  if (land === this.usersLocation) {
+                    this.insideAustria = true;
+                    this._dataShare.setActiveBanner(this.usersLocation);
                   }
                 });
-                this.selectedBundesland = "In Ihrem Bundesland";
-                this.listOfAnzeigen = tempArr;
-              }
-              // if visiting outside of austria show all
-              else {
-                this.selectedBundesland = "Installateure Österreichweit";
-                this.listOfAnzeigen = res;
-              }
+
+                if (this.insideAustria) {
+                  filterList.forEach((match) => {
+                    if (match.bundesland === this.usersLocation) {
+                      tempArr.push(match);
+                    }
+                  });
+                  this.selectedBundesland = "In Ihrem Bundesland";
+                  this.listOfAnzeigen = tempArr;
+                }
+                // if visiting outside of austria show all
+                else {
+                  this.selectedBundesland = "Installateure Österreichweit";
+                  this.listOfAnzeigen = res;
+                }
+              });
             });
-          });
         },
         () => {
           // user declined to share location

@@ -1,65 +1,115 @@
-<br><br>
-<div class="col-lg-9 col-md-10 col-sm-11 col-xs-12 m-auto animated fadeIn fast">
-  <div class="card rounded-5">
+<br>
+<div class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-xs-12 m-auto animated fadeIn fast">
+  <div class="card rounded-5 p-0" *ngIf="adDetails">
+
 
     <div class="card-header">
-      <h4 class="mb-0 text-center"><i class="fas fa-mail-bulk"></i> Anzeige Details:</h4>
+      <h3 class="mb-0 text-center i-color"> {{ adDetails['firma'] }} </h3>
     </div>
 
-    <div class="card-body bg-light" *ngIf="anzeigeDetails">
-      <div>
-        <label for="firma">Firmen Name:</label>
-        <p> <strong> {{ anzeigeDetails['firma'] }} </strong></p>
-      </div>
 
-      <div>
-        <label for="address">Adresse:</label>
-        <p> <strong> {{ anzeigeDetails['address'] }} </strong></p>
-      </div>
+    <div class="card-body bg-light">
+      <h4 class="text-center mb-4">Mehr als nur ein Dach über dem Kopf</h4>
+      <div class="row">
 
-      <div>
-        <label for="bundesland">Bundesland:</label>
-        <p> <strong> {{ anzeigeDetails['bundesland'] }} </strong></p>
-      </div>
+        <!-- company logo -->
+        <div class="col-sm-3 col-xs-4 mb-2 set-padding">
+          <img src="{{adDetails['photoUrl']}}" alt="Logo" width="100%">
+        </div>
 
-      <div>
-        <label for="services">Firmen Services:</label>
-        <p> <strong> {{ anzeigeDetails['services'] }} </strong></p>
-      </div>
+        <!-- about us -->
+        <div class="col-sm-9 col-xs-8 text-justify">
+          <span class="i-color">Über uns:</span>
+          <h6 class="mt-1">
+            Ein Dach über dem Kopf zu haben ist zum geflügelten Wort für „Zuhause“ geworden. Tatsächlich kann ein Dach
+            mehr, als uns selbst und unsere Gebäude zu schützen – es sorgt durch seine Beschaffenheit für die
+            besondere Note eines Hauses und trägt einen wesentlichen Teil zum behaglichen Wohnen bei – vor allem, wenn
+            es sich um ein Dach von Neuhold aus Kammern im Liesingtal handelt
+          </h6>
+        </div>
 
-      <div>
-        <label for="email">E-mail:</label>
-        <p> <strong> {{ anzeigeDetails['email'] }} </strong></p>
-      </div>
+        <div class="col-12">
+          <hr>
+        </div>
 
-      <div>
-        <label for="website">Webseite:</label>
-        <p> <strong> {{ anzeigeDetails['website'] }} </strong></p>
-      </div>
+        <!-- address -->
+        <div class="col-12 mt-2 text-center">
+          <span class="i-color"><i class="fas fa-map-marker-alt mb-3"></i>&nbsp; Adresse:</span>
+          <h5><i class="fas fa-sm fa-location-arrow"></i>&nbsp;
+            <a href="https://www.google.com/maps/place/Neuhold+Dach+GmbH/@47.3947143,14.9138395,17z/data=!3m1!4b1!4m5!3m4!1s0x4771c2f128cdc475:0xce615260c606095e!8m2!3d47.3947143!4d14.9160282?hl=de"
+              target="_blank" title="Auf der Karte anzeigen"> {{ adDetails['address'] }}</a>
+          </h5>
+          <h5>{{ adDetails['bundesland'] }}</h5>
+        </div>
 
-      <div>
-        <label for="phone">Telefonnummer:</label>
-        <p> <strong> {{ anzeigeDetails['phone'] }} </strong></p>
-      </div>
+        <div class="col-12">
+          <hr>
+        </div>
 
-      <div>
-        <label for="photoUrl">Firmenlogo:</label>
-        <img src="{{anzeigeDetails['photoUrl']}}" alt="Logo" width="100px" height="auto">
-      </div>
+        <!-- middle two rows: workinghours and services -->
+        <div class="col-sm-6 col-xs-12 mt-2 text-center">
+          <span class="i-color"><i class="far fa-clock mb-3"></i>&nbsp; Öffnungszeiten:</span>
+          <table class="table table-sm table-borderless table-striped">
+            <tbody>
+              <tr>
+                <th scope="row">MONTAG</th>
+                <td>09-17</td>
+              </tr>
+              <tr>
+                <th scope="row">DIENSTAG</th>
+                <td>09-17</td>
+              </tr>
+              <tr>
+                <th scope="row">MITTWOCH</th>
+                <td>09-17</td>
+              </tr>
+              <tr>
+                <th scope="row">DONNERSTAG</th>
+                <td>09-17</td>
+              </tr>
+              <tr>
+                <th scope="row">FREITAG</th>
+                <td>09-17</td>
+              </tr>
+              <tr>
+                <th scope="row">SAMSTAG</th>
+                <td>geschlossen</td>
+              </tr>
+              <tr>
+                <th scope="row">SONNTAG</th>
+                <td>geschlossen</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <div>
-        <label for="startDate">Startdatum der Anzeige:</label>
-        <p> <strong> {{ anzeigeDetails['startDate'] }} </strong></p>
-      </div>
+        <div class="col-12 xl-hide lg-hide md-hide sm-hide">
+          <hr>
+        </div>
 
-      <div>
-        <label for="endDate">Enddatum der Anzeige:</label>
-        <p> <strong> {{ anzeigeDetails['endDate'] }} </strong></p>
+        <div class="col-sm-6 col-xs-12 mt-2 pl-4 border-left">
+          <span class="i-color"><i class="fas fa-wrench mb-3"></i>&nbsp; Wir bieten:</span>
+          <h6 *ngFor="let item of servicesArr"><i class="fas fa-caret-right i-color"></i>&nbsp; {{ item }} </h6>
+        </div>
+
+
+
+        <!-- bottom contacts -->
+        <div class="col-12 text-center mt-2">
+          <hr>
+          <span><i class="fas fa-envelope i-color"></i> &nbsp; {{ adDetails['email'] }} </span>
+          <hr>
+          <span><i class="fas fa-globe i-color"></i> &nbsp; <a href="http://{{ adDetails['website'] }}"
+              title="Webseite besuchen" target="_blank"> {{ adDetails['website'] }} </a>
+          </span>
+          <hr>
+          <span><i class="fas fa-phone i-color"></i> &nbsp; {{ adDetails['phone'] }} </span>
+        </div>
+
+
       </div>
-      <br>
     </div>
 
   </div>
 </div>
-
 <br>

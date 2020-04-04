@@ -1,25 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-import { Anzeige } from 'src/models/anzeige.model';
-import { AnzeigeService } from 'src/services/anzeige.service';
-
+import { Anzeige } from "src/models/anzeige.model";
+import { AnzeigeService } from "src/services/anzeige.service";
 
 @Component({
-  selector: 'app-anzeigen-details',
-  templateUrl: './anzeigen-details.component.html',
-  styleUrls: ['./anzeigen-details.component.css']
+  selector: "app-anzeigen-details",
+  templateUrl: "./anzeigen-details.component.html",
+  styleUrls: ["./anzeigen-details.component.css"],
 })
 export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
-
   routeId: string;
-  anzeigeDetails: Anzeige;
+  adDetails: Anzeige;
+  servicesArr: Array<string> = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private _anzeigeService: AnzeigeService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private _anzeigeService: AnzeigeService
+  ) {}
 
   ngOnInit() {
     this.getIdFromRoute();
-    if (this.routeId) this._anzeigeService.getAnzeigeById(this.routeId).subscribe(res => this.anzeigeDetails = res);
+    if (this.routeId)
+      this._anzeigeService.getAnzeigeById(this.routeId).subscribe((res) => {
+        this.adDetails = res;
+        this.servicesArr = this.adDetails.services.split(",");
+      });
   }
 
   ngOnDestroy() {
@@ -27,7 +33,6 @@ export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
   }
 
   getIdFromRoute() {
-    this.activatedRoute.params.subscribe(id => this.routeId = id.id);
+    this.activatedRoute.params.subscribe((id) => (this.routeId = id.id));
   }
-
 }
