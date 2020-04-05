@@ -10,6 +10,8 @@ import { Bundesland } from "src/models/bundesland.enum";
   styleUrls: ["./anzeigen-add-new.component.css"],
 })
 export class AnzeigenAddNewComponent implements OnInit {
+  showMessage: boolean = false;
+
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -52,12 +54,19 @@ export class AnzeigenAddNewComponent implements OnInit {
       )
     );
     this._anzeigeService.postNewAnzeige(newAnzeige).subscribe(
-      (response: any) => {
-        console.info("New Anzeige submitted.", response);
+      (data) => {
+        console.log(data);
       },
-      (error: any) => {
-        console.error("An error occured during Anzeige submition", error);
+      (err) => {
+        console.error(err);
       }
     );
+  }
+
+  showTextTimeout() {
+    this.showMessage = true;
+    setTimeout(() => {
+      this.showMessage = false;
+    }, 3000);
   }
 }

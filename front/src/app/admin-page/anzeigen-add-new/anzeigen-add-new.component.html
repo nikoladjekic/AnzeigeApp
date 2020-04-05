@@ -12,8 +12,8 @@
 
         <!-- Company name -->
         <div class="form-group">
-          <label for="firma">Firmen Name:</label>
-          <input type="text" class="form-control" id="firma" name="firma" ngModel required>
+          <label for="firma">*Firmen Name:</label>
+          <input type="text" class="form-control" id="firma" name="firma" ngModel required required>
         </div>
 
         <!-- Subtitle -->
@@ -25,22 +25,23 @@
 
         <!-- Address -->
         <div class="form-group">
-          <label for="address">Adresse:</label>
-          <input type="text" class="form-control" id="address" name="address" ngModel>
+          <label for="address">*Adresse:</label>
+          <input type="text" class="form-control" id="address" name="address" ngModel required>
         </div>
 
         <!-- Bundesland -->
         <div class="form-group">
-          <label for="bundesland">Bundesland:</label>
-          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
+          <label for="bundesland">*Bundesland:</label>
+          <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel required>
             <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
           </select>
         </div>
 
+
         <!-- GROUP: Workinghours + About us + company services -->
         <div class="form-row">
 
-          <div class="col-6 pr-2">
+          <div class="col-5 pr-2">
             <div class="form-group">
               <label for="workinghours">Öffnungszeiten:</label>
               <table class="table table-sm table-borderless">
@@ -78,7 +79,7 @@
             </div>
           </div>
 
-          <div class="col-6 border-left pl-3">
+          <div class="col-7 border-left pl-3">
             <div class="form-group">
               <label for="aboutUs">Über uns:</label>
               <textarea rows="6" class="form-control" id="aboutUs" name="aboutUs" ngModel></textarea>
@@ -107,8 +108,8 @@
 
         <!-- Phone number -->
         <div class="form-group">
-          <label for="phone">Telefonnummer:</label>
-          <input type="text" class="form-control" id="phone" name="phone" ngModel>
+          <label for="phone">*Telefonnummer:</label>
+          <input type="text" class="form-control" id="phone" name="phone" ngModel required>
         </div>
 
         <!-- Company logo url -->
@@ -125,28 +126,32 @@
 
         <!-- Start date of the Ad -->
         <div class="form-group">
-          <label for="startDate">Startdatum der Anzeige:</label>
+          <label for="startDate">*Startdatum der Anzeige:</label>
           <input type="date" class="form-control" id="startDate" name="startDate" ngModel required>
         </div>
 
         <!-- End date of the Ad -->
         <div class="form-group">
-          <label for="endDate">Enddatum der Anzeige:</label>
+          <label for="endDate">*Enddatum der Anzeige:</label>
           <input type="date" class="form-control" id="endDate" name="endDate" ngModel required>
         </div>
 
+
         <br>
 
+
         <!-- Buttons at the bottom -->
-        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Anzeige
-          Veröffentlichen</button>
+        <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid"
+          (click)="showTextTimeout()" title="* Pflichtfelder"> Anzeige Veröffentlichen </button>
+
         &nbsp;
-        <button type="button" class="btn btn-outline-danger mb-2" (click)="anzeigeForm.form.reset()">Daten
-          Löschen</button>
+
+        <button type="button" class="btn btn-outline-danger mb-2" (click)="anzeigeForm.form.reset()">
+          Daten Löschen </button>
 
         &nbsp;&nbsp;
 
-        <small *ngIf="anzeigeForm.submitted" class="text-success">
+        <small *ngIf="anzeigeForm.submitted && showMessage" class="text-success">
           Erfolgreich hochgeladen <i class="fas fa-check"></i>
         </small>
 
