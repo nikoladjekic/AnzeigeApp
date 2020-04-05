@@ -10,8 +10,21 @@ export class Anzeige {
     public photoUrl: String,
     public startDate: Date,
     public endDate: Date,
-    public googleMapsUrl: string,
-    public aboutUs: string,
-    public subtitle: string
+    public googleMapsUrl: String,
+    public aboutUs: String,
+    public subtitle: String,
+    public workinghours: Workinghours
+  ) {}
+}
+
+export class Workinghours {
+  constructor(
+    public monday: String,
+    public tuesday: String,
+    public wednesday: String,
+    public thursday: String,
+    public friday: String,
+    public saturday: String,
+    public sunday: String
   ) {}
 }

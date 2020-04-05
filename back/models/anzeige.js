@@ -16,6 +16,15 @@ const AnzeigeSchema = new Schema({
   googleMapsUrl: String,
   aboutUs: String,
   subtitle: String,
+  workinghours: {
+    monday: String,
+    tuesday: String,
+    wednesday: String,
+    thursday: String,
+    friday: String,
+    saturday: String,
+    sunday: String,
+  },
 });
 
 const Anzeige = mongoose.model("anzeige", AnzeigeSchema);

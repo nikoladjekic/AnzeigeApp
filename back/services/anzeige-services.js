@@ -53,6 +53,15 @@ const addNewAnzeige = (req, res) => {
     googleMapsUrl: req.body.googleMapsUrl,
     aboutUs: req.body.aboutUs,
     subtitle: req.body.subtitle,
+    workinghours: {
+      monday: req.body.workinghours.monday,
+      tuesday: req.body.workinghours.tuesday,
+      wednesday: req.body.workinghours.wednesday,
+      thursday: req.body.workinghours.thursday,
+      friday: req.body.workinghours.friday,
+      saturday: req.body.workinghours.saturday,
+      sunday: req.body.workinghours.sunday,
+    },
   });
   ad.save((err, adSaved) => {
     if (err) res.status(500).send(err);

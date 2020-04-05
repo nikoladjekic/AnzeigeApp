@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Anzeige } from "src/models/anzeige.model";
+import { Anzeige, Workinghours } from "src/models/anzeige.model";
 import { AnzeigeService } from "src/services/anzeige.service";
 import { Bundesland } from "src/models/bundesland.enum";
 
 @Component({
   selector: "app-anzeigen-add-new",
   templateUrl: "./anzeigen-add-new.component.html",
-  styleUrls: ["./anzeigen-add-new.component.css"]
+  styleUrls: ["./anzeigen-add-new.component.css"],
 })
 export class AnzeigenAddNewComponent implements OnInit {
   bundesland: Bundesland[] = [
@@ -19,7 +19,7 @@ export class AnzeigenAddNewComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
   constructor(private _anzeigeService: AnzeigeService) {}
@@ -37,7 +37,19 @@ export class AnzeigenAddNewComponent implements OnInit {
       val.phone,
       val.photoUrl,
       val.startDate,
-      val.endDate
+      val.endDate,
+      val.googleMapsUrl,
+      val.aboutUs,
+      val.subtitle,
+      new Workinghours(
+        val.monday,
+        val.tuesday,
+        val.wednesday,
+        val.thursday,
+        val.friday,
+        val.saturday,
+        val.sunday
+      )
     );
     this._anzeigeService.postNewAnzeige(newAnzeige).subscribe(
       (response: any) => {

@@ -10,7 +10,7 @@
 
     <!-- subtitle -->
     <div class="card-body bg-light">
-      <h4 class="text-center mb-4">Mehr als nur ein Dach über dem Kopf</h4>
+      <h4 class="text-center mb-4"> {{ adDetails['subtitle'] }} </h4>
       <div class="row">
 
         <!-- company logo -->
@@ -21,12 +21,7 @@
         <!-- about us -->
         <div class="col-sm-9 col-xs-8 text-justify">
           <span class="i-color">Über uns:</span>
-          <h6 class="mt-1">
-            Ein Dach über dem Kopf zu haben ist zum geflügelten Wort für „Zuhause“ geworden. Tatsächlich kann ein Dach
-            mehr, als uns selbst und unsere Gebäude zu schützen – es sorgt durch seine Beschaffenheit für die
-            besondere Note eines Hauses und trägt einen wesentlichen Teil zum behaglichen Wohnen bei – vor allem, wenn
-            es sich um ein Dach von Neuhold aus Kammern im Liesingtal handelt
-          </h6>
+          <h6 class="mt-1"> {{ adDetails['aboutUs'] }} </h6>
         </div>
 
         <div class="col-12">
@@ -37,10 +32,10 @@
         <div class="col-12 mt-2 text-center">
           <span class="i-color"><i class="fas fa-map-marker-alt mb-3"></i>&nbsp; Adresse:</span>
           <h5><i class="fas fa-sm fa-location-arrow"></i>&nbsp;
-            <a href="https://www.google.com/maps/place/Neuhold+Dach+GmbH/@47.3947143,14.9138395,17z/data=!3m1!4b1!4m5!3m4!1s0x4771c2f128cdc475:0xce615260c606095e!8m2!3d47.3947143!4d14.9160282?hl=de"
-              target="_blank" title="Auf der Karte anzeigen"> {{ adDetails['address'] }}</a>
+            <a href="{{ adDetails['googleMapsUrl'] }}" target="_blank" title="Auf Google Maps anzeigen">
+              {{ adDetails['address'] }} </a>
           </h5>
-          <h5>{{ adDetails['bundesland'] }}</h5>
+          <h5> {{ adDetails['bundesland'] }} </h5>
         </div>
 
         <div class="col-12">
@@ -54,31 +49,31 @@
             <tbody>
               <tr>
                 <th scope="row">MONTAG</th>
-                <td>09-17</td>
+                <td> {{ adDetails['workinghours']['monday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">DIENSTAG</th>
-                <td>09-17</td>
+                <td> {{ adDetails['workinghours']['tuesday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">MITTWOCH</th>
-                <td>09-17</td>
+                <td> {{ adDetails['workinghours']['wednesday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">DONNERSTAG</th>
-                <td>09-17</td>
+                <td> {{ adDetails['workinghours']['thursday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">FREITAG</th>
-                <td>09-17</td>
+                <td> {{ adDetails['workinghours']['friday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">SAMSTAG</th>
-                <td>geschlossen</td>
+                <td> {{ adDetails['workinghours']['saturday'] }} </td>
               </tr>
               <tr>
                 <th scope="row">SONNTAG</th>
-                <td>geschlossen</td>
+                <td> {{ adDetails['workinghours']['sunday'] }} </td>
               </tr>
             </tbody>
           </table>

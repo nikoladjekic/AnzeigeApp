@@ -10,62 +10,134 @@
     <div class="card-body bg-light">
       <form (ngSubmit)="onSubmit(anzeigeForm.value)" #anzeigeForm="ngForm" method="POST">
 
+        <!-- Company name -->
         <div class="form-group">
           <label for="firma">Firmen Name:</label>
           <input type="text" class="form-control" id="firma" name="firma" ngModel required>
         </div>
 
+        <!-- Subtitle -->
+        <div class="form-group">
+          <label for="subtitle">Untertitel:</label>
+          <input type="text" class="form-control" id="subtitle" name="subtitle" ngModel
+            title="Firmen Motto, Schlagwort, Slogan oder ähnliches">
+        </div>
+
+        <!-- Address -->
         <div class="form-group">
           <label for="address">Adresse:</label>
           <input type="text" class="form-control" id="address" name="address" ngModel>
         </div>
 
+        <!-- Bundesland -->
         <div class="form-group">
           <label for="bundesland">Bundesland:</label>
           <select type="text" class="form-control" id="bundesland" name="bundesland" ngModel>
-            <option value="none" selected disabled hidden>Bundesland auswählen</option>
             <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="services">Firmen Services:</label>
-          <input type="text" class="form-control" id="services" name="services" ngModel
-            placeholder="z.B. Dachdecker, Spenglerei, Fassadenverkleidungen usw.">
-        </div>
+        <!-- GROUP: Workinghours + About us + company services -->
+        <div class="form-row">
 
+          <div class="col-6 pr-2">
+            <div class="form-group">
+              <label for="workinghours">Öffnungszeiten:</label>
+              <table class="table table-sm table-borderless">
+                <tbody>
+                  <tr>
+                    <th scope="row">MONTAG</th>
+                    <td><input type="text" class="form-control" id="monday" name="monday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">DIENSTAG</th>
+                    <td><input type="text" class="form-control" id="tuesday" name="tuesday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MITTWOCH</th>
+                    <td><input type="text" class="form-control" id="wednesday" name="wednesday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">DONNERSTAG</th>
+                    <td><input type="text" class="form-control" id="thursday" name="thursday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">FREITAG</th>
+                    <td><input type="text" class="form-control" id="friday" name="friday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SAMSTAG</th>
+                    <td><input type="text" class="form-control" id="saturday" name="saturday" ngModel></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SONNTAG</th>
+                    <td><input type="text" class="form-control" id="sunday" name="sunday" ngModel></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-6 border-left pl-3">
+            <div class="form-group">
+              <label for="aboutUs">Über uns:</label>
+              <textarea rows="6" class="form-control" id="aboutUs" name="aboutUs" ngModel></textarea>
+            </div>
+            <div class="form-group">
+              <label for="services">Firmen Services:</label>
+              <textarea rows="4" class="form-control" id="services" name="services" ngModel
+                placeholder="WICHTIG: Services durch Komma trennen"></textarea>
+            </div>
+          </div>
+
+        </div><!-- Group end -->
+
+
+        <!-- Email -->
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="text" class="form-control" id="email" placeholder="beispiel@email.com" name="email" ngModel>
+          <input type="email" class="form-control" id="email" name="email" ngModel>
         </div>
 
+        <!-- Website -->
         <div class="form-group">
           <label for="website">Webseite:</label>
-          <input type="text" class="form-control" id="website" placeholder="z.B. www.google.com" name="website" ngModel>
+          <input type="text" class="form-control" id="website" name="website" ngModel>
         </div>
 
+        <!-- Phone number -->
         <div class="form-group">
           <label for="phone">Telefonnummer:</label>
-          <input type="text" class="form-control" id="phone" placeholder="z.B. +43 3844 3652" name="phone" ngModel>
+          <input type="text" class="form-control" id="phone" name="phone" ngModel>
         </div>
 
+        <!-- Company logo url -->
         <div class="form-group">
           <label for="photoUrl">URL-Adresse des Firmenlogos:</label>
-          <input type="text" class="form-control" id="photoUrl" name="photoUrl" ngModel>
+          <textarea cols="2" class="form-control" id="photoUrl" name="photoUrl" ngModel></textarea>
         </div>
 
+        <!-- Google maps link -->
+        <div class="form-group">
+          <label for="googleMapsUrl">Google Maps link:</label>
+          <textarea cols="2" class="form-control" id="googleMapsUrl" name="googleMapsUrl" ngModel></textarea>
+        </div>
+
+        <!-- Start date of the Ad -->
         <div class="form-group">
           <label for="startDate">Startdatum der Anzeige:</label>
-          <input type="date" class="form-control" id="startDate" name="startDate" ngModel>
+          <input type="date" class="form-control" id="startDate" name="startDate" ngModel required>
         </div>
 
+        <!-- End date of the Ad -->
         <div class="form-group">
           <label for="endDate">Enddatum der Anzeige:</label>
-          <input type="date" class="form-control" id="endDate" name="endDate" ngModel>
+          <input type="date" class="form-control" id="endDate" name="endDate" ngModel required>
         </div>
 
         <br>
 
+        <!-- Buttons at the bottom -->
         <button type="submit" class="btn btn-outline-info mb-2" [disabled]="!anzeigeForm.form.valid">Anzeige
           Veröffentlichen</button>
         &nbsp;
