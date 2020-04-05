@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Anzeige } from "src/models/anzeige.model";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AnzeigeService {
   defUrl: string = "http://localhost:3030/api/";
@@ -30,7 +30,9 @@ export class AnzeigeService {
   }
 
   postNewAnzeige(anzeigeValue) {
-    return this.http.post<Anzeige>(this._postNewAnzeige, anzeigeValue);
+    return this.http.post<Anzeige>(this._postNewAnzeige, anzeigeValue, {
+      responseType: "text" as "json",
+    });
   }
 
   getAnzeigeById(id) {
