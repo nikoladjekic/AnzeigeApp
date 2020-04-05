@@ -2,16 +2,16 @@ const { Anzeige } = require("../models/anzeige");
 
 // get the list of all ads
 const getAllAnzeigen = (req, res) => {
-  Anzeige.find({}).then(ads => {
+  Anzeige.find({}).then((ads) => {
     res.status(200).send(ads);
   });
 };
 
 // get active ads
 const getActiveAnzeigen = (req, res) => {
-  Anzeige.find({}).then(ads => {
+  Anzeige.find({}).then((ads) => {
     let listOfActiveAds = [];
-    ads.forEach(ad => {
+    ads.forEach((ad) => {
       let today = new Date();
       let expDate = new Date(ad.endDate);
       if (expDate > today) {
@@ -24,9 +24,9 @@ const getActiveAnzeigen = (req, res) => {
 
 // get inactive ads (expired)
 const getInactiveAnzeigen = (req, res) => {
-  Anzeige.find({}).then(ads => {
+  Anzeige.find({}).then((ads) => {
     let listOfActiveAds = [];
-    ads.forEach(ad => {
+    ads.forEach((ad) => {
       let today = new Date();
       let expDate = new Date(ad.endDate);
       if (expDate < today) {
@@ -49,7 +49,10 @@ const addNewAnzeige = (req, res) => {
     phone: req.body.phone,
     photoUrl: req.body.photoUrl,
     startDate: req.body.startDate,
-    endDate: req.body.endDate
+    endDate: req.body.endDate,
+    googleMapsUrl: req.body.googleMapsUrl,
+    aboutUs: req.body.aboutUs,
+    subtitle: req.body.subtitle,
   });
   ad.save((err, adSaved) => {
     if (err) res.status(500).send(err);
@@ -60,8 +63,8 @@ const addNewAnzeige = (req, res) => {
 // get details of the anzeige by id
 const getAnzeigeDetails = (req, res) => {
   Anzeige.findById({
-    _id: req.params.id
-  }).then(details => {
+    _id: req.params.id,
+  }).then((details) => {
     res.status(200).send(details);
   });
 };
@@ -71,5 +74,5 @@ module.exports = {
   getActiveAnzeigen,
   getInactiveAnzeigen,
   addNewAnzeige,
-  getAnzeigeDetails
+  getAnzeigeDetails,
 };

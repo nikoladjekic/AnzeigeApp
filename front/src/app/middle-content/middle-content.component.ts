@@ -46,7 +46,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listenForBundeslandChanges();
     this.searchByName();
-    this._dataShare.currentBanner.subscribe((ban) => (this.activeBanner = ban));
+    this._dataShare.currentBanner.subscribe((ban) => {
+      this.activeBanner = ban;
+    });
     this._dataShare.currentHorizBan.subscribe((ban) => {
       this.horizBanner = ban;
     });
@@ -61,7 +63,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllActiveAnzeigen() {
+  getAllActiveAnzeigen(): void {
     this._adService.getActiveAnzeigen().subscribe((res) => {
       this.listOfAnzeigen = res;
       this.selectedBundesland = "Installateure Österreichweit";
