@@ -64,13 +64,14 @@
 
 
         <td class="col-lg-3 col-sm-4 col-xs-8 text-center">
-          <span><i class="fas fa-envelope i-color"></i>&nbsp; {{ anzeige['email'] }} </span>
+          <span><i class="fas fa-envelope i-color"></i>&nbsp; <a href="mailto:{{ anzeige['email'] }}"
+              title="Email senden"> {{ anzeige['email'] }} </a></span>
           <hr>
           <span><i class="fas fa-globe i-color"></i>&nbsp; <a href="http://{{ anzeige['website'] }}"
-              title="Webseite besuchen" target="_blank"> {{ anzeige['website'] }} </a>
-          </span>
+              title="Webseite besuchen" target="_blank"> {{ anzeige['website'] }} </a></span>
           <hr>
-          <span><i class="fas fa-phone i-color"></i>&nbsp; {{ anzeige['phone'] }} </span>
+          <span><i class="fas fa-phone i-color"></i>&nbsp; <a href="tel:{{ anzeige['phone'] }}" title="Anrufen">
+              {{ anzeige['phone'] }} </a></span>
         </td>
 
 

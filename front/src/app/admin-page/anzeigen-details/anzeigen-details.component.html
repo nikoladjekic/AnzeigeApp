@@ -92,14 +92,14 @@
         <!-- bottom contacts -->
         <div class="col-12 text-center mt-2">
           <hr>
-          <h6><i class="fas fa-lg fa-envelope i-color"></i> &nbsp; {{ adDetails['email'] }}
-          </h6>
+          <h6><i class="fas fa-lg fa-envelope i-color"></i> &nbsp; <a href="mailto:{{ adDetails['email'] }}"
+              title="Email senden"> {{ adDetails['email'] }} </a></h6>
           <hr>
           <h6><i class="fas fa-lg fa-globe i-color"></i> &nbsp; <a href="http://{{ adDetails['website'] }}"
-              title="Webseite besuchen" target="_blank"> {{ adDetails['website'] }} </a>
-          </h6>
+              title="Webseite besuchen" target="_blank"> {{ adDetails['website'] }} </a></h6>
           <hr>
-          <h6><i class="fas fa-lg fa-phone i-color"></i> &nbsp; {{ adDetails['phone'] }} </h6>
+          <h6><i class="fas fa-lg fa-phone i-color"></i> &nbsp; <a href="tel:{{ adDetails['phone'] }}" title="Anrufen">
+              {{ adDetails['phone'] }} </a></h6>
         </div>
 
 
