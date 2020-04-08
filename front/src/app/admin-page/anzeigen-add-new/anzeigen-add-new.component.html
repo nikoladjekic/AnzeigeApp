@@ -13,7 +13,9 @@
         <!-- Company name -->
         <div class="form-group">
           <label for="firma">*Firmen Name:</label>
-          <input type="text" class="form-control" id="firma" name="firma" ngModel required required>
+          <input type="text" class="form-control" id="firma" name="firma" #firma="ngModel"
+            [class.is-invalid]="firma.touched && firma.errors" ngModel required>
+          <small class="text-danger" *ngIf="firma.touched && firma.errors?.required">Firmenname ist erforderlich</small>
         </div>
 
         <!-- Subtitle -->
@@ -26,7 +28,10 @@
         <!-- Address -->
         <div class="form-group">
           <label for="address">*Adresse:</label>
-          <input type="text" class="form-control" id="address" name="address" ngModel required>
+          <input type="text" class="form-control" id="address" name="address" #address="ngModel"
+            [class.is-invalid]="address.touched && address.errors" ngModel required>
+          <small class="text-danger" *ngIf="address.touched && address.errors?.required">Adresse ist
+            erforderlich</small>
         </div>
 
         <!-- Bundesland -->
@@ -97,19 +102,27 @@
         <!-- Email -->
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" class="form-control" id="email" name="email" ngModel>
+          <input type="email" class="form-control" id="email" name="email" title="beispiel@abc.com" ngModel>
         </div>
 
         <!-- Website -->
         <div class="form-group">
           <label for="website">Webseite:</label>
-          <input type="text" class="form-control" id="website" name="website" ngModel>
+          <input type="url" class="form-control" id="website" name="website" #website="ngModel"
+            title="z.B. www.google.com"
+            pattern="(www\.)[-a-zA-Z0-9\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00df@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+            [class.is-invalid]="website.invalid" ngModel>
+          <small class="text-danger" *ngIf="website.errors?.pattern">Die Adresse muss in diesem Format sein:
+            www.beispiel.com</small>
         </div>
 
         <!-- Phone number -->
         <div class="form-group">
           <label for="phone">*Telefonnummer:</label>
-          <input type="text" class="form-control" id="phone" name="phone" ngModel required>
+          <input type="text" class="form-control" id="phone" name="phone" #phone="ngModel" title="z.B. +43 1234 56789"
+            [class.is-invalid]="phone.touched && phone.errors" ngModel required>
+          <small class="text-danger" *ngIf="phone.touched && phone.errors?.required">Telefonnummer ist
+            erforderlich</small>
         </div>
 
         <!-- Company logo url -->
@@ -127,13 +140,19 @@
         <!-- Start date of the Ad -->
         <div class="form-group">
           <label for="startDate">*Startdatum der Anzeige:</label>
-          <input type="date" class="form-control" id="startDate" name="startDate" ngModel required>
+          <input type="date" class="form-control" id="startDate" name="startDate" #startDate="ngModel" ngModel required
+            [class.is-invalid]="startDate.touched && startDate.errors">
+          <small class="text-danger" *ngIf="startDate.touched && startDate.errors?.required">Startdatum ist
+            erforderlich</small>
         </div>
 
         <!-- End date of the Ad -->
         <div class="form-group">
           <label for="endDate">*Enddatum der Anzeige:</label>
-          <input type="date" class="form-control" id="endDate" name="endDate" ngModel required>
+          <input type="date" class="form-control" id="endDate" name="endDate" #endDate="ngModel" ngModel required
+            [class.is-invalid]="endDate.touched && endDate.errors">
+          <small class="text-danger" *ngIf="endDate.touched && endDate.errors?.required">Enddatum ist
+            erforderlich</small>
         </div>
 
 
