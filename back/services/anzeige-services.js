@@ -1,4 +1,5 @@
 const { Anzeige } = require("../models/anzeige");
+const { sendEmail } = require("../services/email.services");
 
 // get the list of all ads
 const getAllAnzeigen = (req, res) => {
@@ -14,7 +15,21 @@ const getActiveAnzeigen = (req, res) => {
     ads.forEach((ad) => {
       let today = new Date();
       let expDate = new Date(ad.endDate);
+      // if the ad is active
       if (expDate > today) {
+        // set expiry date to 30 days
+        let expDateThreshold = new Date(
+          expDate.getTime() - 30 * 24 * 60 * 60 * 1000
+        );
+        // send email if the ad is about to expire
+        // and if the email hasn't been sent already
+        if (today > expDateThreshold) {
+          if (!emailAlreadySent.includes(ad.firma)) {
+            emailAlreadySent.push(ad.firma);
+            // TODO: commented only during development, uncomment before deploy
+            //sendEmail(ad);
+          }
+        }
         listOfActiveAds.push(ad);
       }
     });
@@ -77,6 +92,9 @@ const getAnzeigeDetails = (req, res) => {
     res.status(200).send(details);
   });
 };
+
+// expiration email already sent about these companies
+const emailAlreadySent = [];
 
 module.exports = {
   getAllAnzeigen,
