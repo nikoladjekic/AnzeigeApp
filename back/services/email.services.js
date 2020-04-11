@@ -33,9 +33,13 @@ const setMailOptions = (firma) => {
    
     
     <b>Firma:</b>    ${firma.firma}
+
     <b>Adresse:</b>  ${firma.address}
-    <b>Telefon:</b>  ${firma.phone}
+
     <b>Email:</b>    ${firma.email}
+
+    <b>Telefon:</b>  ${firma.phone}
+
       
     
     Schönen Tag.

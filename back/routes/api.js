@@ -1,21 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
+const { getAllBanner, addNewBanner } = require("../services/banner-services");
+const { paginate } = require("../middleware/pagination");
+const { Anzeige } = require("../models/anzeige");
+
 const {
   loginUser,
   registerNewUser,
-  getAllUsers
+  getAllUsers,
 } = require("../services/user-services");
 
 const {
-  getAllAnzeigen,
-  getActiveAnzeigen,
-  getInactiveAnzeigen,
+  getAnzeigen,
   addNewAnzeige,
-  getAnzeigeDetails
+  getAnzeigeDetails,
+  sendEmailWarning,
 } = require("../services/anzeige-services");
-
-const { getAllBanner, addNewBanner } = require("../services/banner-services");
 
 // basic default route
 router.get("/", (req, res) => {
@@ -24,11 +25,12 @@ router.get("/", (req, res) => {
 
 // custom routes for the services
 router.get("/users", getAllUsers);
-router.get("/anzeigen", getAllAnzeigen);
-router.get("/anzeigen/active", getActiveAnzeigen);
-router.get("/anzeigen/inactive", getInactiveAnzeigen);
+router.get("/anzeigen", paginate(Anzeige, "all"), getAnzeigen);
+router.get("/anzeigen/active", paginate(Anzeige, "active"), getAnzeigen);
+router.get("/anzeigen/inactive", paginate(Anzeige, "expired"), getAnzeigen);
 router.get("/anzeige/details/:id", getAnzeigeDetails);
 router.get("/banner", getAllBanner);
+router.get("/sendmail", sendEmailWarning);
 
 router.post("/register", registerNewUser);
 router.post("/login", loginUser);

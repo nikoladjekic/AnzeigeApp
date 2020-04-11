@@ -1,54 +1,37 @@
 const { Anzeige } = require("../models/anzeige");
 const { sendEmail } = require("../services/email.services");
 
-// get the list of all ads
-const getAllAnzeigen = (req, res) => {
-  Anzeige.find({}).then((ads) => {
-    res.status(200).send(ads);
-  });
+// default service for all types of ads
+// forwards already paginated results
+const getAnzeigen = (req, res) => {
+  res.json(res.paginatedResults);
 };
 
-// get active ads
-const getActiveAnzeigen = (req, res) => {
-  Anzeige.find({}).then((ads) => {
-    let listOfActiveAds = [];
+// list of expiring Ads we have already warned about
+const emailAlreadySent = [];
+
+// send a warning  email for ads that will expire soon
+const sendEmailWarning = (req, res) => {
+  let today = new Date();
+
+  Anzeige.find({ endDate: { $gte: today } }).then((ads) => {
+    const sentTo = [];
     ads.forEach((ad) => {
-      let today = new Date();
       let expDate = new Date(ad.endDate);
-      // if the ad is active
-      if (expDate > today) {
-        // set expiry date to 30 days
-        let expDateThreshold = new Date(
-          expDate.getTime() - 30 * 24 * 60 * 60 * 1000
-        );
-        // send email if the ad is about to expire
-        // and if the email hasn't been sent already
-        if (today > expDateThreshold) {
-          if (!emailAlreadySent.includes(ad.firma)) {
-            emailAlreadySent.push(ad.firma);
-            // TODO: commented only during development, uncomment before deploy
-            //sendEmail(ad);
-          }
+      let expDateThreshold = new Date(
+        expDate.getTime() - 30 * 24 * 60 * 60 * 1000 //30 days in milliseconds
+      );
+      // send email if the ad is about to expire and if warning hasn't been sent already
+      if (today > expDateThreshold) {
+        if (!emailAlreadySent.includes(ad.firma)) {
+          emailAlreadySent.push(ad.firma);
+          // TODO: commented only during development, uncomment before deploy
+          //sendEmail(ad);
+          sentTo.push(ad.firma);
         }
-        listOfActiveAds.push(ad);
       }
     });
-    res.status(200).send(listOfActiveAds);
-  });
-};
-
-// get inactive ads (expired)
-const getInactiveAnzeigen = (req, res) => {
-  Anzeige.find({}).then((ads) => {
-    let listOfActiveAds = [];
-    ads.forEach((ad) => {
-      let today = new Date();
-      let expDate = new Date(ad.endDate);
-      if (expDate < today) {
-        listOfActiveAds.push(ad);
-      }
-    });
-    res.status(200).send(listOfActiveAds);
+    res.status(200).send("Warning email sent about: " + sentTo);
   });
 };
 
@@ -84,7 +67,7 @@ const addNewAnzeige = (req, res) => {
   });
 };
 
-// get details of the anzeige by id
+// get details of the Ad by id
 const getAnzeigeDetails = (req, res) => {
   Anzeige.findById({
     _id: req.params.id,
@@ -93,13 +76,9 @@ const getAnzeigeDetails = (req, res) => {
   });
 };
 
-// expiration email already sent about these companies
-const emailAlreadySent = [];
-
 module.exports = {
-  getAllAnzeigen,
-  getActiveAnzeigen,
-  getInactiveAnzeigen,
+  getAnzeigen,
   addNewAnzeige,
   getAnzeigeDetails,
+  sendEmailWarning,
 };
