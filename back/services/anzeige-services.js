@@ -4,7 +4,7 @@ const { sendEmail } = require("../services/email.services");
 // default service for all types of ads
 // forwards already paginated results
 const getAnzeigen = (req, res) => {
-  res.json(res.paginatedResults);
+  res.status(200).send(res.paginatedResults);
 };
 
 // list of expiring Ads we have already warned about

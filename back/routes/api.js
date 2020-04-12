@@ -25,12 +25,18 @@ router.get("/", (req, res) => {
 
 // custom routes for the services
 router.get("/users", getAllUsers);
-router.get("/anzeigen", paginate(Anzeige, "all"), getAnzeigen);
-router.get("/anzeigen/active", paginate(Anzeige, "active"), getAnzeigen);
-router.get("/anzeigen/inactive", paginate(Anzeige, "expired"), getAnzeigen);
-router.get("/anzeige/details/:id", getAnzeigeDetails);
 router.get("/banner", getAllBanner);
 router.get("/sendmail", sendEmailWarning);
+
+router.get("/anzeigen/all", paginate(Anzeige, "all"), getAnzeigen);
+router.get("/anzeigen/type", paginate(Anzeige, "type"), getAnzeigen);
+router.get("/anzeige/details/:id", getAnzeigeDetails);
+router.get("/anzeigen/firma/:name", paginate(Anzeige, "name"), getAnzeigen);
+router.get(
+  "/anzeigen/bundesland/:land",
+  paginate(Anzeige, "bundesland"),
+  getAnzeigen
+);
 
 router.post("/register", registerNewUser);
 router.post("/login", loginUser);
