@@ -65,7 +65,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
 
   getAllActiveAnzeigen(): void {
     this._adService.getActiveAnzeigen().subscribe((res) => {
-      this.listOfAnzeigen = res;
+      this.listOfAnzeigen = res.results;
       this.selectedBundesland = "Installateure Österreichweit";
     });
   }
@@ -76,22 +76,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(
       (name) => {
         this.searchTerm = name;
-        let tempArr = [];
-        let filter = [];
         if (this.searchTerm) {
-          this._adService.getActiveAnzeigen().subscribe((res) => {
+          this._adService.getActiveByName(this.searchTerm).subscribe((res) => {
             this.selectedBundesland = "Suche: " + name;
-            filter = res;
-            filter.forEach((match) => {
-              if (
-                match.firma
-                  .toLowerCase()
-                  .indexOf(this.searchTerm.toLowerCase()) >= 0
-              ) {
-                tempArr.push(match);
-              }
-            });
-            this.listOfAnzeigen = tempArr;
+            this.listOfAnzeigen = res.results;
           });
         } else {
           this.getAdsByLocation();
@@ -105,8 +93,6 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
       (name) => {
         this.searchTerm = name;
-        let tempArr = [];
-        let filterArr = [];
         if (this.searchTerm) {
           if (this.searchTerm === "all") {
             this.getAllActiveAnzeigen();
@@ -114,18 +100,11 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           } else {
             this.selectedBundesland = name;
             this._dataShare.setActiveBanner(this.selectedBundesland);
-            this._adService.getActiveAnzeigen().subscribe((res) => {
-              filterArr = res;
-              filterArr.forEach((land) => {
-                if (
-                  land.bundesland.toLowerCase() ===
-                  this.searchTerm.toLowerCase()
-                ) {
-                  tempArr.push(land);
-                }
+            this._adService
+              .getActiveByBundesland(this.searchTerm)
+              .subscribe((res) => {
+                this.listOfAnzeigen = res.results;
               });
-              this.listOfAnzeigen = tempArr;
-            });
           }
         }
       }
@@ -149,33 +128,25 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
               // mock data for testing purposes
               //this.usersLocation = "Tirol";
 
-              this._adService.getActiveAnzeigen().subscribe((res) => {
-                let tempArr = [];
-                let filterList = res;
-
-                // check if the users location is inside of austria
-                this.bundesland.forEach((land) => {
-                  if (land === this.usersLocation) {
-                    this.insideAustria = true;
-                    this._dataShare.setActiveBanner(this.usersLocation);
-                  }
-                });
-
-                if (this.insideAustria) {
-                  filterList.forEach((match) => {
-                    if (match.bundesland === this.usersLocation) {
-                      tempArr.push(match);
+              this._adService
+                .getActiveByBundesland(this.usersLocation)
+                .subscribe((res) => {
+                  // check if the users location is inside of austria
+                  this.bundesland.forEach((land) => {
+                    if (land === this.usersLocation) {
+                      this.insideAustria = true;
+                      this._dataShare.setActiveBanner(this.usersLocation);
                     }
                   });
-                  this.selectedBundesland = "In Ihrem Bundesland";
-                  this.listOfAnzeigen = tempArr;
-                }
-                // if visiting outside of austria show all
-                else {
-                  this.selectedBundesland = "Installateure Österreichweit";
-                  this.listOfAnzeigen = res;
-                }
-              });
+                  if (this.insideAustria) {
+                    this.selectedBundesland = "In Ihrem Bundesland";
+                    this.listOfAnzeigen = res.results;
+                  }
+                  // if visiting outside of austria show all
+                  else {
+                    this.getAllActiveAnzeigen();
+                  }
+                });
             });
         },
         () => {

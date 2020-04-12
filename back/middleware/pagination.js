@@ -81,7 +81,7 @@ function paginate(model, condition) {
         }
       }
     }
-    //set next page for bundesland search
+    //set next page for search by name
     else if (condition === "name") {
       const name = request.params.name;
       if (active === "true") {
@@ -103,7 +103,10 @@ function paginate(model, condition) {
         if (
           endIndex <
           (await model
-            .countDocuments({ endDate: { $lte: today }, bundesland: land })
+            .countDocuments({
+              endDate: { $lte: today },
+              firma: new RegExp(name, "i"),
+            })
             .exec())
         ) {
           finalReturnObject.next = {

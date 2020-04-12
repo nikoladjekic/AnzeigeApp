@@ -7,11 +7,10 @@ import { Bundesland } from "src/models/bundesland.enum";
 @Component({
   selector: "app-anzeigen",
   templateUrl: "./anzeigen.component.html",
-  styleUrls: ["./anzeigen.component.css"]
+  styleUrls: ["./anzeigen.component.css"],
 })
 export class AnzeigenComponent implements OnInit {
   activeAnzeigenList = [];
-  filterValues = [];
   selectedBundesland: Bundesland;
   searchTerm: string;
 
@@ -24,7 +23,7 @@ export class AnzeigenComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
   constructor(private _adService: AnzeigeService, private _router: Router) {}
@@ -33,40 +32,39 @@ export class AnzeigenComponent implements OnInit {
     this.getAllActiveAds();
   }
 
-  getAllActiveAds() {
-    this._adService.getActiveAnzeigen().subscribe(res => {
-      this.activeAnzeigenList = res;
-      this.activeAnzeigenList.forEach(anzeige =>
+  getAllActiveAds(): void {
+    this._adService.getActiveAnzeigen().subscribe((res) => {
+      this.activeAnzeigenList = res.results;
+      this.activeAnzeigenList.forEach((anzeige) =>
         this.checkIfAboutToExpire(anzeige)
       );
-      this.filterValues = this.activeAnzeigenList;
-      this.activeAnzeigenList.sort(this.sortByExp);
+      this.activeAnzeigenList.sort(this.sortByExpiryDate);
     });
   }
 
   sortByBundesland(): void {
-    this.activeAnzeigenList = this.filterValues.filter(el => {
-      return (
-        el.bundesland
-          .toUpperCase()
-          .indexOf(this.selectedBundesland.toUpperCase()) >= 0
-      );
-    });
+    this._adService
+      .getActiveByBundesland(this.selectedBundesland)
+      .subscribe((res) => {
+        this.activeAnzeigenList = res.results;
+      });
   }
 
   searchByName(): void {
-    console.log("filter", this.activeAnzeigenList);
-
-    this.activeAnzeigenList = this.filterValues.filter(el => {
-      return el.firma.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0;
-    });
+    if (this.searchTerm) {
+      this._adService.getActiveByName(this.searchTerm).subscribe((res) => {
+        this.activeAnzeigenList = res.results;
+      });
+    } else {
+      this.getAllActiveAds();
+    }
   }
 
-  // check if the ad is about to expire in less than 30 days
-  checkIfAboutToExpire(val) {
+  // helper function: special style if ad is about to expire in less than 30 days
+  checkIfAboutToExpire(val): void {
     let today: Date = new Date();
     let expDate: Date = new Date(val.endDate);
-    // set expiration threshold to 30 days :: days*hour*min*sec*milisec
+    // set expiration threshold to 30 days :: days*hour*min*sec*milliseconds
     let threshold: Date = new Date(
       expDate.getTime() - 30 * 24 * 60 * 60 * 1000
     );
@@ -78,7 +76,7 @@ export class AnzeigenComponent implements OnInit {
   }
 
   // sort Anzeigen by expiry date
-  sortByExp(a, b) {
+  sortByExpiryDate(a, b): number {
     let date1: Date = new Date(a.endDate);
     let date2: Date = new Date(b.endDate);
     let comparison = 0;
@@ -91,7 +89,7 @@ export class AnzeigenComponent implements OnInit {
   }
 
   // when clicked on the anzeige show details page
-  seeDetails(val) {
+  seeDetails(val): void {
     this._router.navigate(["/", { id: val }]);
   }
 }

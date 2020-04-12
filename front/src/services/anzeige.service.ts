@@ -7,41 +7,68 @@ import { Anzeige } from "src/models/anzeige.model";
   providedIn: "root",
 })
 export class AnzeigeService {
-  defUrl: string = "http://localhost:3030/api/";
+  url1: string = "http://localhost:3030/api/anzeigen/";
+  url2: string = "http://localhost:3030/api/anzeige/";
 
-  private _getAllAnzeigen = this.defUrl + "anzeigen";
-  private _getActiveAnzeigen = this.defUrl + "anzeigen/active";
-  private _getInactiveAnzeigen = this.defUrl + "anzeigen/inactive";
-  private _getAnzeigeById = this.defUrl + "anzeige/details/";
-  private _postNewAnzeige = this.defUrl + "anzeige/add";
+  page: number = 1;
+  limit: number = 5;
+  pagination: string = `page=${this.page}&limit=${this.limit}`;
 
   constructor(private http: HttpClient) {}
 
   getAllAnzeigen() {
-    return this.http.get<any>(this._getAllAnzeigen);
+    return this.http.get<any>(`${this.url1}all?${this.pagination}`);
   }
 
   getActiveAnzeigen() {
-    return this.http.get<any>(this._getActiveAnzeigen);
+    return this.http.get<any>(
+      `${this.url1}type?active=true&${this.pagination}`
+    );
   }
 
   getInactiveAnzeigen() {
-    return this.http.get<any>(this._getInactiveAnzeigen);
+    return this.http.get<any>(
+      `${this.url1}type?active=false&${this.pagination}`
+    );
   }
 
   postNewAnzeige(anzeigeValue) {
-    return this.http.post<Anzeige>(this._postNewAnzeige, anzeigeValue, {
+    return this.http.post<Anzeige>(this.url2 + "add", anzeigeValue, {
       responseType: "text" as "json",
     });
   }
 
   getAnzeigeById(id) {
-    return this.http.get<Anzeige>(this._getAnzeigeById + id);
+    return this.http.get<Anzeige>(this.url2 + "details/" + id);
   }
 
   getBundeslandByLocation(lat, lon) {
     return this.http.get<any>(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=de`
+    );
+  }
+
+  getActiveByBundesland(land) {
+    return this.http.get<any>(
+      `${this.url1}bundesland/${land}?active=true&${this.pagination}`
+    );
+  }
+
+  getExpiredByBundesland(land) {
+    return this.http.get<any>(
+      `${this.url1}bundesland/${land}?active=false&${this.pagination}`
+    );
+  }
+
+  getActiveByName(name) {
+    return this.http.get<any>(
+      `${this.url1}firma/${name}?active=true&${this.pagination}`
+    );
+  }
+
+  getExpiredByName(name) {
+    return this.http.get<any>(
+      `${this.url1}firma/${name}?active=false&${this.pagination}`
     );
   }
 }

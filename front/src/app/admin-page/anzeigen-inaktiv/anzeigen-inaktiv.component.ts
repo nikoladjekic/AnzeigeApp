@@ -6,13 +6,12 @@ import { Bundesland } from "src/models/bundesland.enum";
 @Component({
   selector: "app-anzeigen-inaktiv",
   templateUrl: "./anzeigen-inaktiv.component.html",
-  styleUrls: ["./anzeigen-inaktiv.component.css"]
+  styleUrls: ["./anzeigen-inaktiv.component.css"],
 })
 export class AnzeigenInaktivComponent implements OnInit {
   selectedBundesland: Bundesland;
   searchTerm: string;
   inactiveAnzeigenList = [];
-  filterValues = this.inactiveAnzeigenList;
 
   bundesland: Bundesland[] = [
     Bundesland.V,
@@ -23,7 +22,7 @@ export class AnzeigenInaktivComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
   constructor(private _adService: AnzeigeService) {}
@@ -32,25 +31,27 @@ export class AnzeigenInaktivComponent implements OnInit {
     this.getInactiveAds();
   }
 
-  getInactiveAds() {
-    this._adService.getInactiveAnzeigen().subscribe(res => {
-      this.inactiveAnzeigenList = res;
+  getInactiveAds(): void {
+    this._adService.getInactiveAnzeigen().subscribe((res) => {
+      this.inactiveAnzeigenList = res.results;
     });
   }
 
-  sortByBundesland() {
-    this.inactiveAnzeigenList = this.filterValues.filter(el => {
-      return (
-        el.bundesland
-          .toUpperCase()
-          .indexOf(this.selectedBundesland.toUpperCase()) >= 0
-      );
-    });
+  sortByBundesland(): void {
+    this._adService
+      .getExpiredByBundesland(this.selectedBundesland)
+      .subscribe((res) => {
+        this.inactiveAnzeigenList = res.results;
+      });
   }
 
   searchByName(): void {
-    this.inactiveAnzeigenList = this.filterValues.filter(el => {
-      return el.firma.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0;
-    });
+    if (this.searchTerm) {
+      this._adService.getExpiredByName(this.searchTerm).subscribe((res) => {
+        this.inactiveAnzeigenList = res.results;
+      });
+    } else {
+      this.getInactiveAds();
+    }
   }
 }
