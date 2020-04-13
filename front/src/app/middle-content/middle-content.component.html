@@ -85,21 +85,25 @@
 
 
 <!-- pagination nav -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" *ngIf="prevPage || nextPage">
   <ul class="pagination justify-content-center">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
+
+    <li class="page-item" *ngIf="prevPage">
+      <a class="page-link" routerLink="" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
+
+    <li class="page-item"><a class="page-link" routerLink=""> {{ pageNum }} </a></li>
+    <li class="page-item"><a class="page-link" routerLink="" (click)="nextPageClick()"> {{ pageNum + 1 }} </a></li>
+    <li class="page-item"><a class="page-link" routerLink="" (click)="thirdPageClick()"> {{ pageNum + 2 }} </a></li>
+
+    <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()">
+      <a class="page-link" routerLink="" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
+
   </ul>
 </nav>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription, BehaviorSubject } from "rxjs";
 
 import { AnzeigeService } from "src/services/anzeige.service";
 import { DataSharingService } from "src/services/data-sharing.service";
@@ -24,6 +24,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
 
   insideAustria: boolean;
   usersConsent: boolean;
+
+  nextPage: boolean;
+  prevPage: boolean;
+  pageNum: number;
 
   listOfAnzeigen: Array<Anzeige> = [];
   bundesland: Array<Bundesland> = [
@@ -52,6 +56,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     this._dataShare.currentHorizBan.subscribe((ban) => {
       this.horizBanner = ban;
     });
+    if (!this.pageNum) {
+      this.pageNum = 1;
+    }
   }
 
   ngOnDestroy() {
@@ -64,9 +71,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   getAllActiveAnzeigen(): void {
-    this._adService.getActiveAnzeigen().subscribe((res) => {
+    this._adService.getActiveAnzeigen(this.pageNum).subscribe((res) => {
       this.listOfAnzeigen = res.results;
       this.selectedBundesland = "Installateure Österreichweit";
+      this.checkForPages(res.previous, res.next);
     });
   }
 
@@ -77,10 +85,13 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
       (name) => {
         this.searchTerm = name;
         if (this.searchTerm) {
-          this._adService.getActiveByName(this.searchTerm).subscribe((res) => {
-            this.selectedBundesland = "Suche: " + name;
-            this.listOfAnzeigen = res.results;
-          });
+          this._adService
+            .getActiveByName(this.searchTerm, this.pageNum)
+            .subscribe((res) => {
+              this.selectedBundesland = "Suche: " + name;
+              this.listOfAnzeigen = res.results;
+              this.checkForPages(res.previous, res.next);
+            });
         } else {
           this.getAdsByLocation();
         }
@@ -101,9 +112,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
             this.selectedBundesland = name;
             this._dataShare.setActiveBanner(this.selectedBundesland);
             this._adService
-              .getActiveByBundesland(this.searchTerm)
+              .getActiveByBundesland(this.searchTerm, this.pageNum)
               .subscribe((res) => {
                 this.listOfAnzeigen = res.results;
+                this.checkForPages(res.previous, res.next);
               });
           }
         }
@@ -129,7 +141,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
               //this.usersLocation = "Tirol";
 
               this._adService
-                .getActiveByBundesland(this.usersLocation)
+                .getActiveByBundesland(this.usersLocation, this.pageNum)
                 .subscribe((res) => {
                   // check if the users location is inside of austria
                   this.bundesland.forEach((land) => {
@@ -141,6 +153,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
                   if (this.insideAustria) {
                     this.selectedBundesland = "In Ihrem Bundesland";
                     this.listOfAnzeigen = res.results;
+                    this.checkForPages(res.previous, res.next);
                   }
                   // if visiting outside of austria show all
                   else {
@@ -160,5 +173,27 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     else {
       this.getAllActiveAnzeigen();
     }
+  }
+
+  // check if previous or next page exist
+  checkForPages(prev, next): void {
+    if (prev) {
+      this.prevPage = true;
+    } else {
+      this.prevPage = false;
+    }
+    if (next) {
+      this.nextPage = true;
+    } else {
+      this.nextPage = false;
+    }
+  }
+
+  nextPageClick() {
+    this.pageNum += 1;
+  }
+
+  thirdPageClick() {
+    this.pageNum += 2;
   }
 }

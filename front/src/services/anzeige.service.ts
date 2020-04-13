@@ -10,25 +10,25 @@ export class AnzeigeService {
   url1: string = "http://localhost:3030/api/anzeigen/";
   url2: string = "http://localhost:3030/api/anzeige/";
 
-  page: number = 1;
   limit: number = 5;
-  pagination: string = `page=${this.page}&limit=${this.limit}`;
 
   constructor(private http: HttpClient) {}
 
-  getAllAnzeigen() {
-    return this.http.get<any>(`${this.url1}all?${this.pagination}`);
-  }
-
-  getActiveAnzeigen() {
+  getAllAnzeigen(page) {
     return this.http.get<any>(
-      `${this.url1}type?active=true&${this.pagination}`
+      `${this.url1}all?page=${page}&limit=${this.limit}`
     );
   }
 
-  getInactiveAnzeigen() {
+  getActiveAnzeigen(page) {
     return this.http.get<any>(
-      `${this.url1}type?active=false&${this.pagination}`
+      `${this.url1}type?active=true&page=${page}&limit=${this.limit}`
+    );
+  }
+
+  getInactiveAnzeigen(page) {
+    return this.http.get<any>(
+      `${this.url1}type?active=false&page=${page}&limit=${this.limit}`
     );
   }
 
@@ -48,27 +48,27 @@ export class AnzeigeService {
     );
   }
 
-  getActiveByBundesland(land) {
+  getActiveByBundesland(land, page) {
     return this.http.get<any>(
-      `${this.url1}bundesland/${land}?active=true&${this.pagination}`
+      `${this.url1}bundesland/${land}?active=true&page=${page}&limit=${this.limit}`
     );
   }
 
-  getExpiredByBundesland(land) {
+  getExpiredByBundesland(land, page) {
     return this.http.get<any>(
-      `${this.url1}bundesland/${land}?active=false&${this.pagination}`
+      `${this.url1}bundesland/${land}?active=false&page=${page}&limit=${this.limit}`
     );
   }
 
-  getActiveByName(name) {
+  getActiveByName(name, page) {
     return this.http.get<any>(
-      `${this.url1}firma/${name}?active=true&${this.pagination}`
+      `${this.url1}firma/${name}?active=true&page=${page}&limit=${this.limit}`
     );
   }
 
-  getExpiredByName(name) {
+  getExpiredByName(name, page) {
     return this.http.get<any>(
-      `${this.url1}firma/${name}?active=false&${this.pagination}`
+      `${this.url1}firma/${name}?active=false&page=${page}&limit=${this.limit}`
     );
   }
 }
