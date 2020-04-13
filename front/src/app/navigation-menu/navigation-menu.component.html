@@ -7,7 +7,7 @@
   </button>
 
 
-  <div class="collapse navbar-collapse" id="navbarContent">
+  <div class="collapse navbar-collapse" id="navbarContent" (click)="resetPageState()">
     <ul class="navbar-nav nav-fill w-100" data-toggle="collapse" data-target=".navbar-collapse.show">
       <li class="nav-item" *ngFor="let land of bundesland">
         <a routerLink="" class="nav-link" (click)="setBundesland(land)"> {{ land }} </a>

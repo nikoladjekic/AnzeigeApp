@@ -6,7 +6,7 @@ import { DataSharingService } from "src/services/data-sharing.service";
 @Component({
   selector: "app-heading",
   templateUrl: "./heading.component.html",
-  styleUrls: ["./heading.component.css"]
+  styleUrls: ["./heading.component.css"],
 })
 export class HeadingComponent implements OnInit {
   selectedBundesland: Bundesland;
@@ -21,7 +21,7 @@ export class HeadingComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
   constructor(private _dataShare: DataSharingService) {}
@@ -36,5 +36,9 @@ export class HeadingComponent implements OnInit {
   searchByName(event) {
     this.searchTerm = event;
     this._dataShare.setNameSearchTerm(this.searchTerm);
+  }
+
+  resetPageState() {
+    this._dataShare.setResetPageState(true);
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DataSharingService {
   private loggedUser = new BehaviorSubject<string>("");
@@ -10,12 +10,14 @@ export class DataSharingService {
   private nameSearchTerm = new BehaviorSubject<string>("");
   private activeBanner = new BehaviorSubject<string>("");
   private horizontalBan = new BehaviorSubject<string>("");
+  private resetPageState = new BehaviorSubject<boolean>(false);
 
   currentUser = this.loggedUser.asObservable();
   currentState = this.selectedState.asObservable();
   currentNameTerm = this.nameSearchTerm.asObservable();
   currentBanner = this.activeBanner.asObservable();
   currentHorizBan = this.horizontalBan.asObservable();
+  currentResetPageState = this.resetPageState.asObservable();
 
   constructor() {}
 
@@ -37,5 +39,9 @@ export class DataSharingService {
 
   setHorizontalBanner(ban: string) {
     this.horizontalBan.next(ban);
+  }
+
+  setResetPageState(state: boolean) {
+    this.resetPageState.next(state);
   }
 }

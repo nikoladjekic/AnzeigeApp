@@ -6,7 +6,7 @@ import { Bundesland } from "src/models/bundesland.enum";
 @Component({
   selector: "app-navigation-menu",
   templateUrl: "./navigation-menu.component.html",
-  styleUrls: ["./navigation-menu.component.css"]
+  styleUrls: ["./navigation-menu.component.css"],
 })
 export class NavigationMenuComponent implements OnInit {
   selectedBundesland: Bundesland;
@@ -21,7 +21,7 @@ export class NavigationMenuComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
   constructor(private _dataShare: DataSharingService) {}
 
@@ -35,5 +35,9 @@ export class NavigationMenuComponent implements OnInit {
   searchByName(event) {
     this.searchTerm = event;
     this._dataShare.setNameSearchTerm(this.searchTerm);
+  }
+
+  resetPageState() {
+    this._dataShare.setResetPageState(true);
   }
 }
