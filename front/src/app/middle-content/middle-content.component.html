@@ -88,19 +88,31 @@
 <nav aria-label="Page navigation example" *ngIf="prevPage || nextPage">
   <ul class="pagination justify-content-center">
 
-    <li class="page-item" *ngIf="prevPage">
+    <li class="page-item" *ngIf="prevPage && pageNum>3" (click)="firstPageClick()" title="Erste Seite">
       <a class="page-link" routerLink="" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
+        <span aria-hidden="true">&laquo; Erste</span>
       </a>
     </li>
 
-    <li class="page-item"><a class="page-link" routerLink=""> {{ pageNum }} </a></li>
-    <li class="page-item"><a class="page-link" routerLink="" (click)="nextPageClick()"> {{ pageNum + 1 }} </a></li>
-    <li class="page-item"><a class="page-link" routerLink="" (click)="thirdPageClick()"> {{ pageNum + 2 }} </a></li>
+    <li class="page-item" *ngIf="prevPage" (click)="prevPageClick()" title="Vorherige Seite">
+      <a class="page-link" routerLink="" aria-label="Previous">
+        <span aria-hidden="true">&laquo; Zurück</span>
+      </a>
+    </li>
 
-    <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()">
+    <li class="page-item" *ngIf="prevPage"><a class="page-link" routerLink="" (click)="prevPageClick()"
+        title="Seite {{pageNum-1}}">
+        {{ pageNum - 1 }} </a></li>
+
+    <li class="page-item"><a class="page-link activePage" routerLink="" title="Aktuelle Seite"> {{ pageNum }} </a></li>
+
+    <li class="page-item" *ngIf="nextPage"><a class="page-link" routerLink="" (click)="nextPageClick()"
+        title="Seite {{pageNum+1}}">
+        {{ pageNum + 1 }} </a></li>
+
+    <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()" title="Nächste Seite">
       <a class="page-link" routerLink="" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
+        <span aria-hidden="true">Weiter &raquo;</span>
       </a>
     </li>
 

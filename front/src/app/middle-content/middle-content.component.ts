@@ -21,12 +21,13 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   searchTerm: string;
   activeBanner: string;
   horizBanner: string;
+  searchScenario: string;
 
   insideAustria: boolean;
   usersConsent: boolean;
-
   nextPage: boolean;
   prevPage: boolean;
+
   pageNum: number;
 
   listOfAnzeigen: Array<Anzeige> = [];
@@ -48,17 +49,15 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.listenForBundeslandChanges();
-    this.searchByName();
+    if (!this.pageNum) this.pageNum = 1;
+    this.listenForBundeslandChanges(this.pageNum);
+    this.searchByName(this.pageNum);
     this._dataShare.currentBanner.subscribe((ban) => {
       this.activeBanner = ban;
     });
     this._dataShare.currentHorizBan.subscribe((ban) => {
       this.horizBanner = ban;
     });
-    if (!this.pageNum) {
-      this.pageNum = 1;
-    }
   }
 
   ngOnDestroy() {
@@ -70,8 +69,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllActiveAnzeigen(): void {
-    this._adService.getActiveAnzeigen(this.pageNum).subscribe((res) => {
+  getAllActiveAnzeigen(page): void {
+    this.searchScenario = "allSearch";
+    this._adService.getActiveAnzeigen(page).subscribe((res) => {
       this.listOfAnzeigen = res.results;
       this.selectedBundesland = "Installateure Österreichweit";
       this.checkForPages(res.previous, res.next);
@@ -80,19 +80,21 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
 
   // search for match for every letter typed in header search input
   // else block will fire on init and when user deletes input
-  searchByName(): void {
+  searchByName(page): void {
     this.subForNameSearch = this._dataShare.currentNameTerm.subscribe(
       (name) => {
         this.searchTerm = name;
         if (this.searchTerm) {
+          this.searchScenario = "nameSearch";
           this._adService
-            .getActiveByName(this.searchTerm, this.pageNum)
+            .getActiveByName(this.searchTerm, page)
             .subscribe((res) => {
               this.selectedBundesland = "Suche: " + name;
               this.listOfAnzeigen = res.results;
               this.checkForPages(res.previous, res.next);
             });
         } else {
+          this.pageNum = 1;
           this.getAdsByLocation();
         }
       }
@@ -100,19 +102,21 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   // search for bundesland if user clicks on the header
-  listenForBundeslandChanges(): void {
+  listenForBundeslandChanges(page): void {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
       (name) => {
         this.searchTerm = name;
         if (this.searchTerm) {
-          if (this.searchTerm === "all") {
-            this.getAllActiveAnzeigen();
+          if (this.searchTerm === "allBundes") {
+            this.searchScenario = "allSearch";
+            this.getAllActiveAnzeigen(page);
             this.searchTerm = "";
           } else {
+            this.searchScenario = "bundeslandSearch";
             this.selectedBundesland = name;
             this._dataShare.setActiveBanner(this.selectedBundesland);
             this._adService
-              .getActiveByBundesland(this.searchTerm, this.pageNum)
+              .getActiveByBundesland(this.searchTerm, page)
               .subscribe((res) => {
                 this.listOfAnzeigen = res.results;
                 this.checkForPages(res.previous, res.next);
@@ -154,10 +158,11 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
                     this.selectedBundesland = "In Ihrem Bundesland";
                     this.listOfAnzeigen = res.results;
                     this.checkForPages(res.previous, res.next);
+                    this.searchScenario = "bundeslandSearch";
                   }
                   // if visiting outside of austria show all
                   else {
-                    this.getAllActiveAnzeigen();
+                    this.getAllActiveAnzeigen(this.pageNum);
                   }
                 });
             });
@@ -165,35 +170,47 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         () => {
           // user declined to share location
           this.usersConsent = false;
-          this.getAllActiveAnzeigen();
+          this.getAllActiveAnzeigen(this.pageNum);
         }
       );
     }
     // if the user device doesn't support geolocation show all
     else {
-      this.getAllActiveAnzeigen();
-    }
-  }
-
-  // check if previous or next page exist
-  checkForPages(prev, next): void {
-    if (prev) {
-      this.prevPage = true;
-    } else {
-      this.prevPage = false;
-    }
-    if (next) {
-      this.nextPage = true;
-    } else {
-      this.nextPage = false;
+      this.getAllActiveAnzeigen(this.pageNum);
     }
   }
 
   nextPageClick() {
     this.pageNum += 1;
+    this.checkEnvAndGetData();
   }
 
-  thirdPageClick() {
-    this.pageNum += 2;
+  prevPageClick() {
+    this.pageNum -= 1;
+    this.checkEnvAndGetData();
+  }
+
+  firstPageClick() {
+    this.pageNum = 1;
+    this.checkEnvAndGetData();
+  }
+
+  // check if previous or next page exist
+  checkForPages(prev, next): void {
+    if (prev) this.prevPage = true;
+    else this.prevPage = false;
+
+    if (next) this.nextPage = true;
+    else this.nextPage = false;
+  }
+
+  // check the context before doing the search for pagination
+  checkEnvAndGetData() {
+    if (this.searchScenario === "allSearch")
+      this.getAllActiveAnzeigen(this.pageNum);
+    else if (this.searchScenario === "nameSearch")
+      this.searchByName(this.pageNum);
+    else if (this.searchScenario === "bundeslandSearch")
+      this.listenForBundeslandChanges(this.pageNum);
   }
 }
