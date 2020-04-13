@@ -27,6 +27,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   usersConsent: boolean;
   nextPage: boolean;
   prevPage: boolean;
+  resetPageState: boolean;
 
   pageNum: number;
 
@@ -57,6 +58,13 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     });
     this._dataShare.currentHorizBan.subscribe((ban) => {
       this.horizBanner = ban;
+    });
+    this._dataShare.currentResetPageState.subscribe((state) => {
+      this.resetPageState = state;
+      if (this.resetPageState) {
+        this.firstPageClick();
+        this.resetPageState = false;
+      }
     });
   }
 
@@ -94,7 +102,6 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
               this.checkForPages(res.previous, res.next);
             });
         } else {
-          this.pageNum = 1;
           this.getAdsByLocation();
         }
       }
@@ -109,7 +116,6 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
         if (this.searchTerm) {
           if (this.searchTerm === "allBundes") {
             this.searchScenario = "allSearch";
-            this.getAllActiveAnzeigen(page);
             this.searchTerm = "";
           } else {
             this.searchScenario = "bundeslandSearch";
@@ -180,17 +186,17 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  nextPageClick() {
+  nextPageClick(): void {
     this.pageNum += 1;
     this.checkEnvAndGetData();
   }
 
-  prevPageClick() {
+  prevPageClick(): void {
     this.pageNum -= 1;
     this.checkEnvAndGetData();
   }
 
-  firstPageClick() {
+  firstPageClick(): void {
     this.pageNum = 1;
     this.checkEnvAndGetData();
   }
@@ -205,12 +211,18 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   // check the context before doing the search for pagination
-  checkEnvAndGetData() {
-    if (this.searchScenario === "allSearch")
+  checkEnvAndGetData(): void {
+    if (this.searchScenario === "allSearch") {
       this.getAllActiveAnzeigen(this.pageNum);
-    else if (this.searchScenario === "nameSearch")
+    } else if (this.searchScenario === "nameSearch") {
       this.searchByName(this.pageNum);
-    else if (this.searchScenario === "bundeslandSearch")
-      this.listenForBundeslandChanges(this.pageNum);
+    } else if (this.searchScenario === "bundeslandSearch") {
+      this._adService
+        .getActiveByBundesland(this.searchTerm, this.pageNum)
+        .subscribe((res) => {
+          this.listOfAnzeigen = res.results;
+          this.checkForPages(res.previous, res.next);
+        });
+    }
   }
 }
