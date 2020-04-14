@@ -9,7 +9,6 @@ import { DataSharingService } from "src/services/data-sharing.service";
   styleUrls: ["./heading.component.css"],
 })
 export class HeadingComponent implements OnInit {
-  selectedBundesland: Bundesland;
   searchTerm: string;
 
   bundesland: Bundesland[] = [
@@ -28,17 +27,13 @@ export class HeadingComponent implements OnInit {
 
   ngOnInit() {}
 
-  setBundesland(val) {
-    this.selectedBundesland = val;
-    this._dataShare.setSelectedState(this.selectedBundesland);
-  }
-
   searchByName(event) {
     this.searchTerm = event;
     this._dataShare.setNameSearchTerm(this.searchTerm);
   }
 
   resetPageState() {
+    this.searchTerm = "";
     this._dataShare.setResetPageState(true);
   }
 }

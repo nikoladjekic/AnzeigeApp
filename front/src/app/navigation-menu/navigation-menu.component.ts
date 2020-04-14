@@ -9,9 +9,6 @@ import { Bundesland } from "src/models/bundesland.enum";
   styleUrls: ["./navigation-menu.component.css"],
 })
 export class NavigationMenuComponent implements OnInit {
-  selectedBundesland: Bundesland;
-  searchTerm: string;
-
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -23,18 +20,13 @@ export class NavigationMenuComponent implements OnInit {
     Bundesland.B,
     Bundesland.ST,
   ];
+
   constructor(private _dataShare: DataSharingService) {}
 
   ngOnInit() {}
 
   setBundesland(val) {
-    this.selectedBundesland = val;
-    this._dataShare.setSelectedState(this.selectedBundesland);
-  }
-
-  searchByName(event) {
-    this.searchTerm = event;
-    this._dataShare.setNameSearchTerm(this.searchTerm);
+    this._dataShare.setSelectedState(val);
   }
 
   resetPageState() {
