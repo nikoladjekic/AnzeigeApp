@@ -5,12 +5,14 @@
       <div class="row">
 
         <div class="col">
-          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="sortByBundesland()"
+          <select type="text" [(ngModel)]="selectedBundesland" (ngModelChange)="resetPageAndGetBundesland()"
             class="cursor-pointer">
             <option [ngValue]="none" selected hidden disabled>Bundesland wählen</option>
             <option *ngFor="let land of bundesland" [value]="land"> {{ land }} </option>
           </select>
-          <button class="btn" title="Neu Laden" (click)="getAllActiveAds()"><i class="fas fa-sync-alt"></i></button>
+          <button class="btn" title="Neu Laden" (click)="resetPageAndGetAll()">
+            <i class="fas fa-sync-alt"></i>
+          </button>
         </div>
 
         <h3 class="col text-center">
@@ -19,7 +21,7 @@
 
         <div class="col text-right">
           <input type="text" placeholder="Suche nach Firmennamen" [(ngModel)]="searchTerm"
-            (ngModelChange)="searchByName()">
+            (ngModelChange)="searchByName(pageNum)">
         </div>
 
       </div>
@@ -55,22 +57,41 @@
     </div>
 
 
-    <!-- pagination -->
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
+    <!-- pagination nav -->
+    <nav aria-label="Page navigation example" *ngIf="prevPage || nextPage">
+      <ul class="pagination justify-content-center cursor-pointer">
+
+        <li class="page-item" *ngIf="prevPage && pageNum>3" (click)="firstPageClick()" title="Erste Seite">
+          <a class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo; Erste</span>
           </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
+
+        <li class="page-item" *ngIf="prevPage" (click)="prevPageClick()" title="Vorherige Seite">
+          <a class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo; Zurück</span>
           </a>
         </li>
+
+        <li class="page-item" *ngIf="prevPage"><a class="page-link" (click)="prevPageClick()"
+            title="Seite {{pageNum-1}}">
+            {{ pageNum - 1 }} </a>
+        </li>
+
+        <li class="page-item"><a class="page-link activePage" title="Aktuelle Seite"> {{ pageNum }} </a>
+        </li>
+
+        <li class="page-item" *ngIf="nextPage"><a class="page-link" (click)="nextPageClick()"
+            title="Seite {{pageNum+1}}">
+            {{ pageNum + 1 }} </a>
+        </li>
+
+        <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()" title="Nächste Seite">
+          <a class="page-link" aria-label="Next">
+            <span aria-hidden="true">Weiter &raquo;</span>
+          </a>
+        </li>
+
       </ul>
     </nav>
 

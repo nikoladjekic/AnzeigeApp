@@ -10,10 +10,17 @@ import { Bundesland } from "src/models/bundesland.enum";
   styleUrls: ["./anzeigen.component.css"],
 })
 export class AnzeigenComponent implements OnInit {
-  activeAnzeigenList = [];
   selectedBundesland: Bundesland;
-  searchTerm: string;
 
+  searchTerm: string;
+  searchScenario: string;
+
+  nextPage: boolean;
+  prevPage: boolean;
+
+  pageNum: number;
+
+  activeAnzeigenList = [];
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -29,34 +36,46 @@ export class AnzeigenComponent implements OnInit {
   constructor(private _adService: AnzeigeService, private _router: Router) {}
 
   ngOnInit() {
-    this.getAllActiveAds();
+    if (!this.pageNum) this.pageNum = 1;
+    this.getAllActiveAds(this.pageNum);
   }
 
-  getAllActiveAds(): void {
-    this._adService.getActiveAnzeigen().subscribe((res) => {
+  getAllActiveAds(page): void {
+    this._adService.getActiveAnzeigen(page).subscribe((res) => {
+      this.searchScenario = "allSearch";
+      this.searchTerm = "";
       this.activeAnzeigenList = res.results;
+      this.activeAnzeigenList.sort(this.sortByExpiryDate);
       this.activeAnzeigenList.forEach((anzeige) =>
         this.checkIfAboutToExpire(anzeige)
       );
-      this.activeAnzeigenList.sort(this.sortByExpiryDate);
+      this.checkForPages(res.previous, res.next);
     });
   }
 
-  sortByBundesland(): void {
+  sortByBundesland(page): void {
+    this.searchScenario = "bundeslandSearch";
+    this.searchTerm = "";
     this._adService
-      .getActiveByBundesland(this.selectedBundesland)
+      .getActiveByBundesland(this.selectedBundesland, page)
       .subscribe((res) => {
         this.activeAnzeigenList = res.results;
+        this.checkForPages(res.previous, res.next);
       });
   }
 
-  searchByName(): void {
+  searchByName(page): void {
     if (this.searchTerm) {
-      this._adService.getActiveByName(this.searchTerm).subscribe((res) => {
-        this.activeAnzeigenList = res.results;
-      });
+      this.searchScenario = "nameSearch";
+      this._adService
+        .getActiveByName(this.searchTerm, page)
+        .subscribe((res) => {
+          this.activeAnzeigenList = res.results;
+          this.checkForPages(res.previous, res.next);
+        });
     } else {
-      this.getAllActiveAds();
+      this.pageNum = 1;
+      this.getAllActiveAds(this.pageNum);
     }
   }
 
@@ -91,5 +110,48 @@ export class AnzeigenComponent implements OnInit {
   // when clicked on the anzeige show details page
   seeDetails(val): void {
     this._router.navigate(["/", { id: val }]);
+  }
+
+  nextPageClick() {
+    this.pageNum += 1;
+    this.checkEnvScenario();
+  }
+
+  prevPageClick() {
+    this.pageNum -= 1;
+    this.checkEnvScenario();
+  }
+
+  firstPageClick() {
+    this.pageNum = 1;
+    this.checkEnvScenario();
+  }
+
+  resetPageAndGetAll() {
+    this.pageNum = 1;
+    this.getAllActiveAds(this.pageNum);
+  }
+
+  resetPageAndGetBundesland() {
+    this.pageNum = 1;
+    this.sortByBundesland(this.pageNum);
+  }
+
+  // check if previous or next page exist
+  checkForPages(prev, next): void {
+    if (prev) this.prevPage = true;
+    else this.prevPage = false;
+
+    if (next) this.nextPage = true;
+    else this.nextPage = false;
+  }
+
+  // check the context before doing the search for pagination
+  checkEnvScenario() {
+    if (this.searchScenario === "allSearch") this.getAllActiveAds(this.pageNum);
+    else if (this.searchScenario === "nameSearch")
+      this.searchByName(this.pageNum);
+    else if (this.searchScenario === "bundeslandSearch")
+      this.sortByBundesland(this.pageNum);
   }
 }
