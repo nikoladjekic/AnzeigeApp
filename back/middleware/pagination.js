@@ -90,7 +90,10 @@ function paginate(model, condition) {
           (await model
             .countDocuments({
               endDate: { $gte: today },
-              firma: new RegExp(name, "i"),
+              $or: [
+                { address: new RegExp(name, "i") },
+                { firma: new RegExp(name, "i") },
+              ],
             })
             .exec())
         ) {
@@ -105,7 +108,10 @@ function paginate(model, condition) {
           (await model
             .countDocuments({
               endDate: { $lte: today },
-              firma: new RegExp(name, "i"),
+              $or: [
+                { address: new RegExp(name, "i") },
+                { firma: new RegExp(name, "i") },
+              ],
             })
             .exec())
         ) {
@@ -215,7 +221,13 @@ function paginate(model, condition) {
       if (active === "true") {
         try {
           finalReturnObject.results = await model
-            .find({ endDate: { $gte: today }, firma: new RegExp(name, "i") })
+            .find({
+              endDate: { $gte: today },
+              $or: [
+                { address: new RegExp(name, "i") },
+                { firma: new RegExp(name, "i") },
+              ],
+            })
             .limit(limit)
             .skip(startIndex)
             .exec();
@@ -227,7 +239,13 @@ function paginate(model, condition) {
       } else {
         try {
           finalReturnObject.results = await model
-            .find({ endDate: { $lte: today }, firma: new RegExp(name, "i") })
+            .find({
+              endDate: { $lte: today },
+              $or: [
+                { address: new RegExp(name, "i") },
+                { firma: new RegExp(name, "i") },
+              ],
+            })
             .limit(limit)
             .skip(startIndex)
             .exec();
