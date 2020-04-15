@@ -3,8 +3,7 @@
   height: inherit;
   top: 0;
   z-index: 50;
-  opacity: 0.95;
-  border-bottom: 2px solid rgba(116, 116, 116, 0.705);
+  border-bottom: 3px solid rgba(116, 116, 116, 0.705);
 }
 
 a {
@@ -14,4 +13,5 @@ a {
 a:active,
 a:focus {
   text-decoration: underline;
+  color: rgb(10, 10, 10);
 }

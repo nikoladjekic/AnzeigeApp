@@ -11,18 +11,6 @@ import { DataSharingService } from "src/services/data-sharing.service";
 export class HeadingComponent implements OnInit {
   searchTerm: string;
 
-  bundesland: Bundesland[] = [
-    Bundesland.V,
-    Bundesland.T,
-    Bundesland.S,
-    Bundesland.OÖ,
-    Bundesland.NÖ,
-    Bundesland.W,
-    Bundesland.K,
-    Bundesland.B,
-    Bundesland.ST,
-  ];
-
   constructor(private _dataShare: DataSharingService) {}
 
   ngOnInit() {}
@@ -32,8 +20,7 @@ export class HeadingComponent implements OnInit {
     this._dataShare.setNameSearchTerm(this.searchTerm);
   }
 
-  resetPageState() {
-    this.searchTerm = "";
-    this._dataShare.setResetPageState(true);
+  reload() {
+    window.location.reload();
   }
 }

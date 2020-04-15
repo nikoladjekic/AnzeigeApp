@@ -114,20 +114,15 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
       (name) => {
         this.searchTerm = name;
         if (this.searchTerm) {
-          if (this.searchTerm === "allBundes") {
-            this.searchScenario = "allSearch";
-            this.searchTerm = "";
-          } else {
-            this.searchScenario = "bundeslandSearch";
-            this.selectedBundesland = name;
-            this._dataShare.setActiveBanner(this.selectedBundesland);
-            this._adService
-              .getActiveByBundesland(this.searchTerm, page)
-              .subscribe((res) => {
-                this.listOfAnzeigen = res.results;
-                this.checkForPages(res.previous, res.next);
-              });
-          }
+          this.searchScenario = "bundeslandSearch";
+          this.selectedBundesland = name;
+          this._dataShare.setActiveBanner(this.selectedBundesland);
+          this._adService
+            .getActiveByBundesland(this.searchTerm, page)
+            .subscribe((res) => {
+              this.listOfAnzeigen = res.results;
+              this.checkForPages(res.previous, res.next);
+            });
         }
       }
     );
