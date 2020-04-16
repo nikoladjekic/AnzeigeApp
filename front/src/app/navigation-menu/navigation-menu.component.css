@@ -3,7 +3,7 @@
   height: inherit;
   top: 0;
   z-index: 50;
-  border-bottom: 3px solid rgba(116, 116, 116, 0.705);
+  border-bottom: 2px solid rgb(126, 126, 126);
 }
 
 a {

@@ -1,7 +1,7 @@
 <div class="row">
 
   <!-- levi deo ekrana -->
-  <div class="col-md-5 col-sm-12">
+  <div class="col-md-5 col-sm-10 mx-auto">
     <div class="card rounded-5">
 
       <div class="card-header">
@@ -12,7 +12,7 @@
         <form class="form" #registerForm="ngForm">
 
           <div class="form-group">
-            <label for="">Email</label>
+            <label for=""><i class="fas fa-sm fa-envelope"></i> Email</label>
             <input [(ngModel)]="registerUserData['email']" name="email" #email="ngModel" type="email"
               pattern="^[\w.-]{2,}@\w{2,}\..{2,3}(.{2,3})?$" class="form-control rounded-5"
               [class.is-invalid]="email.invalid && email.touched" placeholder="example@abc.com" required>
@@ -23,19 +23,21 @@
           </div>
 
           <div class="form-group">
-            <label for="">Passwort</label>
+            <label for=""><i class="fas fa-sm fa-key"></i> Passwort</label>
             <input [(ngModel)]="registerUserData['password']" name="password" #pass="ngModel" type="password"
-              pattern="^\w{5,}$" class="form-control rounded-5" [class.is-invalid]="pass.invalid && pass.touched"
-              required>
+              pattern="^\w{8,}$" class="form-control rounded-5" [class.is-invalid]="pass.invalid && pass.touched"
+              required placeholder="Mindestens acht Zeichen lang">
             <div *ngIf="pass.errors && (pass.invalid && pass.touched)">
-              <small class="text-danger" *ngIf="pass.errors.required">Password is required</small>
-              <small class="text-danger" *ngIf="pass.errors.pattern">Password must be at least 5 characters
-                long</small>
+              <small class="text-danger" *ngIf="pass.errors.required">Passwort ist erforderlich</small>
+              <small class="text-danger" *ngIf="pass.errors.pattern">
+                Passwort muss mindestens acht Zeichen lang sein
+              </small>
             </div>
           </div>
 
           <button [disabled]="registerForm.form.invalid" (click)="registerUser()"
-            class="btn btn-outline-info float-right" type="submit">Hinzufügen</button>
+            class="btn btn-outline-info float-right" type="submit"><i class="fas fa-sm fa-user-plus"></i>
+            Hinzufügen</button>
           <small *ngIf="userExists" class="text-danger">This user already exists</small>
           <small *ngIf="registeredSuccessfully" class="text-success">Benutzer erfolgreich registriert</small>
 
@@ -47,8 +49,9 @@
   <!-- kraj levog dela -->
 
 
+
   <!-- desni deo ekrana -->
-  <div class="col-md-7 col-sm-12">
+  <div class="col-md-5 col-sm-10 mx-auto">
     <div class="card rounded-5">
 
       <div class="card-header">
@@ -59,12 +62,7 @@
         <table class="table table-striped">
           <tbody>
             <tr class="row" *ngFor="let user of listOfUsers">
-              <td class="col-sm-9"> {{ user.email }} </td>
-              <td class="col-sm-3 text-center">
-                <button class="btn btn-danger" data-toggle="modal" data-target="#showMore">
-                  <i class="fas fa-trash-alt"></i> Löschen
-                </button>
-              </td>
+              <td class="col"><i class="fas fa-user"></i> &nbsp; {{ user.email }} </td>
             </tr>
           </tbody>
         </table>
@@ -75,32 +73,4 @@
   <!-- kraj desnog dela -->
 
 
-  <!-- 'sure to delete' modal box -->
-  <div class="modal fade" id="showMore" tabindex="-1" role="dialog" aria-labelledby="showMoreLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title" id="showMoreLabel"> Sind Sie sicher? </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
-          Deleting the user will permanently delete the user from the database.
-          Are you sure you wish to delete this user?
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="deleteUser()">Yes, Delete</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- end of modal -->
-
-
-</div><!-- document (row) end -->
+</div>
