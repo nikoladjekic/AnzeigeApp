@@ -18,6 +18,7 @@
             <i *ngIf="searchTerm" class="fas fa-search"></i>
             &nbsp;{{ selectedBundesland }}
           </p>
+          <p *ngIf="pageNum>1" class="p-0 m-0">Seite {{ pageNum }}</p>
         </li>
       </ul>
     </div>
@@ -51,7 +52,7 @@
         <td class="col-lg-7 col-sm-8 col-xs-12">
           <p class="testimonial-text cursor-pointer">
             <img class="xl-hide lg-hide" width="35vw" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
-            <a routerLink="details/{{anzeige['_id']}}" title="Mehr sehen"> {{ anzeige['firma'] }} </a>
+            <a routerLink="details/{{anzeige['_id']}}" id="firma" title="Details zeigen"> {{ anzeige['firma'] }} </a>
           </p>
           <h6> <i class="fas fa-home i-color"></i>&nbsp; {{ anzeige['address'] }} </h6>
           <h6> <i class="fas fa-map-marker-alt i-color"></i> <strong>&nbsp; {{ anzeige['bundesland'] }}
@@ -85,12 +86,17 @@
 
 <br>
 
+<!-- back to the top button -->
+<button class="btn back-to-top float-right" (click)="scrollToTop()">
+  <i class="fas fa-chevron-up"></i> Anfang
+</button>
+
 
 <!-- pagination nav -->
 <nav aria-label="Page navigation example" *ngIf="prevPage || nextPage">
   <ul class="pagination justify-content-center">
 
-    <li class="page-item" *ngIf="prevPage && pageNum>3" (click)="firstPageClick()" title="Erste Seite">
+    <li class="page-item" *ngIf="prevPage && pageNum>2" (click)="firstPageClick()" title="Erste Seite">
       <a class="page-link" routerLink="" aria-label="Previous">
         <span aria-hidden="true">&laquo; Erste</span>
       </a>
@@ -102,15 +108,16 @@
       </a>
     </li>
 
-    <li class="page-item" *ngIf="prevPage"><a class="page-link" routerLink="" (click)="prevPageClick()"
+    <!-- <li class="page-item" *ngIf="prevPage"><a class="page-link" routerLink="" (click)="prevPageClick()"
         title="Seite {{pageNum-1}}">
-        {{ pageNum - 1 }} </a></li>
+        {{ pageNum - 1 }} </a></li> -->
 
-    <li class="page-item"><a class="page-link activePage" routerLink="" title="Aktuelle Seite"> {{ pageNum }} </a></li>
+    <li class="page-item"><a class="page-link activePage" routerLink="" title="Aktuelle Seite">Seite {{ pageNum }} </a>
+    </li>
 
-    <li class="page-item" *ngIf="nextPage"><a class="page-link" routerLink="" (click)="nextPageClick()"
+    <!-- <li class="page-item" *ngIf="nextPage"><a class="page-link" routerLink="" (click)="nextPageClick()"
         title="Seite {{pageNum+1}}">
-        {{ pageNum + 1 }} </a></li>
+        {{ pageNum + 1 }} </a></li> -->
 
     <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()" title="Nächste Seite">
       <a class="page-link" routerLink="" aria-label="Next">

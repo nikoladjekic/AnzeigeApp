@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription, BehaviorSubject } from "rxjs";
+import { Subscription } from "rxjs";
 
 import { AnzeigeService } from "src/services/anzeige.service";
 import { DataSharingService } from "src/services/data-sharing.service";
@@ -184,16 +184,19 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   nextPageClick(): void {
     this.pageNum += 1;
     this.checkEnvAndGetData();
+    this.scrollToTop();
   }
 
   prevPageClick(): void {
     this.pageNum -= 1;
     this.checkEnvAndGetData();
+    this.scrollToTop();
   }
 
   firstPageClick(): void {
     this.pageNum = 1;
     this.checkEnvAndGetData();
+    this.scrollToTop();
   }
 
   // check if previous or next page exist
@@ -219,5 +222,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           this.checkForPages(res.previous, res.next);
         });
     }
+  }
+
+  scrollToTop() {
+    document.documentElement.scrollTop = 0;
   }
 }

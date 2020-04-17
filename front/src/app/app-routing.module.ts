@@ -9,14 +9,13 @@ import { LoginPageComponent } from "./login-page/login-page.component";
 import { BenutzerComponent } from "./admin-page/benutzer/benutzer.component";
 import { AnzeigenComponent } from "./admin-page/anzeigen/anzeigen.component";
 import { AnzeigenInaktivComponent } from "./admin-page/anzeigen-inaktiv/anzeigen-inaktiv.component";
-import { AnzeigenAddNewComponent } from './admin-page/anzeigen-add-new/anzeigen-add-new.component';
-import { AnzeigenDetailsComponent } from './admin-page/anzeigen-details/anzeigen-details.component';
-import { MiddleContentComponent } from './middle-content/middle-content.component';
-import { WerbungBannerComponent } from './admin-page/werbung-banner/werbung-banner.component';
-import { WerbungBannerAddNewComponent } from './admin-page/werbung-banner-add-new/werbung-banner-add-new.component';
-import { LogCounterComponent } from './admin-page/log-counter/log-counter.component';
-import { WerbungBannerInaktivComponent } from './admin-page/werbung-banner-inaktiv/werbung-banner-inaktiv.component';
-
+import { AnzeigenAddNewComponent } from "./admin-page/anzeigen-add-new/anzeigen-add-new.component";
+import { AnzeigenDetailsComponent } from "./admin-page/anzeigen-details/anzeigen-details.component";
+import { MiddleContentComponent } from "./middle-content/middle-content.component";
+import { WerbungBannerComponent } from "./admin-page/werbung-banner/werbung-banner.component";
+import { WerbungBannerAddNewComponent } from "./admin-page/werbung-banner-add-new/werbung-banner-add-new.component";
+import { LogCounterComponent } from "./admin-page/log-counter/log-counter.component";
+import { WerbungBannerInaktivComponent } from "./admin-page/werbung-banner-inaktiv/werbung-banner-inaktiv.component";
 
 const routes: Routes = [
   { path: "login", component: LoginPageComponent },
@@ -25,8 +24,8 @@ const routes: Routes = [
     component: WerbungPageComponent,
     children: [
       { path: "", component: MiddleContentComponent },
-      { path: "details/:id", component: AnzeigenDetailsComponent }
-    ]
+      { path: "details/:id", component: AnzeigenDetailsComponent },
+    ],
   },
   {
     path: "admin",
@@ -36,21 +35,21 @@ const routes: Routes = [
       { path: "benutzer", component: BenutzerComponent },
       { path: "anzeigen", component: AnzeigenComponent },
       { path: "anzeigen/inaktiv", component: AnzeigenInaktivComponent },
-      { path: "anzeigen/inaktiv/:id", component: AnzeigenDetailsComponent},
+      { path: "anzeigen/inaktiv/:id", component: AnzeigenDetailsComponent },
       { path: "anzeigen/neue", component: AnzeigenAddNewComponent },
-      { path: "anzeigen/:id", component: AnzeigenDetailsComponent},
+      { path: "anzeigen/:id", component: AnzeigenDetailsComponent },
       { path: "banner", component: WerbungBannerComponent },
       { path: "banner/inaktiv", component: WerbungBannerInaktivComponent },
       { path: "banner/neue", component: WerbungBannerAddNewComponent },
-      { path: "logs", component: LogCounterComponent }
-    ]
+      { path: "logs", component: LogCounterComponent },
+    ],
   },
   // wild card route, goes at the end of all routes
-  { path: "**", redirectTo: "", component: WerbungPageComponent }
+  { path: "**", redirectTo: "", component: WerbungPageComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: "top" })],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

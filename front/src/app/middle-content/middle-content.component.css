@@ -38,6 +38,11 @@ a {
   color: rgb(56, 56, 56);
 }
 
+#firma:hover {
+  color: rgba(1, 161, 161, 0.7);
+  text-decoration: none;
+}
+
 #Testimonial {
   width: 100%;
   display: table;
@@ -58,6 +63,24 @@ a {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+.back-to-top {
+  border: 1px solid rgb(1, 161, 161);
+  color: rgb(1, 161, 161);
+}
+
+.back-to-top:hover {
+  background-color: rgba(1, 161, 161, 0.7);
+  color: #fff;
+}
+
+.btn:focus,
+.btn:active,
+.page-link:focus,
+.page-link:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /******************************** RESPONSIVE DESIGN STYLES *********************************/

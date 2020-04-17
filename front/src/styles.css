@@ -3,6 +3,10 @@ html body {
   font-family: "Signika Negative", "Sen", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
