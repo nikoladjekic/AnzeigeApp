@@ -35,6 +35,15 @@ a:focus {
   width: 10vw;
 }
 
+input:focus,
+input:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 2px solid rgba(1, 161, 161, 0.7);
+}
+
+/* ******** responsive styles ******** */
+
 /* Extra small devices (phones, 576px and down) */
 @media only screen and (max-width: 576px) {
   .alignInputGroup {

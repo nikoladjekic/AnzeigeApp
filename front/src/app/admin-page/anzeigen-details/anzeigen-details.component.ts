@@ -13,6 +13,7 @@ export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
   routeId: string;
   adDetails: Anzeige;
   servicesArr: Array<string> = [];
+  mainPage: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,6 +34,9 @@ export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
   }
 
   getIdFromRoute() {
-    this.activatedRoute.params.subscribe((id) => (this.routeId = id.id));
+    this.activatedRoute.params.subscribe((id) => {
+      this.routeId = id.id;
+      if (window.location.href.indexOf("/admin/") === -1) this.mainPage = true;
+    });
   }
 }

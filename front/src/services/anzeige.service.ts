@@ -10,7 +10,7 @@ export class AnzeigeService {
   url1: string = "http://localhost:3030/api/anzeigen/";
   url2: string = "http://localhost:3030/api/anzeige/";
 
-  limit: number = 5;
+  limit: number = 3;
 
   constructor(private http: HttpClient) {}
 

@@ -4,7 +4,16 @@
 
     <!-- title -->
     <div class="card-header">
-      <h3 class="m-0 text-center i-color"> {{ adDetails['firma'] }} </h3>
+      <div class="row">
+
+        <a *ngIf="!mainPage" routerLink=".." class="btn btn-sm btn-outline-dark ml-1">
+          <i class="fas fa-arrow-left"></i> Zurück </a>
+
+        <a *ngIf="mainPage" routerLink="" class="btn btn-sm btn-outline-dark ml-1">
+          <i class="fas fa-arrow-left"></i> Zurück </a>
+
+        <h3 class="col-10 m-0 pl-0 text-center i-color"> {{ adDetails['firma'] }} </h3>
+      </div>
     </div>
 
     <!-- subtitle -->
