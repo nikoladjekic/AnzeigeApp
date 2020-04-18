@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Bundesland } from "src/models/bundesland.enum";
 import { DataSharingService } from "src/services/data-sharing.service";
 
 @Component({
@@ -10,10 +9,19 @@ import { DataSharingService } from "src/services/data-sharing.service";
 })
 export class HeadingComponent implements OnInit {
   searchTerm: string;
+  resetPageState: boolean;
 
   constructor(private _dataShare: DataSharingService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._dataShare.currentResetPageState.subscribe((state) => {
+      this.resetPageState = state;
+      if (this.resetPageState) {
+        this.searchTerm = "";
+        this.resetPageState = false;
+      }
+    });
+  }
 
   searchByName(event) {
     this.searchTerm = event;
