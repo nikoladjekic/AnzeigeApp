@@ -52,7 +52,7 @@
         <td class="col-lg-7 col-sm-8 col-xs-12">
           <p class="testimonial-text cursor-pointer">
             <img class="xl-hide lg-hide" width="35vw" src="{{anzeige['photoUrl']}}" alt="Anzeige Foto">
-            <a routerLink="details/{{anzeige['_id']}}" id="firma" title="Details zeigen"> {{ anzeige['firma'] }} </a>
+            <a routerLink="details/{{anzeige['_id']}}" id="firma" title="Details anzeigen"> {{ anzeige['firma'] }} </a>
           </p>
           <h6> <i class="fas fa-home i-color"></i>&nbsp; {{ anzeige['address'] }} </h6>
           <h6> <i class="fas fa-map-marker-alt i-color"></i> <strong>&nbsp; {{ anzeige['bundesland'] }}
@@ -86,14 +86,25 @@
 
 <br>
 
-<!-- back to the top button -->
-<button class="btn back-to-top float-right" (click)="scrollToTop()">
-  <i class="fas fa-chevron-up"></i> Anfang
-</button>
+
+<!-- back to the top button for small screens and phones -->
+<label for="back-to-top-button" class="sm-hide md-hide lg-hide xl-hide float-right mr-1">
+  <button class="btn back-to-top" (click)="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+</label>
+
+<!-- back to the top button for big screens -->
+<label for="back-to-top-button" class="xs-hide float-right">
+  <button class="btn back-to-top" (click)="scrollToTop()">
+    <i class="fas fa-chevron-up"></i> Anfang
+  </button>
+</label>
 
 
-<!-- pagination nav -->
-<nav aria-label="Page navigation example" *ngIf="prevPage || nextPage">
+
+<!-- pagination nav for big screens -->
+<nav class="xs-hide" aria-label="Page navigation example" *ngIf="prevPage || nextPage">
   <ul class="pagination justify-content-center">
 
     <li class="page-item" *ngIf="prevPage && pageNum>2" (click)="firstPageClick()" title="Erste Seite">
@@ -108,20 +119,43 @@
       </a>
     </li>
 
-    <!-- <li class="page-item" *ngIf="prevPage"><a class="page-link" routerLink="" (click)="prevPageClick()"
-        title="Seite {{pageNum-1}}">
-        {{ pageNum - 1 }} </a></li> -->
-
-    <li class="page-item"><a class="page-link activePage" routerLink="" title="Aktuelle Seite">Seite {{ pageNum }} </a>
+    <li class="page-item">
+      <a class="page-link activePage" routerLink="" title="Aktuelle Seite"> Seite {{ pageNum }} </a>
     </li>
-
-    <!-- <li class="page-item" *ngIf="nextPage"><a class="page-link" routerLink="" (click)="nextPageClick()"
-        title="Seite {{pageNum+1}}">
-        {{ pageNum + 1 }} </a></li> -->
 
     <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()" title="Nächste Seite">
       <a class="page-link" routerLink="" aria-label="Next">
         <span aria-hidden="true">Weiter &raquo;</span>
+      </a>
+    </li>
+
+  </ul>
+</nav>
+
+
+<!-- pagination nav for phones and small screens -->
+<nav class="sm-hide md-hide lg-hide xl-hide" aria-label="Page navigation example" *ngIf="prevPage || nextPage">
+  <ul class="pagination justify-content-center">
+
+    <li class="page-item" *ngIf="prevPage && pageNum>2" (click)="firstPageClick()" title="Erste Seite">
+      <a class="page-link" routerLink="" aria-label="Previous">
+        <span aria-hidden="true">&laquo;&laquo;</span>
+      </a>
+    </li>
+
+    <li class="page-item" *ngIf="prevPage" (click)="prevPageClick()" title="Vorherige Seite">
+      <a class="page-link" routerLink="" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    <li class="page-item">
+      <a class="page-link activePage" routerLink="" title="Aktuelle Seite"> {{ pageNum }} </a>
+    </li>
+
+    <li class="page-item" *ngIf="nextPage" (click)="nextPageClick()" title="Nächste Seite">
+      <a class="page-link" routerLink="" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
 
