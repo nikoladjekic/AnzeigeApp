@@ -6,27 +6,27 @@ import { BannerService } from "src/services/banner.service";
 @Component({
   selector: "app-werbung-banner",
   templateUrl: "./werbung-banner.component.html",
-  styleUrls: ["./werbung-banner.component.css"]
+  styleUrls: ["./werbung-banner.component.css"],
 })
 export class WerbungBannerComponent implements OnInit {
   allBanners: Banner[] = [];
   filterValues = this.allBanners;
   searchBannerName: string;
 
-  constructor(private _bannerService: BannerService) {}
+  constructor(private _banner: BannerService) {}
 
   ngOnInit() {
     this.getAllActiveBanner();
   }
 
   getAllActiveBanner() {
-    this._bannerService.getAllBanner().subscribe(res => {
-      res.forEach(banner => this.checkForDateExpiration(banner));
+    this._banner.getAll().subscribe((res) => {
+      res.forEach((banner) => this.checkForDateExpiration(banner));
     });
   }
 
   searchByName(): void {
-    this.allBanners = this.filterValues.filter(el => {
+    this.allBanners = this.filterValues.filter((el) => {
       return (
         el.name.toUpperCase().indexOf(this.searchBannerName.toUpperCase()) >= 0
       );

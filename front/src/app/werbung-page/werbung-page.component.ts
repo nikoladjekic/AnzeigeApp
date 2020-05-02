@@ -15,7 +15,7 @@ export class WerbungPageComponent implements OnInit {
   banner: Banner;
 
   constructor(
-    private _bannerService: BannerService,
+    private _banner: BannerService,
     private _dataShare: DataSharingService
   ) {}
 
@@ -26,7 +26,7 @@ export class WerbungPageComponent implements OnInit {
   updateActiveBanner() {
     this._dataShare.currentBanner.subscribe((ban) => {
       this.activeBanner = ban;
-      this._bannerService.getAllBanner().subscribe((res) => {
+      this._banner.getAll().subscribe((res) => {
         this.allActiveBanners = res;
         // change banner according to selected bundesland
         if (this.activeBanner) {

@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Banner } from 'src/models/banner.model';
-import { BannerService } from 'src/services/banner.service';
-import { Bundesland } from 'src/models/bundesland.enum';
+import { Banner } from "src/models/banner.model";
+import { BannerService } from "src/services/banner.service";
+import { Bundesland } from "src/models/bundesland.enum";
 
 @Component({
-  selector: 'app-werbung-banner-add-new',
-  templateUrl: './werbung-banner-add-new.component.html',
-  styleUrls: ['./werbung-banner-add-new.component.css']
+  selector: "app-werbung-banner-add-new",
+  templateUrl: "./werbung-banner-add-new.component.html",
+  styleUrls: ["./werbung-banner-add-new.component.css"],
 })
 export class WerbungBannerAddNewComponent implements OnInit {
-
   bundesland: Bundesland[] = [
     Bundesland.V,
     Bundesland.T,
@@ -20,15 +19,14 @@ export class WerbungBannerAddNewComponent implements OnInit {
     Bundesland.W,
     Bundesland.K,
     Bundesland.B,
-    Bundesland.ST
+    Bundesland.ST,
   ];
 
-  constructor(private _bannerService: BannerService) { }
+  constructor(private _banner: BannerService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  onSubmit(val){
+  onSubmit(val) {
     let newBanner = new Banner(
       val.name,
       val.bundesland,
@@ -39,14 +37,13 @@ export class WerbungBannerAddNewComponent implements OnInit {
       val.startDate,
       val.endDate
     );
-    this._bannerService.postNewBanner(newBanner).subscribe(
+    this._banner.postNew(newBanner).subscribe(
       (response: any) => {
-        console.log(response)
-      }, 
+        console.log(response);
+      },
       (error: any) => {
-        console.log(error)
+        console.log(error);
       }
     );
   }
-
 }

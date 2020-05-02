@@ -33,7 +33,7 @@ export class AnzeigenComponent implements OnInit {
     Bundesland.ST,
   ];
 
-  constructor(private _adService: AnzeigeService, private _router: Router) {}
+  constructor(private _anzeige: AnzeigeService, private _router: Router) {}
 
   ngOnInit() {
     if (!this.pageNum) this.pageNum = 1;
@@ -41,7 +41,7 @@ export class AnzeigenComponent implements OnInit {
   }
 
   getAllActiveAds(page): void {
-    this._adService.getAdsByDateAscending(page).subscribe((res) => {
+    this._anzeige.getByDateAscending(page).subscribe((res) => {
       this.searchScenario = "allSearch";
       this.searchTerm = "";
       this.activeAnzeigenList = res.results;
@@ -55,7 +55,7 @@ export class AnzeigenComponent implements OnInit {
   sortByBundesland(page): void {
     this.searchScenario = "bundeslandSearch";
     this.searchTerm = "";
-    this._adService
+    this._anzeige
       .getActiveByBundesland(this.selectedBundesland, page)
       .subscribe((res) => {
         this.activeAnzeigenList = res.results;
@@ -66,12 +66,10 @@ export class AnzeigenComponent implements OnInit {
   searchByName(page): void {
     if (this.searchTerm) {
       this.searchScenario = "nameSearch";
-      this._adService
-        .getActiveByName(this.searchTerm, page)
-        .subscribe((res) => {
-          this.activeAnzeigenList = res.results;
-          this.checkForPages(res.previous, res.next);
-        });
+      this._anzeige.getActiveByName(this.searchTerm, page).subscribe((res) => {
+        this.activeAnzeigenList = res.results;
+        this.checkForPages(res.previous, res.next);
+      });
     } else {
       this.pageNum = 1;
       this.getAllActiveAds(this.pageNum);

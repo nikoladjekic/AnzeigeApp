@@ -24,7 +24,7 @@ export class AnzeigenAddNewComponent implements OnInit {
     Bundesland.ST,
   ];
 
-  constructor(private _anzeigeService: AnzeigeService) {}
+  constructor(private _anzeige: AnzeigeService) {}
 
   ngOnInit() {}
 
@@ -53,7 +53,7 @@ export class AnzeigenAddNewComponent implements OnInit {
         val.sunday
       )
     );
-    this._anzeigeService.postNewAnzeige(newAnzeige).subscribe(
+    this._anzeige.postNew(newAnzeige).subscribe(
       (data) => {
         console.log(data);
       },

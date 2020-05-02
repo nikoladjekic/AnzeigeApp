@@ -1,26 +1,21 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Banner } from 'src/models/banner.model';
+import { Banner } from "src/models/banner.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BannerService {
+  private url: string = "http://localhost:3030/api/banner";
 
-  url: string = "http://localhost:3030/api/";
+  constructor(private http: HttpClient) {}
 
-  private _getAllBanner = `${this.url}banner`;
-  private _postNewBanner = `${this.url}banner/add`;
-
-  constructor(private http: HttpClient) { }
-
-  getAllBanner() {
-    return this.http.get<Banner[]>(this._getAllBanner);
+  getAll() {
+    return this.http.get<Banner[]>(this.url);
   }
 
-  postNewBanner(banner) {
-    return this.http.post<Banner>(this._postNewBanner, banner);
-  } 
-
+  postNew(banner) {
+    return this.http.post<Banner>(this.url + "/add", banner);
+  }
 }

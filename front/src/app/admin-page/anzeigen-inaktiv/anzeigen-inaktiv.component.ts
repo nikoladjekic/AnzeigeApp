@@ -32,7 +32,7 @@ export class AnzeigenInaktivComponent implements OnInit {
     Bundesland.ST,
   ];
 
-  constructor(private _adService: AnzeigeService) {}
+  constructor(private _anzeige: AnzeigeService) {}
 
   ngOnInit() {
     if (!this.pageNum) this.pageNum = 1;
@@ -40,7 +40,7 @@ export class AnzeigenInaktivComponent implements OnInit {
   }
 
   getInactiveAds(page): void {
-    this._adService.getInactiveAnzeigen(page).subscribe((res) => {
+    this._anzeige.getInactive(page).subscribe((res) => {
       this.inactiveAnzeigenList = res.results;
       this.searchScenario = "allSearch";
       this.searchTerm = "";
@@ -51,7 +51,7 @@ export class AnzeigenInaktivComponent implements OnInit {
   sortByBundesland(page): void {
     this.searchScenario = "bundeslandSearch";
     this.searchTerm = "";
-    this._adService
+    this._anzeige
       .getExpiredByBundesland(this.selectedBundesland, page)
       .subscribe((res) => {
         this.inactiveAnzeigenList = res.results;
@@ -62,12 +62,10 @@ export class AnzeigenInaktivComponent implements OnInit {
   searchByName(page): void {
     if (this.searchTerm) {
       this.searchScenario = "nameSearch";
-      this._adService
-        .getExpiredByName(this.searchTerm, page)
-        .subscribe((res) => {
-          this.inactiveAnzeigenList = res.results;
-          this.checkForPages(res.previous, res.next);
-        });
+      this._anzeige.getExpiredByName(this.searchTerm, page).subscribe((res) => {
+        this.inactiveAnzeigenList = res.results;
+        this.checkForPages(res.previous, res.next);
+      });
     } else {
       this.pageNum = 1;
       this.getInactiveAds(this.pageNum);

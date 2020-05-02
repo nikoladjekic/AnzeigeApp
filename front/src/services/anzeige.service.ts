@@ -12,29 +12,29 @@ export class AnzeigeService {
 
   constructor(private http: HttpClient) {}
 
-  getAllAnzeigen(page) {
+  getAll(page) {
     return this.http.get<any>(`${this.url}?page=${page}&limit=${this.limit}`);
   }
 
-  getActiveAnzeigen(page) {
+  getActive(page) {
     return this.http.get<any>(
       `${this.url}?active=true&page=${page}&limit=${this.limit}`
     );
   }
 
-  getInactiveAnzeigen(page) {
+  getInactive(page) {
     return this.http.get<any>(
-      `${this.url}?active=false&page=${page}&limit=${this.limit}`
+      `${this.url}?active=false&sort=date&order=-1&page=${page}&limit=${this.limit}`
     );
   }
 
-  postNewAnzeige(anzeigeValue) {
+  postNew(anzeigeValue) {
     return this.http.post<Anzeige>(this.url + "add", anzeigeValue, {
       responseType: "text" as "json",
     });
   }
 
-  getAnzeigeById(id) {
+  getById(id) {
     return this.http.get<Anzeige>(this.url + "/details/" + id);
   }
 
@@ -69,7 +69,7 @@ export class AnzeigeService {
   }
 
   // admin route to order expiring ads first
-  getAdsByDateAscending(page) {
+  getByDateAscending(page) {
     return this.http.get<any>(
       `${this.url}?active=true&sort=date&order=1&page=${page}&limit=${this.limit}`
     );

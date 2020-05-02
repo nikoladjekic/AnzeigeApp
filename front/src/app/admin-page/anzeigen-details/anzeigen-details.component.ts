@@ -16,14 +16,14 @@ export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
   mainPage: boolean;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private _anzeigeService: AnzeigeService
+    private _activatedRoute: ActivatedRoute,
+    private _anzeige: AnzeigeService
   ) {}
 
   ngOnInit() {
     this.getIdFromRoute();
     if (this.routeId)
-      this._anzeigeService.getAnzeigeById(this.routeId).subscribe((res) => {
+      this._anzeige.getById(this.routeId).subscribe((res) => {
         this.adDetails = res;
         this.servicesArr = this.adDetails.services.split(",");
       });
@@ -34,9 +34,13 @@ export class AnzeigenDetailsComponent implements OnInit, OnDestroy {
   }
 
   getIdFromRoute() {
-    this.activatedRoute.params.subscribe((id) => {
+    this._activatedRoute.params.subscribe((id) => {
       this.routeId = id.id;
       if (window.location.href.indexOf("/admin/") === -1) this.mainPage = true;
     });
+  }
+
+  goBack() {
+    window.history.back();
   }
 }

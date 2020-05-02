@@ -16,7 +16,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   subForBundeslandSearch: Subscription;
   subForNameSearch: Subscription;
 
-  selectedBundesland: string = "Standort Laden...";
+  testimonialString: string = "Standort Laden...";
   usersLocation: string;
   searchTerm: string;
   activeBanner: string;
@@ -45,7 +45,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private _adService: AnzeigeService,
+    private _anzeige: AnzeigeService,
     private _dataShare: DataSharingService
   ) {}
 
@@ -78,10 +78,10 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   }
 
   getAllActiveAnzeigen(page): void {
+    this.testimonialString = "Installateure Österreichweit";
     this.searchScenario = "allSearch";
-    this._adService.getActiveAnzeigen(page).subscribe((res) => {
+    this._anzeige.getActive(page).subscribe((res) => {
       this.listOfAnzeigen = res.results;
-      this.selectedBundesland = "Installateure Österreichweit";
       this.checkForPages(res.previous, res.next);
     });
   }
@@ -93,11 +93,11 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
       (name) => {
         this.searchTerm = name;
         if (this.searchTerm) {
+          this.testimonialString = "Suche: " + name;
           this.searchScenario = "nameSearch";
-          this._adService
+          this._anzeige
             .getActiveByName(this.searchTerm, page)
             .subscribe((res) => {
-              this.selectedBundesland = "Suche: " + name;
               this.listOfAnzeigen = res.results;
               this.checkForPages(res.previous, res.next);
             });
@@ -112,12 +112,12 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
   listenForBundeslandChanges(page): void {
     this.subForBundeslandSearch = this._dataShare.currentState.subscribe(
       (name) => {
+        this.testimonialString = name;
         this.searchTerm = name;
         if (this.searchTerm) {
           this.searchScenario = "bundeslandSearch";
-          this.selectedBundesland = name;
-          this._dataShare.setActiveBanner(this.selectedBundesland);
-          this._adService
+          this._dataShare.setActiveBanner(this.searchTerm);
+          this._anzeige
             .getActiveByBundesland(this.searchTerm, page)
             .subscribe((res) => {
               this.listOfAnzeigen = res.results;
@@ -137,36 +137,34 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           this.usersConsent = true;
           let lat = position.coords.latitude;
           let lon = position.coords.longitude;
-          this._adService
-            .getBundeslandByLocation(lat, lon)
-            .subscribe((data) => {
-              // this will be the users actual location by coordinates
-              this.usersLocation = data.principalSubdivision;
-              // mock data for testing purposes
-              //this.usersLocation = "Tirol";
+          this._anzeige.getBundeslandByLocation(lat, lon).subscribe((data) => {
+            // this will be the users actual location by coordinates
+            this.usersLocation = data.principalSubdivision;
+            // mock data for testing purposes
+            //this.usersLocation = "Tirol";
 
-              this._adService
-                .getActiveByBundesland(this.usersLocation, this.pageNum)
-                .subscribe((res) => {
-                  // check if the users location is inside of austria
-                  this.bundesland.forEach((land) => {
-                    if (land === this.usersLocation) {
-                      this.insideAustria = true;
-                      this._dataShare.setActiveBanner(this.usersLocation);
-                    }
-                  });
-                  if (this.insideAustria) {
-                    this.selectedBundesland = "In Ihrem Bundesland";
-                    this.listOfAnzeigen = res.results;
-                    this.checkForPages(res.previous, res.next);
-                    this.searchScenario = "bundeslandSearch";
-                  }
-                  // if visiting outside of austria show all
-                  else {
-                    this.getAllActiveAnzeigen(this.pageNum);
+            this._anzeige
+              .getActiveByBundesland(this.usersLocation, this.pageNum)
+              .subscribe((res) => {
+                // check if the users location is inside of austria
+                this.bundesland.forEach((land) => {
+                  if (land === this.usersLocation) {
+                    this.insideAustria = true;
+                    this._dataShare.setActiveBanner(this.usersLocation);
                   }
                 });
-            });
+                if (this.insideAustria) {
+                  this.testimonialString = "In Ihrem Bundesland";
+                  this.listOfAnzeigen = res.results;
+                  this.checkForPages(res.previous, res.next);
+                  this.searchScenario = "bundeslandSearch";
+                }
+                // if visiting outside of austria show all
+                else {
+                  this.getAllActiveAnzeigen(this.pageNum);
+                }
+              });
+          });
         },
         () => {
           // user declined to share location
@@ -215,7 +213,7 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
     } else if (this.searchScenario === "nameSearch") {
       this.searchByName(this.pageNum);
     } else if (this.searchScenario === "bundeslandSearch") {
-      this._adService
+      this._anzeige
         .getActiveByBundesland(this.searchTerm, this.pageNum)
         .subscribe((res) => {
           this.listOfAnzeigen = res.results;
