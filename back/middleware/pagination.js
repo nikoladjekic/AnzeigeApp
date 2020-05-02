@@ -1,265 +1,106 @@
-// middleware for pagination
-// contains the mongoose search for all, active and expired ads
-// also contains search methods for search by bundesland or search by name
-function paginate(model, condition) {
+// dependency to escape all unwanted characters from the search input
+const escapeStringRegexp = require("escape-string-regexp");
+
+// pagination and sorting middleware for all models
+function paginate(model) {
   return async (request, response, next) => {
+    // pagination
     const page = parseInt(request.query.page);
     const limit = parseInt(request.query.limit);
-    const active = request.query.active;
-    const today = new Date();
-
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
+    const returnObject = {};
 
-    const finalReturnObject = {};
+    // search
+    const active = request.query.active;
+    const land = request.params.land;
+    const name = request.params.name;
+    let activeCond = {};
+    let landCond = {};
+    let nameCond = {};
+    let condition = {};
 
-    // set the next page for get all ads
-    if (condition === "all") {
-      if (endIndex < (await model.countDocuments().exec())) {
-        finalReturnObject.next = {
-          page: page + 1,
-          limit: limit,
-        };
-      }
+    // sorting and ordering
+    const sort = request.query.sort;
+    const order = request.query.order;
+    const today = new Date();
+    let sortObject = {};
+
+    // set active or inactive anzeige conditions
+    if (active === "true") {
+      activeCond = { endDate: { $gte: today } };
+      condition = activeCond;
+    } else if (active === "false") {
+      activeCond = { endDate: { $lte: today } };
+      condition = activeCond;
     }
-    // set next page for active or expired ads
-    else if (condition === "type") {
-      if (active === "true") {
-        if (
-          endIndex <
-          (await model.countDocuments({ endDate: { $gte: today } }).exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
-      } else {
-        if (
-          endIndex <
-          (await model.countDocuments({ endDate: { $lte: today } }).exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
-      }
-    }
-    //set next page for bundesland search
-    else if (condition === "bundesland") {
-      let land = request.params.land;
+
+    // set conditions for bundesland search
+    if (land) {
       if (land.includes("Ã¶")) {
         land = land.replace("Ã¶", "ö");
       }
       if (land.includes("Ã¤")) {
         land = land.replace("Ã¤", "ä");
       }
-      if (active === "true") {
-        if (
-          endIndex <
-          (await model
-            .countDocuments({ endDate: { $gte: today }, bundesland: land })
-            .exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
-      } else {
-        if (
-          endIndex <
-          (await model
-            .countDocuments({ endDate: { $lte: today }, bundesland: land })
-            .exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
-      }
+      landCond = { bundesland: land };
+      condition = { ...activeCond, ...landCond };
     }
-    //set next page for search by name
-    else if (condition === "name") {
-      const name = request.params.name;
-      if (active === "true") {
-        if (
-          endIndex <
-          (await model
-            .countDocuments({
-              endDate: { $gte: today },
-              $or: [
-                { address: new RegExp(name, "i") },
-                { firma: new RegExp(name, "i") },
-              ],
-            })
-            .exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
-      } else {
-        if (
-          endIndex <
-          (await model
-            .countDocuments({
-              endDate: { $lte: today },
-              $or: [
-                { address: new RegExp(name, "i") },
-                { firma: new RegExp(name, "i") },
-              ],
-            })
-            .exec())
-        ) {
-          finalReturnObject.next = {
-            page: page + 1,
-            limit: limit,
-          };
-        }
+
+    // conditions for search input by name or address
+    if (name) {
+      const escapedTerm = escapeStringRegexp(name);
+      nameCond = {
+        $or: [
+          { firma: new RegExp(escapedTerm, "ig") },
+          { address: new RegExp(escapedTerm, "ig") },
+        ],
+      };
+      condition = { ...activeCond, ...nameCond };
+    }
+
+    // set sorting and ordering conditions
+    if (sort) {
+      if (sort === "name") {
+        sortObject = { firma: order };
+      } else if (sort === "date") {
+        sortObject = { endDate: order };
       }
+    } else {
+      sortObject = { _id: order };
+    }
+
+    // set pagination for next page
+    if (endIndex < (await model.countDocuments(condition).exec())) {
+      returnObject.next = {
+        page: page + 1,
+        limit: limit,
+      };
     }
 
     // set pagination for previous page
     if (startIndex > 0) {
-      finalReturnObject.previous = {
+      returnObject.previous = {
         page: page - 1,
         limit: limit,
       };
     }
 
-    /* *** below starts the implementation of the pagination functions *** */
-
-    // get all anzeigen paginated
-    if (condition === "all") {
-      try {
-        finalReturnObject.results = await model
-          .find()
-          .limit(limit)
-          .skip(startIndex)
-          .exec();
-        response.paginatedResults = finalReturnObject;
-        next();
-      } catch (e) {
-        response.status(500).json({ message: e.message });
-      }
-    }
-
-    // paginate get method for active or expired Ads
-    if (condition === "type") {
-      if (active === "true") {
-        try {
-          finalReturnObject.results = await model
-            .find({ endDate: { $gte: today } })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      } else {
-        try {
-          finalReturnObject.results = await model
-            .find({ endDate: { $lte: today } })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      }
-    }
-
-    // paginate search by bundesland for active or expired
-    if (condition === "bundesland") {
-      let land = request.params.land;
-
-      if (land.includes("Ã¶")) {
-        land = land.replace("Ã¶", "ö");
-      }
-      if (land.includes("Ã¤")) {
-        land = land.replace("Ã¤", "ä");
-      }
-
-      if (active === "true") {
-        try {
-          finalReturnObject.results = await model
-            .find({ endDate: { $gte: today }, bundesland: land })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      } else {
-        try {
-          finalReturnObject.results = await model
-            .find({ endDate: { $lte: today }, bundesland: land })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      }
-    }
-
-    // paginate search by name for active or expired ads
-    if (condition === "name") {
-      const name = request.params.name;
-      if (active === "true") {
-        try {
-          finalReturnObject.results = await model
-            .find({
-              endDate: { $gte: today },
-              $or: [
-                { address: new RegExp(name, "i") },
-                { firma: new RegExp(name, "i") },
-              ],
-            })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      } else {
-        try {
-          finalReturnObject.results = await model
-            .find({
-              endDate: { $lte: today },
-              $or: [
-                { address: new RegExp(name, "i") },
-                { firma: new RegExp(name, "i") },
-              ],
-            })
-            .limit(limit)
-            .skip(startIndex)
-            .exec();
-          response.paginatedResults = finalReturnObject;
-          next();
-        } catch (e) {
-          response.status(500).json({ message: e.message });
-        }
-      }
+    // perform search and forward paginated and sorted results
+    try {
+      returnObject.results = await model
+        .find(condition)
+        .limit(limit)
+        .skip(startIndex)
+        .sort(sortObject)
+        .exec();
+      response.paginatedResults = returnObject;
+      next();
+    } catch (e) {
+      response.status(500).send({ message: e.message });
     }
   };
 }
 
-// export our pagination function
-module.exports = {
-  paginate,
-};
+// export our pagination middleware
+module.exports = { paginate };

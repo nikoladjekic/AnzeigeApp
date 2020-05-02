@@ -2,7 +2,7 @@ const { Anzeige } = require("../models/anzeige");
 const { sendEmail } = require("../services/email.services");
 
 // default service for all types of ads
-// forwards already paginated results
+// forwards already sorted and paginated results
 const getAnzeigen = (req, res) => {
   res.status(200).send(res.paginatedResults);
 };

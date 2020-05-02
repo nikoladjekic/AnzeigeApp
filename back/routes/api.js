@@ -19,29 +19,26 @@ const {
 } = require("../services/anzeige-services");
 
 // basic default route
-router.get("/", (req, res) => {
-  res.send("Hello from basic API route");
-});
+router.get("/", (req, res) => res.send("Hello from default API route"));
 
-// custom routes for the services
-router.get("/users", getAllUsers);
-router.get("/banner", getAllBanner);
+// email service route
 router.get("/sendmail", sendEmailWarning);
 
-router.get("/anzeigen/all", paginate(Anzeige, "all"), getAnzeigen);
-router.get("/anzeigen/type", paginate(Anzeige, "type"), getAnzeigen);
-router.get("/anzeige/details/:id", getAnzeigeDetails);
-router.get("/anzeigen/firma/:name", paginate(Anzeige, "name"), getAnzeigen);
-router.get(
-  "/anzeigen/bundesland/:land",
-  paginate(Anzeige, "bundesland"),
-  getAnzeigen
-);
-
+// user routes
+router.get("/users", getAllUsers);
 router.post("/register", registerNewUser);
 router.post("/login", loginUser);
-router.post("/anzeige/add", addNewAnzeige);
+
+// banner routes
+router.get("/banner", getAllBanner);
 router.post("/banner/add", addNewBanner);
 
-// export our router for all the routes
+// anzeige routes
+router.get("/anzeige", paginate(Anzeige), getAnzeigen);
+router.get("/anzeige/bundesland/:land", paginate(Anzeige), getAnzeigen);
+router.get("/anzeige/firma/:name", paginate(Anzeige), getAnzeigen);
+router.get("/anzeige/details/:id", getAnzeigeDetails);
+router.post("/anzeige/add", addNewAnzeige);
+
+// export router with all the routes
 module.exports = router;
