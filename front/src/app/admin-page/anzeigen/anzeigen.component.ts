@@ -41,11 +41,10 @@ export class AnzeigenComponent implements OnInit {
   }
 
   getAllActiveAds(page): void {
-    this._adService.getActiveAnzeigen(page).subscribe((res) => {
+    this._adService.getAdsByDateAscending(page).subscribe((res) => {
       this.searchScenario = "allSearch";
       this.searchTerm = "";
       this.activeAnzeigenList = res.results;
-      this.activeAnzeigenList.sort(this.sortByExpiryDate);
       this.activeAnzeigenList.forEach((anzeige) =>
         this.checkIfAboutToExpire(anzeige)
       );
@@ -92,19 +91,6 @@ export class AnzeigenComponent implements OnInit {
           warning-attention-sign-danger-sign-design-caution-error-icon.jpg`;
       val.services = "";
     }
-  }
-
-  // sort Anzeigen by expiry date
-  sortByExpiryDate(a, b): number {
-    let date1: Date = new Date(a.endDate);
-    let date2: Date = new Date(b.endDate);
-    let comparison = 0;
-    if (date1 > date2) {
-      comparison = 1;
-    } else if (date1 < date2) {
-      comparison = -1;
-    }
-    return comparison;
   }
 
   // when clicked on the anzeige show details page
