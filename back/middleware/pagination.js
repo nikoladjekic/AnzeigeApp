@@ -60,12 +60,10 @@ function paginate(model) {
     }
 
     // set sorting and ordering conditions
-    if (sort) {
-      if (sort === "name") {
-        sortObject = { firma: order };
-      } else if (sort === "date") {
-        sortObject = { endDate: order };
-      }
+    if (sort === "name") {
+      sortObject = { firma: order };
+    } else if (sort === "date") {
+      sortObject = { endDate: order };
     } else {
       sortObject = { _id: order };
     }
