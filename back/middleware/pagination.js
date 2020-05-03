@@ -26,6 +26,18 @@ function paginate(model) {
     const today = new Date();
     let sortObject = {};
 
+    // set visits log conditions
+    const logDate = request.query.logdate;
+    if (logDate) {
+      const logStartDate = new Date(logDate);
+      logStartDate.setHours(2, 0, 0, 0);
+      const logEndDate = new Date(logStartDate);
+      logEndDate.setDate(logStartDate.getDate() + 1);
+      condition = {
+        date: { $gte: logStartDate, $lte: logEndDate },
+      };
+    }
+
     // set active or inactive anzeige conditions
     if (active === "true") {
       activeCond = { endDate: { $gte: today } };
@@ -68,6 +80,8 @@ function paginate(model) {
       sortObject = { _id: order };
     }
 
+    // set conditions for visitors log
+
     // set pagination for next page
     if (endIndex < (await model.countDocuments(condition).exec())) {
       returnObject.next = {
@@ -86,6 +100,7 @@ function paginate(model) {
 
     // perform search and forward paginated and sorted results
     try {
+      console.log("konacni uslov: ", condition);
       returnObject.results = await model
         .find(condition)
         .limit(limit)

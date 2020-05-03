@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
 import { Banner } from "src/models/banner.model";
+import { LogVisit } from "src/models/log-visit.model";
+
 import { BannerService } from "src/services/banner.service";
+import { LogService } from "src/services/log.service";
 import { DataSharingService } from "src/services/data-sharing.service";
 
 @Component({
@@ -16,11 +19,13 @@ export class WerbungPageComponent implements OnInit {
 
   constructor(
     private _banner: BannerService,
-    private _dataShare: DataSharingService
+    private _dataShare: DataSharingService,
+    private _log: LogService
   ) {}
 
   ngOnInit() {
     this.updateActiveBanner();
+    this.logVisitData();
   }
 
   updateActiveBanner() {
@@ -43,6 +48,20 @@ export class WerbungPageComponent implements OnInit {
           this._dataShare.setHorizontalBanner(this.banner.bannerHorizontal);
         }
       });
+    });
+  }
+
+  // record every visit to our website
+  logVisitData() {
+    this._log.checkVisitorDetails().subscribe((data) => {
+      let visitData: LogVisit = {
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country_name,
+        date: new Date(),
+      };
+      this._log.addNewVisit(visitData).subscribe();
     });
   }
 }

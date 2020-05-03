@@ -1,5 +1,5 @@
 const { Anzeige } = require("../models/anzeige");
-const { sendEmail } = require("../services/email.services");
+const { sendEmail } = require("./email-services");
 
 // default service for all types of ads
 // forwards already sorted and paginated results

@@ -3,27 +3,23 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthService {
-  defUrl: string = "http://localhost:3030/api/";
+  url: string = "http://localhost:3030/api/";
 
-  private _getAllUsers = `${this.defUrl}users`;
-  private _registerUser = `${this.defUrl}register`;
-  private _loginUser = `${this.defUrl}login`;
-
-  constructor(private http: HttpClient, private _router: Router) {}
+  constructor(private _http: HttpClient, private _router: Router) {}
 
   getAllUsers() {
-    return this.http.get<any>(this._getAllUsers);
+    return this._http.get<any>(this.url + "users");
   }
 
   registerUser(user) {
-    return this.http.post<any>(this._registerUser, user);
+    return this._http.post<any>(this.url + "register", user);
   }
 
   loginUser(user) {
-    return this.http.post<any>(this._loginUser, user);
+    return this._http.post<any>(this.url + "login", user);
   }
 
   loggedIn() {
