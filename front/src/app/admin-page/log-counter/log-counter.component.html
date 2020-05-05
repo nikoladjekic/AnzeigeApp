@@ -1,9 +1,47 @@
-<div class="row">
-  <div class="col text-center">
+<div class="col-xs-12 col-sm-10 m-auto">
 
-    <p style="font-size: 40px;">Log counter</p>
+  <div class="card rounded-5 text-center">
+
+    <div class="card-header">
+      <div class="row">
+        <h3 class="col text-center"><i class="fas fa-mail-bulk"></i>&nbsp; Log counter:</h3>
+      </div>
+    </div>
 
 
+    <div class="card-body">
+      <table class="table table-sm table-striped table-hover cursor-pointer m-auto">
+        <thead>
+          <tr class="row">
+            <td class="col"> IP Adresse </td>
+            <td class="col"> Stadt </td>
+            <td class="col"> Bundesland </td>
+            <td class="col"> Staat </td>
+            <td class="col"> Datum </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row" *ngFor="let log of listOfLogs">
+            <td class="col">
+              <p> {{ log["ip"] }} </p>
+            </td>
+            <td class="col">
+              <p> {{ log["city"] }} </p>
+            </td>
+            <td class="col">
+              <p> {{ log["region"] }} </p>
+            </td>
+            <td class="col">
+              <p> {{ log["country"] }} </p>
+            </td>
+            <td class="col">
+              <p> {{ log["date"] | date: "mediumDate" }} </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
+
 </div>

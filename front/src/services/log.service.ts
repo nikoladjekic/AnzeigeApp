@@ -5,7 +5,19 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class LogService {
+  url: string = "http://localhost:3030/api/visit";
+  limit: number = 10;
+
   constructor(private _http: HttpClient) {}
+
+  // get visits log data
+  getAll(page) {
+    return this._http.get<any>(`${this.url}?page=${page}&limit=${this.limit}`);
+  }
+
+  getByDate(date) {
+    // todo
+  }
 
   // get details of every visitor to our website
   checkVisitorDetails() {
@@ -14,6 +26,6 @@ export class LogService {
 
   // save details of the visitor
   addNewVisit(logData) {
-    return this._http.post<any>("http://localhost:3030/api/visit/add", logData);
+    return this._http.post<any>(this.url + "/add", logData);
   }
 }
