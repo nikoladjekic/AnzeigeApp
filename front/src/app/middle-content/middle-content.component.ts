@@ -139,31 +139,32 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           let lon = position.coords.longitude;
           this._anzeige.getBundeslandByLocation(lat, lon).subscribe((data) => {
             // this will be the users actual location by coordinates
-            this.usersLocation = data.principalSubdivision;
+            //this.usersLocation = data.principalSubdivision;
             // mock data for testing purposes
-            //this.usersLocation = "Tirol";
+            this.usersLocation = "Tirol";
 
-            this._anzeige
-              .getActiveByBundesland(this.usersLocation, this.pageNum)
-              .subscribe((res) => {
-                // check if the users location is inside of austria
-                this.bundesland.forEach((land) => {
-                  if (land === this.usersLocation) {
-                    this.insideAustria = true;
-                    this._dataShare.setActiveBanner(this.usersLocation);
-                  }
-                });
-                if (this.insideAustria) {
+            // check if the users location is inside of austria
+            this.bundesland.forEach((land) => {
+              if (land === this.usersLocation) {
+                this.insideAustria = true;
+              }
+            });
+
+            if (this.insideAustria) {
+              this._anzeige
+                .getActiveByBundesland(this.usersLocation, this.pageNum)
+                .subscribe((res) => {
+                  this._dataShare.setActiveBanner(this.usersLocation);
                   this.testimonialString = "In Ihrem Bundesland";
                   this.listOfAnzeigen = res.results;
                   this.checkForPages(res.previous, res.next);
                   this.searchScenario = "bundeslandSearch";
-                }
-                // if visiting outside of austria show all
-                else {
-                  this.getAllActiveAnzeigen(this.pageNum);
-                }
-              });
+                });
+            }
+            //if visiting outside austria
+            else {
+              this.getAllActiveAnzeigen(this.pageNum);
+            }
           });
         },
         () => {
