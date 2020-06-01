@@ -24,13 +24,14 @@ function paginate(model) {
     const sort = request.query.sort;
     const order = request.query.order;
     const today = new Date();
+    today.setHours(3, 0, 0, 0);
     let sortObject = {};
 
     // set visits log conditions
     const logDate = request.query.logdate;
     if (logDate) {
       const logStartDate = new Date(logDate);
-      logStartDate.setHours(2, 0, 0, 0);
+      logStartDate.setHours(3, 0, 0, 0);
       const logEndDate = new Date(logStartDate);
       logEndDate.setDate(logStartDate.getDate() + 1);
       condition = {
@@ -100,7 +101,6 @@ function paginate(model) {
 
     // perform search and forward paginated and sorted results
     try {
-      console.log("konacni uslov: ", condition);
       returnObject.results = await model
         .find(condition)
         .limit(limit)
