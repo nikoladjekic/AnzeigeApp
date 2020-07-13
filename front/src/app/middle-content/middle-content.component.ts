@@ -139,9 +139,9 @@ export class MiddleContentComponent implements OnInit, OnDestroy {
           let lon = position.coords.longitude;
           this._anzeige.getBundeslandByLocation(lat, lon).subscribe((data) => {
             // this will be the users actual location by coordinates
-            //this.usersLocation = data.principalSubdivision;
+            this.usersLocation = data.principalSubdivision;
             // mock data for testing purposes
-            this.usersLocation = "Tirol";
+            //this.usersLocation = "Tirol";
 
             // check if the users location is inside of austria
             this.bundesland.forEach((land) => {
